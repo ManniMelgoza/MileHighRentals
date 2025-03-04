@@ -42,3 +42,14 @@ Deletes an existing spot.
       "statusCode": 404
     }
     ```
+## Securing your Application Against CSRF Attacks
+You will only focus on securing your application against the first example of a CSRF attack, not the second.
+
+# Steps to prevent CSRF attacks:
+
+* Create two CSRF tokens - one encrypted and one decrypted.
+* Add the decrypted CSRF token to a cookie.
+* Add the encrypted CSRF token in a cookie that is HTTP-only (cannot be used by JavaScript) and Same-Site only (cannot be used by another web application)
+* Frontend can read the decrypted CSRF token cookie and add it into the headers of any request made to the backend
+* Backend reads the headers of the request and matches the decrypted CSRF token in the headers to the encrypted CSRF token in the cookies
+
