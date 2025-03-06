@@ -61,6 +61,25 @@ router.post(
     }
   );
 
-
+  // Restore session user
+  router.get(
+    '/',
+    (req, res) => {
+      // checking if we have a user req obj
+      const { user } = req;
+      if (user) {
+        // found user on the JWT
+        const safeUser = {
+          id: user.id,
+          email: user.email,
+          username: user.username,
+        };
+        return res.json({
+          user: safeUser
+        });
+        // sends back null
+      } else return res.json({ user: null });
+    }
+  );
 
 module.exports = router;
