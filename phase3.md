@@ -772,7 +772,7 @@ router.use(restoreUser);
 module.exports = router;
 ```
 
-## Commit your code
+## Commit your code done
 
 Now is a good time to commit and push your code to GitHub!
 
