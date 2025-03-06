@@ -470,7 +470,7 @@ The backend logout flow will be based on the following plan:
 2. The API logout handler will remove the JWT cookie set by the login or signup
    API routes and return a JSON success message.
 
-## Commit your code
+## Commit your code DONE
 
 Now is a good time to commit and push your code to GitHub!
 
