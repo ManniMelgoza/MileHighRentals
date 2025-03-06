@@ -356,7 +356,7 @@ running:
 sqlite3 db/dev.db 'SELECT * FROM "Users"'
 ```
 
-## Commit your code
+## Commit your code DONE
 
 Now is a good time to commit and push your code to GitHub!
 
