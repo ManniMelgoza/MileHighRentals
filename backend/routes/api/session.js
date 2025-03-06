@@ -2,6 +2,9 @@
 const express = require('express');
 const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
+const { check } = require('express-validator');
+const { handleValidationErrors } = require('../../utils/validation');
+
 
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
 const { User } = require('../../db/models');
@@ -9,8 +12,28 @@ const { User } = require('../../db/models');
 // middleware
 const router = express.Router();
 
+// validation
+// check properties of the request body
+// to learn more google express-validator' to learn more about validation
+const validateLogin = [
+  // check credention property
+  check('credential')
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage('Please provide a valid email or username.'),
+  check('password')
+  // store error message when validation fails
+    .exists({ checkFalsy: true })
+    .withMessage('Please provide a password.'),
+    // this will send the errors msg to the validation.js file that holds the middleware
+  handleValidationErrors
+];
+
+
+// log in route
 router.post(
     '/',
+    validateLogin,
     async (req, res, next) => {
         // credentials username or password
       const { credential, password } = req.body;
