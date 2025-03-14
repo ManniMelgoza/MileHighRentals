@@ -48,7 +48,7 @@ router.post(
         }
       });
 
-    //   need to hasd password
+    //   need to hash password
       if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
         // if credentials fail and error will be thrown
         const err = new Error('Login failed');
