@@ -21,6 +21,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Spot.belongsTo(
+        models.User,
+        {
+          as: "Owner",
+          foreignKey: 'ownerId',
+          onDelete: 'CASCADE',
+          hooks: true
+        }
+      )
     }
   }
   Spot.init({
@@ -123,7 +132,7 @@ module.exports = (sequelize, DataTypes) => {
       // checks for any numbers
       isFloat: true,
       min: 1,
-      max: 100000
+      max: 100000,
       }
     },
     avgRating: {
