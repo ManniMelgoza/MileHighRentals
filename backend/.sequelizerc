@@ -1,6 +1,7 @@
 // backend/.sequelizerc
 const path = require('path');
 
+// this is the configuration we see in the bd folder
 module.exports = {
   config: path.resolve('config', 'database.js'),
   'models-path': path.resolve('db', 'models'),

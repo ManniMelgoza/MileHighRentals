@@ -17,16 +17,24 @@ module.exports = {
       username: {
         type: Sequelize.STRING(30),
         allowNull: false,
-        unique: true
+        unique: true,
+        // don't allow empty strings
+        notEmpty: true
       },
       email: {
         type: Sequelize.STRING(256),
         allowNull: false,
-        unique: true
+        unique: true,
+        // checks for email format (foo@bar.com)
+        isEmail: true,
+        // don't allow empty strings
+        notEmpty: true
       },
       hashedPassword: {
         type: Sequelize.STRING.BINARY,
-        allowNull: false
+        allowNull: false,
+        // don't allow empty strings
+        notEmpty: true
       },
       createdAt: {
         allowNull: false,
