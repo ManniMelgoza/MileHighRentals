@@ -4,6 +4,7 @@
 // Import environment variables
 require('dotenv').config();
 
+// this port is getting from the .env file
 const { port } = require('../config');
 
 const app = require('../app');

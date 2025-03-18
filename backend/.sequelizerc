@@ -2,6 +2,7 @@
 const path = require('path');
 
 // this is the configuration we see in the bd folder
+// This file helps to create the folder structure and where items need to be cretated for the model, seeder and migration files
 module.exports = {
   config: path.resolve('config', 'database.js'),
   'models-path': path.resolve('db', 'models'),

@@ -14,7 +14,9 @@ module.exports = {
     // makes sure that the items that are being added to the bd are of the same type from the
     typeValidation: true
   },
+  // This will be used when the project is in production with the actual hosting database
   production: {
+    // this is where the hosting url will go to deploy the project
     use_env_variable: 'DATABASE_URL', //render will use this later on
     dialect: 'postgres',
     seederStorage: 'sequelize',

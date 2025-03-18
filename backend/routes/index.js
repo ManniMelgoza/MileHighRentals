@@ -12,7 +12,8 @@ const apiRouter = require('./api');
 // });
 
 
-// Add a XSRF-TOKEN cookie
+// Add a XSRF-TOKEN cookie TEST
+// spots and routes endpoints will start wtih /api
 router.get("/api/csrf/restore", (req, res) => {
     const csrfToken = req.csrfToken();
     res.cookie("XSRF-TOKEN", csrfToken);

@@ -5,17 +5,20 @@ const cors = require('cors');
 const csurf = require('csurf');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
+
+// This will catch any Sequelize errors and formating them b4 sending the error response
 const { ValidationError } = require('sequelize');
 
 const { environment } = require('./config');
+// This checks if project is in production environment or not
 const isProduction = environment === 'production';
-
-
-  // backend/app.js
-  const routes = require('./routes');
 
 const app = express();
 
+// backend/app.js
+const routes = require('./routes');
+
+// morgan middleware
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.json());
@@ -46,18 +49,26 @@ if (!isProduction) {
     })
   );
 
-  app.use(routes); // Connect all the routes
+  app.use(routes); // Connect all the routes below this seciton
 
-  // catch ERRORS handler
+  // catch ERRORS handler things that are not
+  // catch unhandled request and forwards to error handler
+
+   //this will handle error sthat have not yet being handleded with the error handlers
+  // undersocre indicates that the variables are not being used
   app.use((_req, _res, next) => {
     const err = new Error("The requested resource couldn't be found.");
     err.title = "Resource Not Found";
+    // DOUBLE CHECK IF THIS IS AN ARR Or and ONJ
     err.errors = { message: "The requested resource couldn't be found." };
+    // OR
+    // err.erros = ["The requested resource couldn't be found."];
     err.status = 404;
     next(err);
   });
 
   // Process sequelize errors
+  // This will require the const { ValidationError} = require('sequelize'); to be on each file
   app.use((err, _req, _res, next) => {
   // check if error is a Sequelize error:
     if (err instanceof ValidationError) {
@@ -72,13 +83,17 @@ if (!isProduction) {
   });
 
 // server error handler
+// ERROR formator
   app.use((err, _req, res, _next) => {
     res.status(err.status || 500);
+    // eventually this should be commented out for production
     console.error(err);
     res.json({
       title: err.title || 'Server Error',
       message: err.message,
+      // beteter to have then in array of errors
       errors: err.errors,
+      // if we are in production we wont provide the statck error
       stack: isProduction ? null : err.stack
     });
   });

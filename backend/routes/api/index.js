@@ -1,4 +1,6 @@
 // backend/routes/api/index.js
+// All routes will be here like SPOTS, REVIEWS ect...
+
 const router = require('express').Router();
 
 const sessionRouter = require('./session.js');
@@ -17,6 +19,7 @@ const { restoreUser } = require("../../utils/auth.js");
   router.use('/spots', spotsRouter);
 
 // test end point for mod 5 project
+
 // router.post('/test', (req, res) => {
 //   res.json({ requestBody: req.body });
 // });
