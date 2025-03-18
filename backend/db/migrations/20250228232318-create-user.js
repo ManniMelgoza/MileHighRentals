@@ -1,5 +1,9 @@
 'use strict';
 
+const { all } = require("../../routes");
+
+//Line 3-6 is for render that uses SCHEMA to create sub databases within one database
+// for every migration table you need to add the options obj at the end of the table obj
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
@@ -13,6 +17,14 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
+      },
+      firstName: {
+        type: Sequelize.STRING(30),
+        allowNull: false
+      },
+      lastName: {
+        type: Sequelize.STRING(30),
+        allowNull: false
       },
       username: {
         type: Sequelize.STRING(30),
@@ -46,11 +58,14 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
+      // options need to be passed for every migration file
     }, options);
   },
 
   async down(queryInterface, Sequelize) {
+    // options.property = tablename
     options.tableName = "Users";
+    // we pass the oprtions obj as the first arg instead of a str of the table name
     return queryInterface.dropTable(options);
   }
 };

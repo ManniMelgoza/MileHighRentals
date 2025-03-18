@@ -11,6 +11,20 @@ module.exports = (sequelize, DataTypes) => {
 
   User.init(
     {
+      firstName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
+      },
+      lastName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
+      },
       username: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -29,6 +43,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         unique: true,
         validate: {
+          // legnth of email
           len: [3, 256],
           isEmail: true,
         },
@@ -37,6 +52,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING.BINARY,
         allowNull: false,
         validate: {
+          // hard 60 characters needed
           len: [60, 60],
         },
       },
@@ -46,6 +62,7 @@ module.exports = (sequelize, DataTypes) => {
       modelName: 'User',
       defaultScope: {
         attributes: {
+          // ths is what wont be sended to the user with any of our responses
           exclude: ['hashedPassword', 'email', 'createdAt', 'updatedAt'],
         },
       },
