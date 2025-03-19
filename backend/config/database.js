@@ -4,6 +4,7 @@ const config = require('./index');
 module.exports = {
   development: {
     // where to look for the database
+    // ORIGINAL CODE
     storage: config.dbFile,
     //what type of db connecting to
     dialect: "sqlite",
@@ -18,8 +19,8 @@ module.exports = {
   production: {
     // this is where the hosting url will go to deploy the project
     use_env_variable: 'DATABASE_URL', //render will use this later on
-    dialect: 'sequelize',
-    // dialect: 'postgres', //original
+    // dialect: 'sequelize',
+    dialect: 'postgres', //original
     seederStorage: 'sequelize',
     dialectOptions: {
       ssl: {

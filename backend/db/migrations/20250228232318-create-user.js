@@ -1,6 +1,6 @@
 'use strict';
 
-const { all } = require("../../routes");
+// const { all } = require("../../routes");
 
 //Line 3-6 is for render that uses SCHEMA to create sub databases within one database
 // for every migration table you need to add the options obj at the end of the table obj

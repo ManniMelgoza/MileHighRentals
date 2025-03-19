@@ -108,7 +108,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     description: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
       validate:
       {
@@ -129,24 +129,24 @@ module.exports = (sequelize, DataTypes) => {
       max: 100000,
       }
     },
-    avgRating: {
-      type: DataTypes.FLOAT,
-      allowNull: false,
-      validate: {
-        isNumeric: true,
-        min: 1.0,
-        max: 5.0
-      }
-    },
-    previewImage:{
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate:{
-      // don't allow empty strings
-      notEmpty: true,
-      isUrl: true
-      }
-    },
+    // avgRating: {
+    //   type: DataTypes.FLOAT,
+    //   allowNull: false,
+    //   validate: {
+    //     isNumeric: true,
+    //     min: 1.0,
+    //     max: 5.0
+    //   }
+    // },
+    // previewImage:{
+    //   type: DataTypes.STRING,
+    //   allowNull: false,
+    //   validate:{
+    //   // don't allow empty strings
+    //   notEmpty: true,
+    //   isUrl: true
+    //   }
+    // },
   }, {
     sequelize,
     modelName: 'Spot',
