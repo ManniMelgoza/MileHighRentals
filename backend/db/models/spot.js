@@ -8,6 +8,7 @@
 // const env = process.env.NODE_ENV || 'development';
 // const config = require(__dirname + '/../../config/database.js')[env];
 // const db = {};
+// const { Model, Validator } = require('sequelize');
 
 const {
   Model
@@ -21,15 +22,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-  //     Spot.belongsTo(
-  //       models.User,
-  //       {
-  //         as: "Owner",
-  //         foreignKey: 'ownerId',
-  //         onDelete: 'CASCADE',
-  //         hooks: true
-  //       }
-  //     )
+        Spot.belongsTo(models.User, {
+          as: "Owner",  // Alias for association
+          foreignKey: 'ownerId',
+          onDelete: 'CASCADE',
+          hooks: true
+        });
     }
   }
   Spot.init({
@@ -84,8 +82,6 @@ module.exports = (sequelize, DataTypes) => {
     type: DataTypes.DECIMAL(10,7),
     allowNull: false,
     validate: {
-      // will only allow numbers
-      isNumeric: true,
       // checks for any numbers
       isFloat: true,
       min: -90,
@@ -96,8 +92,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL(10,7),
       allowNull: false,
       validate: {
-        // will only allow numbers
-        isNumeric: true,
         // checks for any numbers
         isFloat: true,
         min: -180,
@@ -136,10 +130,9 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     avgRating: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.FLOAT,
       allowNull: false,
       validate: {
-        isInt: true,
         isNumeric: true,
         min: 1.0,
         max: 5.0

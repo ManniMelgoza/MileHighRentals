@@ -18,7 +18,8 @@ module.exports = {
   production: {
     // this is where the hosting url will go to deploy the project
     use_env_variable: 'DATABASE_URL', //render will use this later on
-    dialect: 'postgres',
+    dialect: 'sequelize',
+    // dialect: 'postgres', //original
     seederStorage: 'sequelize',
     dialectOptions: {
       ssl: {

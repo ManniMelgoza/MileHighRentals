@@ -65,7 +65,7 @@ module.exports = {
         allowNull: false
       },
       avgRating: {
-        type: Sequelize.DECIMAL,
+        type: Sequelize.FLOAT,
         allowNull: true
       },
       previewImage: {
@@ -84,7 +84,15 @@ module.exports = {
       }
     }, options);
   },
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Spots');
-  }
+//   async down(queryInterface, Sequelize) {
+//     await queryInterface.dropTable('Spots');
+//   }
+// };
+
+async down(queryInterface, Sequelize) {
+  // options.property = tablename
+  options.tableName = "Spots";
+  // we pass the oprtions obj as the first arg instead of a str of the table name
+  return queryInterface.dropTable(options);
+}
 };
