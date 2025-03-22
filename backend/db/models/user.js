@@ -4,6 +4,19 @@ const { Model, Validator } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
+
+    /*
+
+    # The A.hasOne(B) association means that a One-To-One relationship exists between A and B,
+      with the foreign key being defined in the target model (B).
+
+    # The A.belongsTo(B) association means that a One-To-One relationship exists
+      between A and B, with the foreign key being defined in the source model (A).
+
+    # The A.hasMany(B) association means that a One-To-Many relationship exists
+      between A and B, with the foreign key being defined in the target model (B).
+
+    */
     static associate(models) {
       // define association here
       User.hasMany(models.Spot, {

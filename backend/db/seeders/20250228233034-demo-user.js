@@ -32,6 +32,11 @@ module.exports = {
         username: 'FakeUser2',
         hashedPassword: bcrypt.hashSync('password3')
       }
+      /*
+      by default, bulkCreate does not run validations on each object that is going to be
+      created (which create does). To make bulkCreate run these validations as well,
+      you must pass the validate: true option.
+      */
     ], { validate: true });
   },
 

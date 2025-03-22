@@ -20,14 +20,34 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+    /*
+    # The A.hasOne(B) association means that a One-To-One relationship exists between A and B,
+      with the foreign key being defined in the target model (B).
+
+    # The A.belongsTo(B) association means that a One-To-One relationship exists
+      between A and B, with the foreign key being defined in the source model (A).
+
+    # The A.hasMany(B) association means that a One-To-Many relationship exists
+      between A and B, with the foreign key being defined in the target model (B).
+
+    */
     static associate(models) {
       // define association here
         Spot.belongsTo(models.User, {
-          as: "Owner",  // Alias for association
           foreignKey: 'ownerId',
-          onDelete: 'CASCADE',
-          hooks: true
+          onDelete: 'CASCADE'
         });
+        /*
+         Spot.hasMany(
+        models.SpotImage,
+        {
+          as: 'SpotImages',
+          foreignKey: "spotId",
+          onDelete: 'CASCADE',
+          hooks: true,
+        }
+      );
+        */
     }
   }
   Spot.init({
