@@ -211,7 +211,5 @@ router.delete('/:id', requireAuth, async (req, res) => {
 
     }
 });
-// GET /api/spots with query filters
-
 
 module.exports = router;
