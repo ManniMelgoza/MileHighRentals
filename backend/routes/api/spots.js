@@ -92,7 +92,7 @@ router.get('/', async (req, res) => {
 
 // GET /api/spots/current - Get all spots owned by the current user
 // The requireAuth needs the used to be log in to be able to get data
-
+// TODO: WRONG ENDPOINT
 router.get('/current', requireAuth, async (req, res) => {
     try {
         // we need to get the id of the current user an store it in a variable
@@ -109,7 +109,7 @@ router.get('/current', requireAuth, async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" })
     }
 });
-
+// OK
 // GET /api/spots/:id - Get details of a specific spot
 router.get('/:id', async (req, res) => {
     try {
@@ -128,24 +128,14 @@ router.get('/:id', async (req, res) => {
     }
 });
 // POST /api/spots - Create a new spot
+// OK
 router.post('/', requireAuth, validateSpot, async (req, res, next) => {
     try{
-
-        const { address, cit, state, country, lat, lng, name, description, price } = req.body;
+        const ownerId = req.user.id;
+        const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
         const newSpot = await Spot.create({
-                address: '7894 E 9th Ave',
-                city: 'Wheat Ridge',
-                state: 'Colorado',
-                country: 'United States of America',
-                lat: 23.7645358,
-                lng: 145.7645358,
-                name: 'Robot Duck',
-                description: 'Great apaprment to see the mountain views',
-                price: 90.43,
-                ownerId: req.user.id,
-                createAt: new Data(),
-                updateAt: new Data()
+            ownerId, address, city, state, country, lat, lng, name, description, price
             });
 
         res.status(201).json(newSpot);
@@ -157,6 +147,7 @@ router.post('/', requireAuth, validateSpot, async (req, res, next) => {
 // POST /api/spots/:id/images - Add an image to a spot
 
 // PUT /api/spots/:id - Edit a spot
+// OK
 router.put('/:id', requireAuth, validateSpot, async (req, res, next) => {
     // - Extract spot ID and updated data
     const getSpotId = req.params.id;
@@ -184,31 +175,24 @@ router.put('/:id', requireAuth, validateSpot, async (req, res, next) => {
 });
 
 // DELETE /api/spots/:id - Delete a spot
-router.delete('/:id', requireAuth, async (req, res) => {
+router.delete('/:id', requireAuth, async (req, res, next) => {
 
     // - Extract spot ID
-    const getSpotId = req.params.id;
-    const getOwnerId = req.user.id;
 
     try{
-        // - Check if spot exists, return 404 if not
-        const getSpot = await Spot.findByPk(getSpotId);
+        const getSpotId = req.params.id;
 
-        if(!getSpot){
-            return res.status(404).json("Spot couldn't be found")
-        }
-        // - Check if current user is owner, return 403 if not
-        if(getSpot.ownerId !== getOwnerId) {
-            return res.status(403).json("Spot must belong to the current user")
+        const spot = await Spot.findByPk(getSpotId);
+        if (!spot) {
+            return res.status(404).json({ message: "Spot couldn't be found" });
         }
 
-        // - Delete spot
-        await getSpot.delete(req.body)
+       await Spot.destroy();
         // - Return success message
-        return res.status(200).json("")
+        return res.status(200).json("Successfully deleted")
 
     } catch (error) {
-
+        return res.status(404).json("Spot couldn't be found")
     }
 });
 
