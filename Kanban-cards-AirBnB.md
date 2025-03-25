@@ -81,8 +81,8 @@ Returns the information about the current user that is logged in.
 
 Returns all the spots.
 
-- [ ] Seed data exists in the database for spots to be returned.
-- [ ] Successful response includes each spot in the database.
+- [X] Seed data exists in the database for spots to be returned.
+- [X] Successful response includes each spot in the database.
 - [ ] Spot data returned includes the `id`, `ownerId`, `address`, `city`,
   `state`, `country`, `lat`, `lng`, `name`, `description`, `price`, `createdAt`,
   `updatedAt`, `previewImage`, and `avgRating`
@@ -117,7 +117,7 @@ Create and return a new image for a spot specified by id.
 
 Returns all the spots owned (created) by the current user.
 
-- [ ] An authenticated user is required for a successful response
+- [X] An authenticated user is required for a successful response
 - [ ] Successful response includes only spots created by the current user
 - [ ] Spot data returned includes the `id`, `ownerId`, `address`, `city`,
   `state`, `country`, `lat`, `lng`, `name`, `description`, `price`, `createdAt`,
