@@ -20,6 +20,7 @@ const { restoreUser } = require("../../utils/auth.js");
   router.use('/users', usersRouter);
   router.use('/spots', spotsRouter);
 
+
 // test end point for mod 5 project for from end testing
   // router.post('/test', (req, res) => {
   //   res.json({ requestBody: req.body });

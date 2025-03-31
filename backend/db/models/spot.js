@@ -1,13 +1,13 @@
 'use strict';
 
-// const fs = require('fs');
-// const path = require('path');
-// const Sequelize = require('sequelize');
-// const process = require('process');
-// const basename = path.basename(__filename);
-// const env = process.env.NODE_ENV || 'development';
-// const config = require(__dirname + '/../../config/database.js')[env];
-// const db = {};
+const fs = require('fs');
+const path = require('path');
+const Sequelize = require('sequelize');
+const process = require('process');
+const basename = path.basename(__filename);
+const env = process.env.NODE_ENV || 'development';
+const config = require(__dirname + '/../../config/database.js')[env];
+const db = {};
 // const { Model, Validator } = require('sequelize');
 
 const {
@@ -37,25 +37,38 @@ module.exports = (sequelize, DataTypes) => {
           foreignKey: 'ownerId',
           onDelete: 'CASCADE'
         });
-        /*
-         Spot.hasMany(
+
+        Spot.hasMany(
         models.SpotImage,
         {
-          as: 'SpotImages',
           foreignKey: "spotId",
           onDelete: 'CASCADE',
-          hooks: true,
-        }
-      );
-        */
+          // hooks: true,
+        });
+      // - Spot has many Reviews through spotId
+      // Spot.hasMany(
+      //   models.Reviwes,
+      //   {
+      //     foreignKey: "spotId",
+      //     onDelete: 'CASCADE',
+      //     // hooks: true,
+      //   });
+  //  - Spot has many Bookings through spotId
+      // Spot.hasMany(
+      //   models.Bookings,
+      // {
+      //   foreignKey: "spotId",
+      //   onDelete: 'CASCADE',
+      //   // hooks: true,
+      // });
     }
   }
   Spot.init({
     ownerId: {
       type: DataTypes.INTEGER,
-      allowNull:false,
+      allowNull: false,
       validate: {
-
+        isInt: true
       }
     },
     address: {
@@ -65,7 +78,7 @@ module.exports = (sequelize, DataTypes) => {
       {
         // don't allow empty strings
         notEmpty: true,
-        len: [5, 100]
+        // len: [5, 100]
       }
     },
     city: {
@@ -124,7 +137,8 @@ module.exports = (sequelize, DataTypes) => {
       validate:
       {
         // don't allow empty strings
-        notEmpty: true
+        notEmpty: true,
+        len: [1, 50]
       }
     },
     description: {

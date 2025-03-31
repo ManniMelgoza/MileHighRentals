@@ -69,10 +69,10 @@ module.exports = {
       //   type: Sequelize.FLOAT,
       //   allowNull: true
       // },
-      // previewImage: {
-      //   type: Sequelize.STRING,
-      //   allowNull: false,
-      // },
+      previewImage: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

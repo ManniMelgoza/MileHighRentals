@@ -1,5 +1,5 @@
 'use strict';
-const { Spot } = require('../models'); // If you're using the Spot model
+const { Spot, SpotImage } = require('../models'); // If you're using the Spot model
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
@@ -30,7 +30,7 @@ module.exports = {
         description: "Place where web developers are created",
         price: 123,
         avgRating: 4.5,
-        previewImage: "image url"
+        previewImage: "./images/AppAcademyHome.jpg"
       },
       {
         ownerId: 2,
@@ -44,7 +44,7 @@ module.exports = {
         description: "Great home to vacation close to the downtown denver area",
         price: 200,
         avgRating: 3.5,
-        previewImage: "image url"
+        previewImage: "./images/MountainViewCottage.jpg"
       },
       {
         ownerId: 3,
@@ -58,7 +58,7 @@ module.exports = {
         description: "Small cottage close to new development near the collge",
         price: 145,
         avgRating: 4.1,
-        previewImage: "image url"
+        previewImage: "./images/OceanView.jpg"
       }
         ], { validate: true });
   },

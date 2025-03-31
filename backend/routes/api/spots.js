@@ -5,9 +5,8 @@ const bcrypt = require('bcryptjs');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Spot } = require('../../db/models');
+const { User, Spot, SpotImage, Review, Booking } = require('../../db/models');
 const { Op } = require('sequelize');
-
 
 const router = express.Router();
 
@@ -63,10 +62,10 @@ const validateSpot = [
     //     .exists({ checkFalsy: true})
     //     .isFloat({ min: 1.0, max: 5.0})
     //     .withMessage('Raitings must be between 1.0 and 5.0'),
-    // check('previewImage')
-    //     .exists({ checkFalsy: true})
-    //     .isURL()
-    //     .withMessage("Neds to have a valid URL format, https://foo.com"),
+    check('previewImage')
+        .exists({ checkFalsy: true})
+        .isURL()
+        .withMessage("Neds to have a valid URL format, https://foo.com"),
     handleValidationErrors
 ];
 
@@ -86,13 +85,9 @@ router.get('/', async (req, res) => {
     }
   });
 
-// GET /api/spots - Get all spots
-
-
-
 // GET /api/spots/current - Get all spots owned by the current user
 // The requireAuth needs the used to be log in to be able to get data
-// TODO: WRONG ENDPOINT
+// OK
 router.get('/current', requireAuth, async (req, res) => {
     try {
         // we need to get the id of the current user an store it in a variable
@@ -102,7 +97,7 @@ router.get('/current', requireAuth, async (req, res) => {
             where: { ownerId: currentUser },
         }); // end of findALL
 
-        res.status(200).res.json(currentSpots)
+        res.status(200).json(currentSpots)
     }
      catch (error) { //end of try error
         console.log(error);
@@ -145,6 +140,35 @@ router.post('/', requireAuth, validateSpot, async (req, res, next) => {
     }
 });
 // POST /api/spots/:id/images - Add an image to a spot
+// Apply requireAuth middleware
+router.post('/:id/images', requireAuth, async (req, res) => {
+    // - Extract spot ID and image data
+    const getSpotId = req.params.id;
+    const getOwnerId = req.user.id;
+
+    const { url, previewImage } = req.body;
+    try {
+        const currentSpot = await Spot.findByPk(getSpotId);
+        // - Check if spot exists, return 404 if not
+        if(!currentSpot) {
+            res.status(404).json({ message: "Spot couldn't be found" });
+        };
+        // - Check if current user is owner, return 403 if not
+        if(currentSpot.getOwnerId !== getOwnerId) {
+            restoreUser.status(403).json({ message: 'Forbidden' });
+        }
+        // - Create new spot image
+        const newImageSpot = await SpotImage.create({
+            getSpotId, url, previewImage
+        });
+        // - Return 201 status with JSON response
+        res.status.apply(201).json(newImageSpot)
+    }
+    catch (error){
+        console.log('Error adding image: ', error);
+        res.status(500).json({ message: "Internal Server Error" })
+    }
+});
 
 // PUT /api/spots/:id - Edit a spot
 // OK
