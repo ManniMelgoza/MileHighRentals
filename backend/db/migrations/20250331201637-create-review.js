@@ -8,8 +8,7 @@ if (process.env.NODE_ENV === 'production') {
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    // Table SpotImages
-    await queryInterface.createTable('SpotImages', {
+    await queryInterface.createTable('Reviews', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -19,20 +18,32 @@ module.exports = {
       spotId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        reference: {
+        references: {
           model: 'Spots',
           key: 'id'
         },
         onDelete: 'CASCADE'
       },
-      url: {
-        type: Sequelize.STRING,
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Users',
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
+      },
+      review: {
+        type: Sequelize.TEXT,
         allowNull: false
       },
-      preview: {
-        type: Sequelize.BOOLEAN,
-        notNull: true,
-        defaultValue: false
+      stars: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        validate: {
+          min: 1,
+          max: 5
+        }
       },
       createdAt: {
         allowNull: false,
@@ -44,11 +55,13 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
-  }, options);
+    });
   },
   async down(queryInterface, Sequelize) {
-    // await queryInterface.dropTable('SpotImages');
-    options.tableName = 'SpotImages';
-    return queryInterface.dropTable('SpotImages');
+    // await queryInterface.dropTable('Reviews');
+    // options.property = tablename
+  options.tableName = 'Reviews';
+  // we pass the oprtions obj as the first arg instead of a str of the table name
+  return queryInterface.dropTable('Reviews');
   }
 };

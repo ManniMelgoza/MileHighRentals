@@ -8,31 +8,26 @@ if (process.env.NODE_ENV === 'production') {
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    // Table SpotImages
-    await queryInterface.createTable('SpotImages', {
+    await queryInterface.createTable('ReviewImages', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      spotId: {
+      reviewId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        reference: {
-          model: 'Spots',
+        references: {
+          model: 'Reviews',
           key: 'id'
         },
         onDelete: 'CASCADE'
+
       },
       url: {
         type: Sequelize.STRING,
         allowNull: false
-      },
-      preview: {
-        type: Sequelize.BOOLEAN,
-        notNull: true,
-        defaultValue: false
       },
       createdAt: {
         allowNull: false,
@@ -44,11 +39,12 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
-  }, options);
+    });
   },
   async down(queryInterface, Sequelize) {
-    // await queryInterface.dropTable('SpotImages');
-    options.tableName = 'SpotImages';
-    return queryInterface.dropTable('SpotImages');
+    // await queryInterface.dropTable('ReviewImages');
+    options.tableName = 'ReviewImages';
+  // we pass the oprtions obj as the first arg instead of a str of the table name
+  return queryInterface.dropTable('ReviewImages');
   }
 };

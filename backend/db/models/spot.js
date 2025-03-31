@@ -46,13 +46,13 @@ module.exports = (sequelize, DataTypes) => {
           // hooks: true,
         });
       // - Spot has many Reviews through spotId
-      // Spot.hasMany(
-      //   models.Reviwes,
-      //   {
-      //     foreignKey: "spotId",
-      //     onDelete: 'CASCADE',
-      //     // hooks: true,
-      //   });
+      Spot.hasMany(
+        models.Reviwe,
+        {
+          foreignKey: "spotId",
+          onDelete: 'CASCADE',
+          // hooks: true,
+        });
   //  - Spot has many Bookings through spotId
       // Spot.hasMany(
       //   models.Bookings,
