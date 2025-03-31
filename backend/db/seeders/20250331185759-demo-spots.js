@@ -34,7 +34,7 @@ module.exports = {
       url: 'https://example.com/OceanView.jpg',
       preview: true
     }
-  ]);
+  ], { validate: true });
 },
 
   async down (queryInterface, Sequelize) {
@@ -44,6 +44,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete('SpotImage', null, {});
+    await queryInterface.bulkDelete('SpotImages', null, {});
   }
 };

@@ -146,7 +146,7 @@ router.post('/:id/images', requireAuth, async (req, res) => {
     const getSpotId = req.params.id;
     const getOwnerId = req.user.id;
 
-    const { url, previewImage } = req.body;
+    const { url, preview } = req.body;
     try {
         const currentSpot = await Spot.findByPk(getSpotId);
         // - Check if spot exists, return 404 if not
@@ -159,7 +159,7 @@ router.post('/:id/images', requireAuth, async (req, res) => {
         }
         // - Create new spot image
         const newImageSpot = await SpotImage.create({
-            getSpotId, url, previewImage
+            spotId: getSpotId, url, preview
         });
         // - Return 201 status with JSON response
         res.status.apply(201).json(newImageSpot)
