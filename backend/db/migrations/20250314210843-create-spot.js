@@ -69,7 +69,7 @@ module.exports = {
       //   type: Sequelize.FLOAT,
       //   allowNull: true
       // },
-      previewImage: {
+      preview: {
         type: Sequelize.STRING,
         allowNull: false,
       },

@@ -62,7 +62,7 @@ const validateSpot = [
     //     .exists({ checkFalsy: true})
     //     .isFloat({ min: 1.0, max: 5.0})
     //     .withMessage('Raitings must be between 1.0 and 5.0'),
-    check('previewImage')
+    check('preview')
         .exists({ checkFalsy: true})
         .isURL()
         .withMessage("Neds to have a valid URL format, https://foo.com"),

@@ -172,15 +172,15 @@ module.exports = (sequelize, DataTypes) => {
     //     max: 5.0
     //   }
     // },
-    // previewImage:{
-    //   type: DataTypes.STRING,
-    //   allowNull: false,
-    //   validate:{
-    //   // don't allow empty strings
-    //   notEmpty: true,
-    //   isUrl: true
-    //   }
-    // },
+    preview:{
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate:{
+      // don't allow empty strings
+      notEmpty: true,
+      isUrl: true
+      }
+    },
   }, {
     sequelize,
     modelName: 'Spot',
