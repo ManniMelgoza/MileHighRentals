@@ -24,17 +24,17 @@ module.exports = {
     {
       spotId: 1,
       url: 'https://example.com/images/AppAcademyHome.jpg',
-      previewImage: true
+      preview: true
     },
     {
       spotId: 2,
       url: 'https://example.com/images/MountainViewCottage.jpg',
-      previewImage: true
+      preview: true
     },
     {
       spotId: 3,
       url: 'https://example.com/images/OceanView.jpg',
-      previewImage: true
+      preview: true
     }
   ], { validate: true });
 },

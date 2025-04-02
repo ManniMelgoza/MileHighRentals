@@ -52,16 +52,22 @@ const validateSpot = [
         .exists({ checkFalsy: true})
         .isFloat({ min: 1, max: 100000})
         .withMessage("Price per day must be a positive number"),
-    // check('avgRating')
-    //     .exists({ checkFalsy: true})
-    //     .isFloat({ min: 1.0, max: 5.0})
-    //     .withMessage('Raitings must be between 1.0 and 5.0'),
-    // check('preview')
-    //     .exists({ checkFalsy: true})
-    //     .isURL()
-    //     .withMessage("Needs to have a valid URL format, https://foo.com"),
     handleValidationErrors
 ];
+
+// const validateASpotImage = [
+//     check('url')
+//         .exists({ checkFalsy: true })
+//         .withMessage("Street address is required")
+//         .notEmpty()
+//         .withMessage("This cannot be empty you need to provide an address"),
+//     check('city')
+//         .exists({ checkFalsy: true })
+//         .withMessage("City is required")
+//         .notEmpty()
+//         .withMessage("This cannot be empty you need to provide a city name"),
+//     handleValidationErrors
+// ];
 
 // API ENDPOINT ROUTED FOR SPOTS HERE
   // GET /api/spots
@@ -134,6 +140,7 @@ router.post('/', requireAuth, validateSpot, async (req, res, next) => {
 });
 // POST /api/spots/:id/images - Add an image to a spot
 // Apply requireAuth middleware
+// validateASpotImage
 router.post('/:id/images', requireAuth, async (req, res) => {
     // - Extract spot ID and image data
     const getSpotId = req.params.id;
@@ -147,13 +154,13 @@ router.post('/:id/images', requireAuth, async (req, res) => {
         };
         // - Check if current user is owner, return 403 if not
         if(currentSpot.ownerId !== getOwnerId) {
-            restoreUser.status(403).json({ message: 'Forbidden' });
+            res.status(403).json({ message: 'Forbidden' });
         }
         // - Create new spot image
         const { url, preview } = req.body;
 
         const newImageSpot = await SpotImage.create({
-            getSpotId, url, preview
+            spotId: getSpotId, url, preview
         });
         // - Return 201 status with JSON response
         res.status(201).json({
@@ -170,7 +177,7 @@ router.post('/:id/images', requireAuth, async (req, res) => {
 
 // PUT /api/spots/:id - Edit a spot
 // OK
-router.put('/:id', requireAuth, validateSpot, async (req, res, next) => {
+router.put('/:id', requireAuth, async (req, res, next) => {
     // - Extract spot ID and updated data
     const getSpotId = req.params.id;
     const getOwnerId = req.user.id;
@@ -215,7 +222,7 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
         if (!spot) {
             return res.status(404).json({ message: "Spot couldn't be found" });
         };
-        
+
         // Makes sure that the owner of the image can delete its own stuff
         if (spot.ownerId !== getOwnerId) {  // if the spot foreign key does not match the user id primary key
             return res.status(403).json({ message: "You must be the owner of this spot to delete it."}); // send an error message
