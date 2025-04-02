@@ -10,9 +10,9 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Spots', {
       id: {
-        allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       ownerId: {
@@ -53,7 +53,7 @@ module.exports = {
         allowNull: false,
       },
       name: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(50),
         allowNull: false
       },
       description: {
@@ -62,17 +62,17 @@ module.exports = {
         allowNull: false
       },
       price: {
-        type: Sequelize.DECIMAL,
+        type: Sequelize.DECIMAL(10,2),
         allowNull: false
       },
       // avgRating: {
       //   type: Sequelize.FLOAT,
       //   allowNull: true
       // },
-      preview: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
+      // previewImage: {
+      //   type: Sequelize.STRING,
+      //   allowNull: false,
+      // },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -94,6 +94,7 @@ async down(queryInterface, Sequelize) {
   // options.property = tablename
   options.tableName = "Spots";
   // we pass the oprtions obj as the first arg instead of a str of the table name
+  // return queryInterface.dropTable("Spots", options);
   return queryInterface.dropTable("Spots");
 }
 };

@@ -14,58 +14,52 @@ const validateSpot = [
     check('address')
         .exists({ checkFalsy: true })
         .withMessage("Street address is required")
-        .isLength({ min: 5, max: 100})
-        .withMessage("The address length must be atleast 5 characters long")
         .notEmpty()
         .withMessage("This cannot be empty you need to provide an address"),
     check('city')
         .exists({ checkFalsy: true })
         .withMessage("City is required")
-        .isLength({ min: 2, max: 100})
-        .withMessage("The city length must be atleast 2 characters long")
         .notEmpty()
         .withMessage("This cannot be empty you need to provide a city name"),
     check('state')
         .exists({ checkFalsy: true })
         .withMessage("State is required")
-        .isLength({ min: 2, max: 100})
-        .withMessage("The state length must be atleast 2 characters long")
         .notEmpty()
         .withMessage("This cannot be empty you need to provide a state name"),
     check('country')
         .exists({ checkFalsy: true })
         .withMessage("Country is required")
-        .isLength({ min: 2, max: 100})
-        .withMessage("The country length must be atleast 2 characters long")
         .notEmpty()
         .withMessage("This cannot be empty you need to provide a country name"),
     check('lat')
         .exists({ checkFalsy: true })
         .isFloat({ min: -90, max: 90})
-        .withMessage("Lattitute needs to be betwen -90 and 90"),
+        .withMessage("Latitude must be within -90 and 90"),
     check('lng')
         .exists({ checkFalsy: true })
         .isFloat({ min: -180, max: 180})
-        .withMessage("Lattitute needs to be betwen -180 and 180"),
-        check('name')
+        .withMessage("Longitude must be within -180 and 180"),
+    check('name')
         .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("Provide a name")
+        .isLength({ max: 50 })
         .withMessage("Name must be less than 50 characters"),
     check('description')
         .exists({ checkFalsy: true })
-        .isLength({ min: 10, max: 500})
-        .withMessage("Description must be between 10 and 500 characters"),
+        .withMessage("Description is required"),
     check('price')
         .exists({ checkFalsy: true})
         .isFloat({ min: 1, max: 100000})
-        .withMessage('Price must be between 1 and 100000'),
-    // check('angRating')
+        .withMessage("Price per day must be a positive number"),
+    // check('avgRating')
     //     .exists({ checkFalsy: true})
     //     .isFloat({ min: 1.0, max: 5.0})
     //     .withMessage('Raitings must be between 1.0 and 5.0'),
-    check('preview')
-        .exists({ checkFalsy: true})
-        .isURL()
-        .withMessage("Neds to have a valid URL format, https://foo.com"),
+    // check('preview')
+    //     .exists({ checkFalsy: true})
+    //     .isURL()
+    //     .withMessage("Needs to have a valid URL format, https://foo.com"),
     handleValidationErrors
 ];
 
@@ -75,7 +69,6 @@ router.get('/', async (req, res) => {
     try {
       // Query the database to get all spots without specifying attributes
       const spots = await Spot.findAll();
-
       // Send the response
       return res.status(200).json({ spots });
 
@@ -146,7 +139,6 @@ router.post('/:id/images', requireAuth, async (req, res) => {
     const getSpotId = req.params.id;
     const getOwnerId = req.user.id;
 
-    const { url, preview } = req.body;
     try {
         const currentSpot = await Spot.findByPk(getSpotId);
         // - Check if spot exists, return 404 if not
@@ -154,15 +146,21 @@ router.post('/:id/images', requireAuth, async (req, res) => {
             res.status(404).json({ message: "Spot couldn't be found" });
         };
         // - Check if current user is owner, return 403 if not
-        if(currentSpot.getOwnerId !== getOwnerId) {
+        if(currentSpot.ownerId !== getOwnerId) {
             restoreUser.status(403).json({ message: 'Forbidden' });
         }
         // - Create new spot image
+        const { url, preview } = req.body;
+
         const newImageSpot = await SpotImage.create({
-            spotId: getSpotId, url, preview
+            getSpotId, url, preview
         });
         // - Return 201 status with JSON response
-        res.status.apply(201).json(newImageSpot)
+        res.status(201).json({
+            id: newImageSpot.id,
+            url: newImageSpot.url,
+            preview: newImageSpot.preview
+        });
     }
     catch (error){
         console.log('Error adding image: ', error);
@@ -202,21 +200,33 @@ router.put('/:id', requireAuth, validateSpot, async (req, res, next) => {
 router.delete('/:id', requireAuth, async (req, res, next) => {
 
     // - Extract spot ID
-
     try{
         const getSpotId = req.params.id;
+        const getOwnerId = req.user.id;
 
-        const spot = await Spot.findByPk(getSpotId);
+        // either use findOne or findByPK
+        // const spot = await Spot.findByPk({
+        const spot = await Spot.findOne({
+            where: {
+                id: getSpotId
+            }
+        });
+
         if (!spot) {
             return res.status(404).json({ message: "Spot couldn't be found" });
-        }
+        };
+        
+        // Makes sure that the owner of the image can delete its own stuff
+        if (spot.ownerId !== getOwnerId) {  // if the spot foreign key does not match the user id primary key
+            return res.status(403).json({ message: "You must be the owner of this spot to delete it."}); // send an error message
+        };
 
-       await Spot.destroy();
-        // - Return success message
-        return res.status(200).json("Successfully deleted")
+        await spot.destroy();
+            // - Return success message
+            return res.status(200).json({ message: "Successfully deleted" })
 
     } catch (error) {
-        return res.status(404).json("Spot couldn't be found")
+        next(error)
     }
 });
 

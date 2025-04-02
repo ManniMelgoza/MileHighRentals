@@ -22,19 +22,19 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Spot, {
         foreignKey: 'ownerId',
         onDelete: 'CASCADE',
-        hooks: true,
+        // hooks: true,
       });
       // - User has many Reviews through userId with cascade delete
-      // User,this.hasMany(models.Review, {
-      //   foreignKey: 'userId',
-      //   onDelete: 'CASCADE',
-      //   hooks: true,
-      // });
+      User.hasMany(models.Review, {
+        foreignKey: 'userId',
+        onDelete: 'CASCADE',
+        // hooks: true,
+      });
       // - User has many Bookings through userId with cascade delete
       // User.hasMany(models.Booking, {
       //   foreignKey: 'userId',
       //   onDelete: 'CASCADE',
-      //   hooks: true,
+      //   // hooks: true,
       // });
     }
   }

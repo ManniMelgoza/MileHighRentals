@@ -35,6 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
         Spot.belongsTo(models.User, {
           foreignKey: 'ownerId',
+          as: 'Owner',
           onDelete: 'CASCADE'
         });
 
@@ -46,8 +47,8 @@ module.exports = (sequelize, DataTypes) => {
           // hooks: true,
         });
       // - Spot has many Reviews through spotId
-      Spot.hasMany(
-        models.Reviwe,
+        Spot.hasMany(
+        models.Review,
         {
           foreignKey: "spotId",
           onDelete: 'CASCADE',
@@ -55,11 +56,11 @@ module.exports = (sequelize, DataTypes) => {
         });
   //  - Spot has many Bookings through spotId
       // Spot.hasMany(
-      //   models.Bookings,
+      //   models.Booking,
       // {
       //   foreignKey: "spotId",
       //   onDelete: 'CASCADE',
-      //   // hooks: true,
+        // hooks: true,
       // });
     }
   }
@@ -76,9 +77,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate:
       {
-        // don't allow empty strings
         notEmpty: true,
-        // len: [5, 100]
+        len: [1, 255],
       }
     },
     city: {
@@ -86,9 +86,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate:
       {
-        // don't allow empty strings
         notEmpty: true,
-        len: [2, 100]
+        len: [1, 100],
       }
     },
     state: {
@@ -96,9 +95,8 @@ module.exports = (sequelize, DataTypes) => {
      allowNull: false,
      validate:
      {
-       // don't allow empty strings
        notEmpty: true,
-       len: [2, 100]
+       len: [1, 100],
      }
     },
     country: {
@@ -106,17 +104,15 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate:
       {
-        // don't allow empty strings
         notEmpty: true,
-        len: [2, 100]
+        len: [1, 100],
       }
      },
     lat: {
     type: DataTypes.DECIMAL(10,7),
     allowNull: false,
     validate: {
-      // checks for any numbers
-      isFloat: true,
+      isDecimal: true,
       min: -90,
       max: 90
     }
@@ -125,18 +121,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL(10,7),
       allowNull: false,
       validate: {
-        // checks for any numbers
-        isFloat: true,
+        isDecimal: true,
         min: -180,
         max: 180
     }
     },
     name: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(50),
       allowNull: false,
       validate:
       {
-        // don't allow empty strings
         notEmpty: true,
         len: [1, 50]
       }
@@ -146,21 +140,15 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate:
       {
-        // don't allow empty strings
         notEmpty: true,
-        len: [10, 500]
       }
     },
     price: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
       validate: {
-      // will only allow numbers
-      isNumeric: true,
-      // checks for any numbers
-      isFloat: true,
-      min: 1,
-      max: 100000,
+      isDecimal: true,
+      min: 1
       }
     },
     // avgRating: {
@@ -172,15 +160,15 @@ module.exports = (sequelize, DataTypes) => {
     //     max: 5.0
     //   }
     // },
-    preview:{
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate:{
-      // don't allow empty strings
-      notEmpty: true,
-      isUrl: true
-      }
-    },
+    // previewImage:{
+    //   type: DataTypes.STRING,
+    //   allowNull: false,
+    //   validate:{
+    //   // don't allow empty strings
+    //   notEmpty: true,
+    //   isUrl: true
+      // }
+    // },
   }, {
     sequelize,
     modelName: 'Spot',

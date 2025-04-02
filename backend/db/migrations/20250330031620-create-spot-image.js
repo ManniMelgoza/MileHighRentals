@@ -19,7 +19,7 @@ module.exports = {
       spotId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        reference: {
+        references: {
           model: 'Spots',
           key: 'id'
         },
@@ -31,7 +31,7 @@ module.exports = {
       },
       preview: {
         type: Sequelize.BOOLEAN,
-        notNull: true,
+        allowNull: false,
         defaultValue: false
       },
       createdAt: {
@@ -50,5 +50,6 @@ module.exports = {
     // await queryInterface.dropTable('SpotImages');
     options.tableName = 'SpotImages';
     return queryInterface.dropTable('SpotImages');
+    // return queryInterface.dropTable('SpotImages', options);
   }
 };
