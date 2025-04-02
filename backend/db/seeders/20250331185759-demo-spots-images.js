@@ -1,6 +1,7 @@
 'use strict';
 
 const { Spot, SpotImage, User } = require('../models'); // If you're using the Spot model
+const bcrypt = require("bcryptjs");
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {

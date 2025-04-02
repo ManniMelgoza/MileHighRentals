@@ -1,6 +1,7 @@
 'use strict';
 
 const { Spot, SpotImage } = require('../models'); // If you're using the Spot model
+const bcrypt = require("bcryptjs");
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
@@ -26,13 +27,11 @@ module.exports = {
         city: "San Francisco",
         state: "California",
         country: "United States of America",
-        lat: 37.7645358,
+        lat:  37.7645358,
         lng: -122.4730327,
         name: "App Academy",
         description: "Place where web developers are created",
-        price: 123,
-        // avgRating: 4.5,
-        // previewImage: 'https://example.com/AppAcademyHome.jpg'
+        price: 123.00,
       },
       {
         ownerId: 2,
@@ -44,9 +43,7 @@ module.exports = {
         lng: -150.4730327,
         name: "Mountain View",
         description: "Great home to vacation close to the downtown denver area",
-        price: 200,
-        // avgRating: 3.5,
-        // previewImage: 'https://example.com/MountainViewCottage.jpg'
+        price: 200.00,
       },
       {
         ownerId: 3,
@@ -58,9 +55,7 @@ module.exports = {
         lng: 86.4730327,
         name: "Costal View",
         description: "Small cottage close to new development near the collge",
-        price: 145,
-        // avgRating: 4.1,
-        // previewImage: 'https://example.com/OceanView.jpg'
+        price: 145.00
       }
         ], { validate: true });
   },

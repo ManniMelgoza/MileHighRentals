@@ -54,14 +54,6 @@ module.exports = (sequelize, DataTypes) => {
           onDelete: 'CASCADE',
           // hooks: true,
         });
-  //  - Spot has many Bookings through spotId
-      // Spot.hasMany(
-      //   models.Booking,
-      // {
-      //   foreignKey: "spotId",
-      //   onDelete: 'CASCADE',
-        // hooks: true,
-      // });
     }
   }
   Spot.init({
@@ -73,7 +65,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     address: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(255),
       allowNull: false,
       validate:
       {
@@ -82,7 +74,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     city: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(100),
       allowNull: false,
       validate:
       {
@@ -91,21 +83,21 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     state: {
-     type: DataTypes.STRING,
+     type: DataTypes.STRING(50),
      allowNull: false,
      validate:
      {
        notEmpty: true,
-       len: [1, 100],
+       len: [1, 50],
      }
     },
     country: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(50),
       allowNull: false,
       validate:
       {
         notEmpty: true,
-        len: [1, 100],
+        len: [1, 50],
       }
      },
     lat: {
@@ -144,31 +136,13 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     price: {
-      type: DataTypes.DECIMAL(10, 2),
+      type: DataTypes.DECIMAL(10,2),
       allowNull: false,
       validate: {
       isDecimal: true,
       min: 1
       }
     },
-    // avgRating: {
-    //   type: DataTypes.FLOAT,
-    //   allowNull: false,
-    //   validate: {
-    //     isNumeric: true,
-    //     min: 1.0,
-    //     max: 5.0
-    //   }
-    // },
-    // previewImage:{
-    //   type: DataTypes.STRING,
-    //   allowNull: false,
-    //   validate:{
-    //   // don't allow empty strings
-    //   notEmpty: true,
-    //   isUrl: true
-      // }
-    // },
   }, {
     sequelize,
     modelName: 'Spot',
