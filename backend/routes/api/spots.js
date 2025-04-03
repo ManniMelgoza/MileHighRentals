@@ -123,7 +123,7 @@ router.get('/:id', async (req, res) => {
 });
 // POST /api/spots - Create a new spot
 // OK
-router.post('/', requireAuth, validateSpot, async (req, res, next) => {
+router.post('/', validateSpot, requireAuth, async (req, res, next) => {
     try{
         const ownerId = req.user.id;
         const { address, city, state, country, lat, lng, name, description, price } = req.body;
@@ -177,7 +177,7 @@ router.post('/:id/images', requireAuth, async (req, res) => {
 
 // PUT /api/spots/:id - Edit a spot
 // OK
-router.put('/:id', requireAuth, async (req, res, next) => {
+router.put('/:id', validateSpot, requireAuth, async (req, res, next) => {
     // - Extract spot ID and updated data
     const getSpotId = req.params.id;
     const getOwnerId = req.user.id;
