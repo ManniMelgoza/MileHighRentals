@@ -187,11 +187,11 @@ router.put('/:id', validateSpot, requireAuth, async (req, res, next) => {
         const getSpot = await Spot.findByPk(getSpotId);
 
         if(!getSpot){
-            return res.status(404).json("Spot couldn't be found")
+            return res.status(404).json({ message: "Spot couldn't be found" })
         }
         // - Check if current user is owner, return 403 if not
         if(getSpot.ownerId !== getOwnerId) {
-            return res.status(403).json("Spot couldn't be found")
+            return res.status(403).json({ message: "Spot couldn't be found" })
         }
         // - Format response with proper data types
         await getSpot.update(req.body)
