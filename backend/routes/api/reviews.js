@@ -9,28 +9,44 @@ const { Op } = require('sequelize');
 
 const router = express.Router();
 
-const validateReviews = [
-    check('review')
-        .exists({ checkFalsy: true })
-        .withMessage("Review text is required"),
-    check('stars')
-        .exists({ checkFalsy: true })
-        .withMessage("Stars must be an integer from 1 to 5"),
-    handleValidationErrors
-];
+// const validateReviews = [
+//     check('review')
+//         .exists({ checkFalsy: true })
+//         .withMessage("Review text is required"),
+//     check('stars')
+//         .exists({ checkFalsy: true })
+//         .withMessage("Stars must be an integer from 1 to 5"),
+//     handleValidationErrors
+// ];
 
 
 // API ENDPOINT ROUTED FOR SPOTS HERE
 
 // 4. Implement GET /api/reviews/current endpoint:
 //    - Apply requireAuth middleware
-//    - Get current user ID from request
-//    - Query database for reviews by this user
-//    - Include associated User, Spot (with preview image), and ReviewImages
-//    - Format response with proper data structure:
-//      - Add previewImage to each Spot
-//      - Arrange the data in the required format
-//    - Return JSON response with reviews array
+// router.get('/current', requireAuth, validateReviews, async (req, res) => {
+//     //    - Get current user ID from request
+//     const getUserId = req.user.id
+//     try {
+//         //    - Query database for reviews by this user
+//         const reviewsQuer = await Review.findAll({
+//             where: {
+//                 getUserId
+//             },
+//             include: {
+//                 attribute
+//             }
+//         })
+//         //    - Include associated User, Spot (with preview image), and ReviewImages
+//         //    - Format response with proper data structure:
+//         //      - Add previewImage to each Spot
+//         //      - Arrange the data in the required format
+//         //    - Return JSON response with reviews array
+//     }
+//     catch (error) {
+
+//     };
+// });
 
 // 5. Implement POST /api/reviews/:reviewId/images endpoint:
 //    - Apply requireAuth middleware

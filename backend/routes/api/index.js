@@ -6,6 +6,7 @@ const router = require('express').Router();
 const sessionRouter = require('./session.js');
 const spotsRouter = require('./spots.js');
 const usersRouter = require('./users.js');
+// const reviewsRouter = require('./reviews.js');
 
 // Global middleware
 const { restoreUser } = require("../../utils/auth.js");
@@ -19,6 +20,7 @@ const { restoreUser } = require("../../utils/auth.js");
   router.use('/session', sessionRouter);
   router.use('/users', usersRouter);
   router.use('/spots', spotsRouter);
+  // router.use('/reviews', reviewsRouter);
 
 
 // test end point for mod 5 project for from end testing

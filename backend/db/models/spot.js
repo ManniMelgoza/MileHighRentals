@@ -96,6 +96,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate:
       {
+        isAlpha: true,
+        // isNumeric: false,
         notEmpty: true,
         len: [1, 50],
       }

@@ -39,11 +39,7 @@ module.exports = {
       },
       stars: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        validate: {
-          min: 1,
-          max: 5
-        }
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
@@ -55,7 +51,7 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
-    });
+    }, options);
   },
   async down(queryInterface, Sequelize) {
     // await queryInterface.dropTable('Reviews');
