@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Spot, SpotImage, Review, Booking } = require('../../db/models');
+const { User, Spot, SpotImage, Review, ReviewImage, Booking } = require('../../db/models');
 const { Op } = require('sequelize');
 
 const router = express.Router();
@@ -142,6 +142,35 @@ router.put('/:reviewId', validateReviews, requireAuth, async (req, res, next) =>
     } catch (error) {
         next(error);
     }
+});
+
+// DELETE /api/reviews/:reviewId - Delete a Review
+// 1. Create DELETE route for /reviews/:reviewId
+// 2. Apply requireAuth middleware
+router.delete('/:reviewId', requireAuth, async (req, res) => {
+
+    // 3. Extract review ID from request
+    const getReviewId = req.params.reviewId;
+    const getUserId = req.user.id;
+    // 4. Find review by ID
+    const getReview = await Review.findOne({
+        wwhere: {
+            id: getReviewId
+        }
+    });
+    // 5. Check if review exists, return 404 if not
+    if (!getReviewId){
+        return res.status(404).json({ message: "Review couldn't be found" })
+    }
+    // 6. Check if user owns the review, return 403 if not
+    if(getReview.userId !== getUserId){
+        res.status(403).json({ message: 'Forbidden: You are not the owner of this review.' });
+    }
+    // 7. Delete the review
+    await getReview.destroy();
+    // 8. Return success message
+    return res.status(200).json({ message: "Successfully deleted" });
+
 });
 
 
