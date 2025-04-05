@@ -20,13 +20,51 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await Review.bulkCreate([
-      {
-        userId: 1,
-        spotId: 1,
-        review: 'Great place to study hard and learn',
-        stars: 4.3
-      }
+   const user1 = await User.findOne({ where: { username: 'Demo-lition' } });
+   const user2 = await User.findOne({ where: { username: 'FakeUser1' } });
+   const user3 = await User.findOne({ where: { username: 'FakeUser2' } });
+
+   const spot1 = await Spot.findByPk(1);
+   const spot2 = await Spot.findByPk(2);
+   const spot3 = await Spot.findByPk(3);
+
+      await Review.bulkCreate([
+        {
+          userId: user1.id,
+          spotId: spot1.id,
+          review: 'Great place to study hard and learn',
+          stars: 4
+        },
+        {
+          userId: user1.id,
+          spotId: spot2.id,
+          review: 'Great place to study hard and learn',
+          stars: 3
+        },
+        {
+          userId: user1.id,
+          spotId: spot3.id,
+          review: 'Great place to study hard and learn',
+          stars: 2
+        },
+        {
+          userId: user2.id,
+          spotId: spot1.id,
+          review: 'A lot of great open spaces',
+          stars: 4
+        },
+        {
+          userId: user2.id,
+          spotId: spot2.id,
+          review: 'The views of the mountains are breathtaking',
+          stars: 3
+        },
+        {
+          userId: user3.id,
+          spotId: spot3.id,
+          review: 'Amazing beach access, but needs cosmetic work',
+          stars: 2
+        }
     ], { validate: true });
   },
     async down (queryInterface, Sequelize) {
@@ -38,5 +76,5 @@ module.exports = {
        *
        */
       await queryInterface.bulkDelete('Reviews', null, {});
-    };
+    }
   };

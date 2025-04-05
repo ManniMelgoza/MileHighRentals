@@ -251,7 +251,7 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
 });
 
 // 2. Implement GET /api/spots/:spotId/reviews endpoint:
-router.get('/:spotId/reviews', async (req, res) => {
+router.get('/:spotId/reviews', async (req, res, next) => {
     //    - Extract spot ID from request
     const getSpotId = req.params.spotId;
     // const currentUser = req.user.id;

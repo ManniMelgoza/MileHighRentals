@@ -105,7 +105,7 @@ router.post('/:reviewId/images', validateReviews, requireAuth, async (req, res, 
 // PUT /api/reviews/:reviewId - Edit a Review
 // 1. Create PUT route for /reviews/:reviewId
 // 2. Apply requireAuth and validateReview middleware
-router.put('/:reviewId', validateReviews, requireAuth, async (req, res, next) => {
+router.put('/:reviewId', requireAuth, validateReviews, async (req, res, next) => {
 
     // 3. Extract review ID, review text, stars from request
     // Review ID
