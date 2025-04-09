@@ -251,81 +251,75 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
 });
 
 // 2. Implement GET /api/spots/:spotId/reviews endpoint:
+/*
+
+fetch('/api/spots/1/reviews')
+  .then(res => res.json())
+  .then(data => console.log(data));
+
+*/
 router.get('/:spotId/reviews', async (req, res, next) => {
-    //    - Extract spot ID from request
-    const getSpotId = req.params.spotId;
-    // const currentUser = req.user.id;
-
     try {
-        const getReview = await Spot.findByPk(getSpotId)
-        //    - Check if spot exists, return 404 if not
-        if (!getReview) {
-            return res.status(404).json({ message: "Spot review couldn't be found" });
-        };
-        //    - Query database for all reviews for this spot
-        //    - Include associated User and ReviewImages
-        const allReviewSpot = Review.findAll({
-            where: { spotId: getSpotId },
-            include: [
-                {
-                    model: User,
-                    attributes: ['url, firstName', 'lastName']
-                },
-                {
-                    model: ReviewImage,
-                    attributes: ['id', 'url']
-                }
-            ]
-        });
+      const spotId = req.params.spotId;
 
-        //    - Return JSON response with reviews array
-        const reviewArr = allReviewSpot.map(review => review.toJSON());
+      const spot = await Spot.findByPk(spotId);
 
-        return res.status(200).json({ Reviews: reviewArr });
+      if (!spot) {
+        return res.status(404).json({ message: "Spot couldn't be found" });
+      }
+
+      const reviews = await Review.findAll({
+        where: { spotId }
+      });
+
+      return res.status(200).json(reviews);
 
     } catch (error) {
-        next(error);
+      next(error);
     }
-});
+  });
 
 // 3. Implement POST /api/spots/:spotId/reviews endpoint:
 //    - Apply requireAuth and validateReview middleware
 //    - Handle validation errors by returning 400 with error messages
-router.post('/:spotId/reviews', requireAuth, validateReviews, async (req, res) => {
+// WHEN FETCH CALL APP CRASHES
 
-    //    - Extract spot ID, user ID, review text, stars from request
-    const getSpotId = req.params.spotId;
-    const getUserId = req.user.id;
-    const { review, stars } = req.body;
 
-    const getAllSpots = await Spot.findByPk(getSpotId);
+// router.post('/:spotId/reviews', requireAuth, validateReviews, async (req, res, next) => {
 
-    //    - Check if spot exists, return 404 if not
-    if(!getAllSpots){
-        return res.status(404).json({ message: "Spot couldn't be found" })
-    };
+    router.post('/:spotId/reviews', requireAuth, validateReviews, async (req, res, next) => {
+        try {
+          const spotId = req.params.spotId;
+          const userId = req.user.id;
+          const { review, stars } = req.body;
 
-    //     - Check if user already has a review for this spot, return 500 if so
-    const userReviewCount = await Review.count({
-        where: {
-            userId: getUserId,
-            spotId: getSpotId
+          const spot = await Spot.findByPk(spotId);
+
+          if (!spot) {
+            return res.status(404).json({ message: "Spot couldn't be found" });
+          }
+
+          const existingReview = await Review.findOne({
+            where: { userId, spotId }
+          });
+
+          if (existingReview) {
+            return res.status(500).json({ message: "User already has a review for this spot" });
+          }
+
+          const newReview = await Review.create({
+            userId,
+            spotId,
+            review,
+            stars
+          });
+
+          return res.status(201).json(newReview);
+
+        } catch (error) {
+          next(error);
         }
-    });
-
-    if(userReviewCount > 0){
-        return res.status(500).json({ message: "User already has a review for this spot" })
-    }
-    //    - Create new Review with spotId, userId, review text, stars
-    const addReview = await Review.create({
-        spotId: getSpotId,
-        userId: getUserId,
-        review,
-        stars
-    });
-    //    - Return 201 status with created review data
-    return statusbar(201).json(addReview)
-});
+      });
 
 
 module.exports = router;

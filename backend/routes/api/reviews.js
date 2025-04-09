@@ -24,7 +24,7 @@ const validateReviews = [
 
 // 4. Implement GET /api/reviews/current endpoint:
 //    - Apply requireAuth middleware
-router.get('/current', validateReviews, requireAuth, async (req, res, next) => {
+router.get('/current', requireAuth, async (req, res, next) => {
     //    - Get current user ID from request
     const getUserId = req.user.id
     try {
@@ -66,35 +66,44 @@ router.get('/current', validateReviews, requireAuth, async (req, res, next) => {
 
 // 5. Implement POST /api/reviews/:reviewId/images endpoint:
 //    - Apply requireAuth middleware
-router.post('/:reviewId/images', validateReviews, requireAuth, async (req, res, next) => {
+router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
     //    - Extract review ID and image URL from request
-    const getReviewId = req.params.reviewId;
-    const getReview = await Review.findOne({
-        where: {
-            id: getReviewId
-        }
-    });
     try{
+        const reviewId = req.params.reviewId;
+        const userId = req.user.id;
+
+        const review = await Review.findByPk(reviewId);
+
     //    - Check if review exists, return 404 if not
-    if(!getReview){
+    if(!review){
         return res.status(404).json({ message: "Review couldn't be found" })
     }
     //    - Check if user owns the review, return 403 if not
-    if(getReview.userId !== getUserId){
+    if(review.userId !== userId){
         res.status(403).json({ message: 'Forbidden: You are not the owner of this review.' });
     }
     //    - Check if review already has 10 images, return 403 if so
     // counter for images per review
     const reviewImageCount = await ReviewImage.count({
         where: { reviewId }
-    })
+    });
+
     if(reviewImageCount >= 10) {
         res.status(403).json({ message: 'Forbidden: Your review has more than 10 images' });
     }
     //    - Create new ReviewImage with reviewId and url
-    const { reviewId, url } = req.body;
+    const { url } = req.body;
     //    - Return 201 status with image ID and URL
-    return res.status(201).json(req.body);
+
+    const newImage = await ReviewImage.create({
+        reviewId,
+        url
+    });
+
+    return res.status(201).json({
+        id: newImage.reviewId,
+        url: newImage.url
+    });
 
     } catch (error) {
         next(error);
@@ -147,29 +156,36 @@ router.put('/:reviewId', requireAuth, validateReviews, async (req, res, next) =>
 // DELETE /api/reviews/:reviewId - Delete a Review
 // 1. Create DELETE route for /reviews/:reviewId
 // 2. Apply requireAuth middleware
-router.delete('/:reviewId', requireAuth, async (req, res) => {
+router.delete('/:reviewId', requireAuth, async (req, res, next) => {
 
-    // 3. Extract review ID from request
-    const getReviewId = req.params.reviewId;
-    const getUserId = req.user.id;
-    // 4. Find review by ID
-    const getReview = await Review.findOne({
-        wwhere: {
-            id: getReviewId
+    try{
+
+        const reviewId = req.params.reviewId;
+        const userId = req.user.id;
+
+        const getReview = await Review.findOne({
+            wwhere: { id: reviewId }
+        });
+
+        if (!getReview){
+            return res.status(404).json({ message: "Review couldn't be found" })
         }
-    });
-    // 5. Check if review exists, return 404 if not
-    if (!getReviewId){
-        return res.status(404).json({ message: "Review couldn't be found" })
+
+        if (getReview.userId !== userId) {
+            return res.status(403).json({ message: "Forbidden: You don't own this review" });
+          }
+
+        await getReview.destroy();
+
+        return res.status(200).json({ message: "Successfully deleted" });
+
+    } catch (error) {
+        next(error)
     }
-    // 6. Check if user owns the review, return 403 if not
-    if(getReview.userId !== getUserId){
-        res.status(403).json({ message: 'Forbidden: You are not the owner of this review.' });
-    }
-    // 7. Delete the review
-    await getReview.destroy();
-    // 8. Return success message
-    return res.status(200).json({ message: "Successfully deleted" });
+
+});
+
+router.delete('/:reviewId/images', requireAuth, async (req, res, next) => {
 
 });
 

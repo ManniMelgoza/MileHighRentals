@@ -38,13 +38,13 @@ module.exports = {
         {
           userId: user1.id,
           spotId: spot2.id,
-          review: 'Great place to study hard and learn',
+          review: 'Great place',
           stars: 3
         },
         {
           userId: user1.id,
           spotId: spot3.id,
-          review: 'Great place to study hard and learn',
+          review: 'Great place grow',
           stars: 2
         },
         {
