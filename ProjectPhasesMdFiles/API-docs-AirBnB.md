@@ -3,6 +3,7 @@
 ## Database Schema Design
 
 `<insert database schema design here>`
+[db-schema]: ./images/airbnb_dbdiagram.png
 
 ## API Documentation
 
@@ -157,7 +158,7 @@ user's information.
 * Require Authentication: false
 * Request
   * Method: POST
-  * Route path: ?
+  * Route path: /api/users
   * Headers:
     * Content-Type: application/json
   * Body:

@@ -1,9 +1,12 @@
-Project Title
+# MileHighRentals
 
-Project Description
+## Database Schema Design
 
-How to Install and Run Project
+![db-schema]
 
+[db-schema]: ./images/airbnb_dbdiagram.png
+
+## API Documentation
 
 LOG IN FIRST
 
