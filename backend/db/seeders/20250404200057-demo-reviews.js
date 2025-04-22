@@ -21,6 +21,8 @@ module.exports = {
      * }], {});
     */
    //  const user1 = await User.findOne({ where: { username: 'JohnSmith' } });
+
+   // UNCOMMEND BELOW
    const user1 = await User.findOne({ where: { username: 'Demo-lition' } });
    const user2 = await User.findOne({ where: { username: 'FakeUser1' } });
    const user3 = await User.findOne({ where: { username: 'FakeUser2' } });
@@ -76,6 +78,7 @@ module.exports = {
        * await queryInterface.bulkDelete('People', null, {});
        *
        */
+      options.tableName = 'Users';
       await queryInterface.bulkDelete('Reviews', null, {});
     }
   };

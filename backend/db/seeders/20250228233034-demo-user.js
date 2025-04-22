@@ -22,27 +22,27 @@ module.exports = {
         }
       ])
       */
-      {
-        // firstName: 'Demo',
-        // lastName: 'User',
-        email: 'demo@user.io',
-        username: 'Demo-lition',
-        // Hashing happens with the bcrypt
-        hashedPassword: bcrypt.hashSync('password')
+     {
+       email: 'demo@user.io',
+       username: 'Demo-lition',
+       // Hashing happens with the bcrypt
+       hashedPassword: bcrypt.hashSync('password'),
+       firstName: 'Demo',
+       lastName: 'User',
       },
       {
-        // firstName: 'Fake',
-        // lastName: 'User1',
         email: 'user1@user.io',
         username: 'FakeUser1',
-        hashedPassword: bcrypt.hashSync('password2')
+        hashedPassword: bcrypt.hashSync('password2'),
+        firstName: 'Fake',
+        lastName: 'User1',
       },
       {
-        // firstName: 'Fake',
-        // lastName: 'User2',
         email: 'user2@user.io',
         username: 'FakeUser2',
-        hashedPassword: bcrypt.hashSync('password3')
+        hashedPassword: bcrypt.hashSync('password3'),
+        firstName: 'Fake',
+        lastName: 'User2',
       }
       /*
       by default, bulkCreate does not run validations on each object that is going to be

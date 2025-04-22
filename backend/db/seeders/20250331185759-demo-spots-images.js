@@ -23,21 +23,33 @@ module.exports = {
   await SpotImage.bulkCreate([
     {
       spotId: 1,
+      url: 'https://example.com/images/image_url.jpg',
+      preview: true
+    },
+    {
+      spotId: 1,
       url: 'https://example.com/images/AppAcademyHome.jpg',
-      // previewImage: 'https://example.com/images/OceanView.jpg',
+      preview: false
+    },
+    {
+      spotId: 2,
+      url: 'https://example.com/images/image_url.jpg',
       preview: true
     },
     {
       spotId: 2,
-      url: 'https://example.com/images/MountainViewCottage.jpg',
-      // previewImage: 'https://example.com/images/MountainViewCottage.jpg',
+      url: 'https://example.com/images/OceanView.jpg',
+      preview: false
+    },
+    {
+      spotId: 3,
+      url: 'https://example.com/images/image_url.jpg',
       preview: true
     },
     {
       spotId: 3,
-      url: 'https://example.com/images/OceanView.jpg',
-      // previewImage: 'https://example.com/images/OceanView.jpg',
-      preview: true
+      url: 'https://example.com/images/MountainViewCottage.jpg',
+      preview: false
     }
   ], { validate: true });
 },

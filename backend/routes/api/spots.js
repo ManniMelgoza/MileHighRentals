@@ -85,14 +85,21 @@ const validateReviews = [
   // GET /api/spots
 router.get('/', async (req, res) => {
     try {
-      // Query the database to get all spots without specifying attributes
-      const spots = await Spot.findAll();
-      // Send the response
-      return res.status(200).json({ spots });
+        // Query the database to get all spots without specifying attributes
+        const spots = await Spot.findAll();
+        /*
+        1. Need to find all the spots review stars associate with the spotId Owner
+        2. store all start values in arr
+        3. Iterate through all the starts and div by length
+        const avgRating = spots.stars
+         */
+
+        // Send the response
+        return res.status(200).json({ spots });
 
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({ error: 'Failed to retrieve spots' });
+        console.error(error);
+        return res.status(500).json({ error: 'Failed to retrieve spots' });
     }
   });
 
@@ -321,7 +328,7 @@ router.get('/:spotId/reviews', async (req, res, next) => {
       });
 
     //   Add Query Filters to Get All Spots
-    // GET /api/spots 
+    // GET /api/spots
 
 
 
