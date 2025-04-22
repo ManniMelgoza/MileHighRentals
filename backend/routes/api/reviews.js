@@ -80,7 +80,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
     }
     //    - Check if user owns the review, return 403 if not
     if(review.userId !== userId){
-        res.status(403).json({ message: 'Forbidden: You are not the owner of this review.' });
+        res.status(404).json({ message: "Error response: Couldn't find a Review with the specified id" });
     }
     //    - Check if review already has 10 images, return 403 if so
     // counter for images per review
@@ -89,7 +89,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
     });
 
     if(reviewImageCount >= 10) {
-        res.status(403).json({ message: 'Forbidden: Your review has more than 10 images' });
+        res.status(403).json({ message: 'Error response: Cannot add more than 10 images per resource' });
     }
     //    - Create new ReviewImage with reviewId and url
     const { url } = req.body;
@@ -164,11 +164,11 @@ router.delete('/:reviewId', requireAuth, async (req, res, next) => {
         const userId = req.user.id;
 
         const getReview = await Review.findOne({
-            wwhere: { id: reviewId }
+            where: { id: reviewId }
         });
 
         if (!getReview){
-            return res.status(404).json({ message: "Review couldn't be found" })
+            return res.status(404).json({ message: "Error response: Couldn't find a Review with the specified id" })
         }
 
         if (getReview.userId !== userId) {
@@ -184,10 +184,5 @@ router.delete('/:reviewId', requireAuth, async (req, res, next) => {
     }
 
 });
-
-router.delete('/:reviewId/images', requireAuth, async (req, res, next) => {
-
-});
-
 
 module.exports = router;

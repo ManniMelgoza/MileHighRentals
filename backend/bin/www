@@ -1,14 +1,17 @@
 #!/usr/bin/env node
 // backend/bin/www
 
+// exacutable script
+
 // Import environment variables
 require('dotenv').config();
 
 // this port is getting from the .env file
 const { port } = require('../config');
 
+// importing files
 const app = require('../app');
-// importing from the db folder models file
+// importing from the db folder models file to autheticate to database
 const db = require('../db/models');
 
 // Check the database connection before starting the app

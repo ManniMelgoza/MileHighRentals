@@ -16,6 +16,7 @@ module.exports = {
     typeValidation: true
   },
   // This will be used when the project is in production with the actual hosting database
+  //  production will use in production phase
   production: {
     // this is where the hosting url will go to deploy the project
     use_env_variable: 'DATABASE_URL', //render will use this later on
@@ -25,6 +26,7 @@ module.exports = {
     dialectOptions: {
       ssl: {
         require: true,
+        // security options
         rejectUnauthorized: false
       }
     },

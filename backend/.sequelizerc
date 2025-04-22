@@ -9,3 +9,5 @@ module.exports = {
   'seeders-path': path.resolve('db', 'seeders'),
   'migrations-path': path.resolve('db', 'migrations')
 };
+
+// The command to initialize the db folder structure is ( npx sequelize init )

@@ -13,12 +13,6 @@ const router = express.Router();
 // check for email format and check username with char 8 char long, check passwoord
 //
 const validateSignup = [
-    check('firstName')
-      .exists({ checkFalsy: true })
-      .withMessage('Provide a valid first name'),
-    check('lastName')
-      .exists({checkFalsy: true})
-      .withMessage("Provide a valid last name"),
     check('email')
       .exists({ checkFalsy: true })
       .isEmail()
@@ -38,7 +32,8 @@ const validateSignup = [
     handleValidationErrors
   ];
 
-// sign up route
+// sign up router
+// POST /api/users
 router.post(
   // '',
   '/',
@@ -49,10 +44,9 @@ router.post(
       const user = await User.create({ email, username, hashedPassword, firstName, lastName });
 
       const safeUser = {
-        id: user.id,
-        // is firstName and lastName needed??
         firstName: user.firstName,
         lastName: user.lastName,
+        id: user.id,
         email: user.email,
         username: user.username,
       };
@@ -60,7 +54,7 @@ router.post(
     //   creating the new user a JWT
       await setTokenCookie(res, safeUser);
 
-      return res.json({
+      return res.status(201).json({
         user: safeUser
       });
     }

@@ -2,6 +2,9 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
+
+  "_comment": "this will be for resting server",
+  "_commentBuild": "the line build will be used by render to start server",
   "scripts": {
     "sequelize": "sequelize",
     "sequelize-cli": "sequelize-cli",

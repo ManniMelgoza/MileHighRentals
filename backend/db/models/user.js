@@ -41,20 +41,20 @@ module.exports = (sequelize, DataTypes) => {
 
   User.init(
     {
-      firstName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: true
-        }
-      },
-      lastName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: true
-        }
-      },
+      // firstName: {
+      //   type: DataTypes.STRING,
+      //   allowNull: false,
+      //   validate: {
+      //     notEmpty: true
+      //   }
+      // },
+      // lastName: {
+      //   type: DataTypes.STRING,
+      //   allowNull: false,
+      //   validate: {
+      //     notEmpty: true
+      //   }
+      // },
       username: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -96,7 +96,17 @@ module.exports = (sequelize, DataTypes) => {
           exclude: ['hashedPassword', 'email', 'createdAt', 'updatedAt'],
         },
       },
-    }
+      /*
+      scopes: {
+        currentUser: {
+          attributes: { exclude: ['hashedPassword'} }
+        },
+        loginYser: {
+          attributes: {}
+        }
+      }
+      */
+    } // if scopes becomes uncommented for use this curly brace would be needeid to be removed
   );
   return User;
 };

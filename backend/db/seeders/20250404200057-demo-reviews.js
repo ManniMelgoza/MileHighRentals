@@ -20,6 +20,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
+   //  const user1 = await User.findOne({ where: { username: 'JohnSmith' } });
    const user1 = await User.findOne({ where: { username: 'Demo-lition' } });
    const user2 = await User.findOne({ where: { username: 'FakeUser1' } });
    const user3 = await User.findOne({ where: { username: 'FakeUser2' } });

@@ -5,6 +5,7 @@ const { validationResult } = require('express-validator');
 // middleware for formatting errors from express-validator middleware
 // (to customize, see express-validator's documentation)
 const handleValidationErrors = (req, _res, next) => {
+  // validationRecult will check the check the validation errors
   const validationErrors = validationResult(req);
 
   // check if the array is empty or not and if there are erros that happen they will turn them into
@@ -20,6 +21,7 @@ const handleValidationErrors = (req, _res, next) => {
     err.title = "Bad request.";
     next(err);
   }
+  // if no errors it will cont to either a new route handler or middlaware validation checker
   next();
 };
 

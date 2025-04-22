@@ -13,45 +13,44 @@ const router = express.Router();
 const validateSpot = [
     check('address')
         .exists({ checkFalsy: true })
-        .withMessage("Street address is required")
         .notEmpty()
-        .withMessage("This cannot be empty you need to provide an address"),
+        .withMessage("Street address is required"),
+        // .withMessage("This cannot be empty you need to provide an address"),
     check('city')
         .exists({ checkFalsy: true })
-        .withMessage("City is required")
         .notEmpty()
-        .withMessage("This cannot be empty you need to provide a city name"),
+        .withMessage("City is required"),
+        // .withMessage("This cannot be empty you need to provide a city name"),
     check('state')
         .exists({ checkFalsy: true })
-        .withMessage("State is required")
         .notEmpty()
-        .withMessage("This cannot be empty you need to provide a state name"),
+        .withMessage("State is required"),
     check('country')
         .exists({ checkFalsy: true })
-        .withMessage("Country is required")
         .notEmpty()
-        .withMessage("This cannot be empty you need to provide a country name"),
+        .withMessage("Country is required"),
+        // .withMessage("This cannot be empty you need to provide a country name"),
     check('lat')
         .exists({ checkFalsy: true })
         .isFloat({ min: -90, max: 90})
-        .withMessage("Latitude must be within -90 and 90"),
+        .withMessage("Latitude is not valid must be within -90 and 90"),
     check('lng')
         .exists({ checkFalsy: true })
         .isFloat({ min: -180, max: 180})
-        .withMessage("Longitude must be within -180 and 180"),
+        .withMessage("Longitude is not valid must be within -180 and 180"),
     check('name')
         .exists({ checkFalsy: true })
         .notEmpty()
-        .withMessage("Provide a name")
         .isLength({ max: 50 })
-        .withMessage("Name must be less than 50 characters"),
+        .withMessage("Provide a name"),
+        // .withMessage("Name must be less than 50 characters"),
     check('description')
         .exists({ checkFalsy: true })
         .withMessage("Description is required"),
     check('price')
         .exists({ checkFalsy: true})
         .isFloat({ min: 1, max: 100000})
-        .withMessage("Price per day must be a positive number"),
+        .withMessage("Price per day is required"),
     handleValidationErrors
 ];
 
@@ -99,7 +98,7 @@ router.get('/', async (req, res) => {
 
 // GET /api/spots/current - Get all spots owned by the current user
 // The requireAuth needs the used to be log in to be able to get data
-// OK
+// GET /api/spots/current
 router.get('/current', requireAuth, async (req, res) => {
     try {
         // we need to get the id of the current user an store it in a variable
@@ -136,7 +135,7 @@ router.get('/:id', async (req, res) => {
 });
 // POST /api/spots - Create a new spot
 // OK
-router.post('/', validateSpot, requireAuth, async (req, res, next) => {
+router.post('/', requireAuth, validateSpot, async (req, res, next) => {
     try{
         const ownerId = req.user.id;
         const { address, city, state, country, lat, lng, name, description, price } = req.body;
@@ -190,7 +189,7 @@ router.post('/:id/images', requireAuth, async (req, res) => {
 
 // PUT /api/spots/:id - Edit a spot
 // OK
-router.put('/:id', validateSpot, requireAuth, async (req, res, next) => {
+router.put('/:id', requireAuth, validateSpot, async (req, res, next) => {
     // - Extract spot ID and updated data
     const getSpotId = req.params.id;
     const getOwnerId = req.user.id;
@@ -320,6 +319,15 @@ router.get('/:spotId/reviews', async (req, res, next) => {
           next(error);
         }
       });
+
+    //   Add Query Filters to Get All Spots
+    // GET /api/spots 
+
+
+
+
+
+
 
 
 module.exports = router;

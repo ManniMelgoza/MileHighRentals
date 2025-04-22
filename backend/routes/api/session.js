@@ -15,6 +15,7 @@ const { User } = require('../../db/models');
 const router = express.Router();
 
 // validation
+// research express-validator for further understanding
 // check properties of the request body
 // to learn more google express-validator' to learn more about validation
 const validateLogin = [
@@ -33,7 +34,6 @@ const validateLogin = [
   handleValidationErrors
 ];
 
-
 // log in route
       // TEST ENDPOINT
         // fetch('/api/session', {
@@ -44,6 +44,47 @@ const validateLogin = [
         //   },
         //   body: JSON.stringify({ credential: 'Demo-lition', password: 'password' })
         // }).then(res => res.json()).then(data => console.log(data));
+
+// Try to login the demo user with the username first.
+        // TEST CODE for LOG IN
+        // fetch('/api/session', {
+        //   method: 'POST',
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //     "XSRF-TOKEN": `<value of XSRF-TOKEN cookie>`
+        //   },
+        //   body: JSON.stringify({ credential: 'demo@user.io', password: 'password' })
+        // }).then(res => res.json()).then(data => console.log(data));
+
+// Then try to login the demo user with the email next.
+        // fetch('/api/session', {
+        //   method: 'POST',
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //     "XSRF-TOKEN": `<value of XSRF-TOKEN cookie>`
+        //   },
+        //   body: JSON.stringify({ credential: 'demo@user.io', password: 'password' })
+        // }).then(res => res.json()).then(data => console.log(data));
+
+// Now test an invalid user credential and password combination.
+        // fetch('/api/session', {
+        //   method: 'POST',
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //     "XSRF-TOKEN": `<value of XSRF-TOKEN cookie>`
+        //   },
+        //   body: JSON.stringify({ credential: 'Demo-lition', password: 'Hello World!' })
+        // }).then(res => res.json()).then(data => console.log(data));
+//TEST FOR LOGOUT USER
+        // fetch('/api/session', {
+        //   method: 'DELETE',
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //     "XSRF-TOKEN": `<value of XSRF-TOKEN cookie>`
+        //   }
+        // }).then(res => res.json()).then(data => console.log(data));
+
+//  POST /api/session
 router.post(
     '/',
     // this is the express validations array you created above
@@ -62,6 +103,7 @@ router.post(
         }
       });
 
+
     //   need to hash password
       if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
         // if credentials fail and error will be thrown
@@ -73,7 +115,7 @@ router.post(
         return next(err);
       }
 
-    //   creating an obj
+    //   creating an obj with data that is safe exlcuding password and sencitive info
       const safeUser = {
         id: user.id,
         email: user.email,
@@ -89,30 +131,11 @@ router.post(
     }
   );
 
-  // Log out function
-        // TEST CODE for LOG IN
-        // fetch('/api/session', {
-        //   method: 'POST',
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //     "XSRF-TOKEN": `<value of XSRF-TOKEN cookie>`
-        //   },
-        //   body: JSON.stringify({ credential: 'demo@user.io', password: 'password' })
-        // }).then(res => res.json()).then(data => console.log(data));
-
-  //  TEST FOR DELETE
-// fetch('/api/session', {
-//   method: 'DELETE',
-//   headers: {
-//     "Content-Type": "application/json",
-//     "XSRF-TOKEN": `<value of XSRF-TOKEN cookie>`
-//   }
-// }).then(res => res.json()).then(data => console.log(data));
-
-
+// LOG OUT user
     router.delete(
     '/',
     (_req, res) => {
+      // Remove the cookie as token to be romoved
       res.clearCookie('token');
      return res.json({ message: 'success' });
     }
@@ -120,6 +143,7 @@ router.post(
 
   // Restore session user
   // login ussers info
+  // GET /api/session
   router.get(
     '/',
     (req, res) => {
