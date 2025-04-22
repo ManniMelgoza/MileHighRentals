@@ -19,11 +19,13 @@ module.exports = {
     options.tableName = 'Users';
     await queryInterface.addColumn( options,'firstName', {
       type: Sequelize.STRING,
-      allowNull: true
-    });
+      allowNull: false,
+      notEmpty: true
+    })
     await queryInterface.addColumn(options, 'lastName', {
       type: Sequelize.STRING,
-      allowNull: true
+      allowNull: false,
+      notEmpty: true
     })
   },
 
@@ -35,7 +37,7 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.removeColumn(options, 'firstName'),
-    await queryInterface.removeColumn(options, 'lastName')
+    await queryInterface.removeColumn('Users', 'firstName'),
+    await queryInterface.removeColumn('Users', 'lastName')
   }
 };

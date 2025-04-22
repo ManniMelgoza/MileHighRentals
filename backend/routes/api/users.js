@@ -6,6 +6,7 @@ const { handleValidationErrors } = require('../../utils/validation');
 //   // THIS WILL BE USED IN ANY ROUTER FILE THAT NEED PROTECTION FROM USERS THAT ARE NOT YET LOGGED IN (POST, PATH, DELETE)
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User } = require('../../db/models');
+const { OP, where } = require('sequelize')
 
 
 const router = express.Router();
@@ -16,15 +17,24 @@ const validateSignup = [
     check('email')
       .exists({ checkFalsy: true })
       .isEmail()
-      .withMessage('Please provide a valid email.'),
+      .notEmpty()
+      .withMessage("Invalid email"),
     check('username')
       .exists({ checkFalsy: true })
       .isLength({ min: 4 })
-      .withMessage('Please provide a username with at least 4 characters.'),
-    check('username')
-      .not()
-      .isEmail()
-      .withMessage('Username cannot be an email.'),
+      .notEmpty()
+      .withMessage("Username is required"),
+    // check('username')
+    //   .not()
+    //   .isEmail()
+    //   .notEmpty()
+    //   .withMessage('Username cannot be an email.'),
+    check('firstName')
+      .notEmpty()
+      .withMessage("First Name is required"),
+    check('lastName')
+      .notEmpty()
+      .withMessage("Last Name is required"),
     check('password')
       .exists({ checkFalsy: true })
       .isLength({ min: 6 })
@@ -32,7 +42,7 @@ const validateSignup = [
     handleValidationErrors
   ];
 
-// sign up router
+// sign up route
 // POST /api/users
 router.post(
   // '',
@@ -40,6 +50,36 @@ router.post(
     validateSignup,
     async (req, res) => {
       const { email, password, username, firstName, lastName } = req.body;
+
+      // Check if user exist
+
+      const exitingEmail = await User.findOne({
+        where: { email }
+      });
+
+      const existingUsername = await User.findOne({
+        where: { username }
+      });
+
+      if(exitingEmail || existingUsername) {
+        const existingUserErrorMessage = {
+          message: "User already exists",
+          errors: {}
+        };
+        // (email from the database extraction === the email trying to be added to the database)
+        if (exitingEmail) {
+          // if (exitingEmail.email === email) {
+          // need to dot into the obj to add message to the errors obj nested in the obj existingUserErrorMessage
+          existingUserErrorMessage.errors.email = "User with that email already exists";
+        };
+        // if (existingUsername.username === username) {
+        if (existingUsername) {
+          existingUserErrorMessage.errors.username = "User with that username already exists";
+        };
+
+        return res.status(500).json(existingUserErrorMessage);
+      };
+
       const hashedPassword = bcrypt.hashSync(password);
       const user = await User.create({ email, username, hashedPassword, firstName, lastName });
 

@@ -210,7 +210,7 @@ router.put('/:id', requireAuth, validateSpot, async (req, res, next) => {
         }
         // - Check if current user is owner, return 403 if not
         if(getSpot.ownerId !== getOwnerId) {
-            return res.status(403).json({ message: "Spot couldn't be found" })
+            return res.status(403).json({ message: 'Forbidden' })
         }
         // - Format response with proper data types
         await getSpot.update(req.body)
@@ -244,7 +244,7 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
 
         // Makes sure that the owner of the image can delete its own stuff
         if (spot.ownerId !== getOwnerId) {  // if the spot foreign key does not match the user id primary key
-            return res.status(403).json({ message: "You must be the owner of this spot to delete it."}); // send an error message
+            return res.status(403).json({ message: 'Forbidden' }); // send an error message
         };
 
         await spot.destroy();

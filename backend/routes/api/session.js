@@ -24,11 +24,11 @@ const validateLogin = [
   check('credential')
     .exists({ checkFalsy: true })
     .notEmpty()
-    .withMessage('Please provide a valid email or username.'),
+    .withMessage("Email or username is required"),
   check('password')
   // store error message when validation fails
     .exists({ checkFalsy: true })
-    .withMessage('Please provide a password.'),
+    .withMessage("Password is required"),
     // this will send the errors msg to the validation.js file that holds the middleware
     // you need this validation middleware
   handleValidationErrors
@@ -111,13 +111,15 @@ router.post(
         err.status = 401;
         err.title = 'Login failed';
         // provide clear error message, but not to give sensitive info/clues for bad actors
-        err.errors = { credential: 'The provided credentials were invalid.' };
+        err.errors = { credential:  "Invalid credentials" };
         return next(err);
       }
 
     //   creating an obj with data that is safe exlcuding password and sencitive info
       const safeUser = {
         id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
         email: user.email,
         username: user.username,
       };
@@ -153,6 +155,8 @@ router.post(
         // found user on the JWT
         const safeUser = {
           id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
           email: user.email,
           username: user.username,
         };
