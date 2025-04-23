@@ -84,7 +84,7 @@ const validateReviews = [
 // API ENDPOINT ROUTED FOR SPOTS HERE
   // GET /api/spots
 router.get('/', async (req, res, next) => {
-    // try {
+    try {
 
         // Get all the data from the review and spotImage
         const allSpots = await Spot.findAll({
@@ -107,15 +107,19 @@ router.get('/', async (req, res, next) => {
         // Iterate throuhg the data that was pulled from the extraction of findAll from the database
         const extractSpotData = allSpots.map(spot => {
             // This will turn the sequelize that into an obj to better manipulate the data
+            // this would be the obj of each spot buyt fornated in a way that we can access each keyand its value
             const spotStarReviews = spot.toJSON();
-            // This will store the array of rewies for each spot
+            // console.log('spotStarReviews', spotStarReviews)
+            // This will store the array of obj of all the reviews that are assosiated to the spot
             const reviewStars = spotStarReviews.Reviews;
+            // console.log('reviewStars', typeof(reviewStars))
             // console.log('Print spot and Review', spotStarReviews)
             // console.log('All Reviews per spot', spotStarReviews.Review)
 
             // loop through the spotStarReviews
             let avgRating = null;
             let reviewStarsLength = reviewStars.length;
+
             if(reviewStarsLength > 0){
                 const totalStars = reviewStars.reduce((sum, starVal) => sum += starVal.stars, 0)
                 // console.log('totalStars', totalStars)
@@ -126,10 +130,17 @@ router.get('/', async (req, res, next) => {
             // console.log('OUTSIDE LOP', totalStarReviews)
 
             // get the imageURL
-
             let previewImage = null;
-            const previewImg = spotStarReviews.SpotImages.find(img => img.preview === true);
-            previewImage = previewImg.url;
+            // will find the first image that has the bool value of true to them be assigned that url to the previewImage
+            const previewImg = spotStarReviews.SpotImages.find(imgBoolVal => imgBoolVal.preview === true);
+            // if the previewImg has found a true bool it will set the url to the previewImage
+            if(previewImg){
+                previewImage = previewImg.url
+            }
+            // if previewImg bool false, it will set previewImage to null to prevent any future errors
+            else{
+                previewImage = null;
+            }
 
             return {
                 id: spotStarReviews.id,
@@ -155,29 +166,101 @@ router.get('/', async (req, res, next) => {
         // Send the response
         return res.status(200).json({ Spots: extractSpotData });
 
-    // } catch (error) {
-    //     // console.error(error);
-    //     return res.status(500).json({ error: 'Failed to retrieve spots' });
-    //     // next();
-    // }
+    } catch (error) {
+        // console.error(error);
+        return res.status(500).json({ error: 'Failed to retrieve spots' });
+        // next();
+    }
   });
 
 // GET /api/spots/current - Get all spots owned by the current user
 // The requireAuth needs the used to be log in to be able to get data
 // GET /api/spots/current
-router.get('/current', requireAuth, async (req, res) => {
+router.get('/current', requireAuth, async (req, res, next) => {
     try {
-        // we need to get the id of the current user an store it in a variable
+        // get the id of the ucrent user
         const currentUser = req.user.id;
+        // we need to get the id of the current user an store it in a variable
         // now we are tying to get the spot of the current user with the id being stored in currentUser
-        const currentSpots = await Spot.findAll({
+        const allSpots = await Spot.findAll({
+            /* when looking for all the spots in the database we only want to
+            target the users wthat the id val in the key:val (ownerId: currentUser)
+            */
             where: { ownerId: currentUser },
+            include: [
+                {
+                    model: Review,
+                    attributes: ['stars']
+                },
+                {
+                    model: SpotImage,
+                    attributes: ['url', 'preview']
+                }
+            ]
         }); // end of findALL
 
-        res.status(200).json(currentSpots)
+
+        const extractSpotData = allSpots.map(spot => {
+            const spotStarReviews = spot.toJSON();
+            const reviewStars = spotStarReviews.Reviews;
+            // console.log('reviewStars', typeof(reviewStars))
+            // console.log('Print spot and Review', spotStarReviews)
+            // console.log('All Reviews per spot', spotStarReviews.Review)
+
+            // loop through the spotStarReviews
+            let avgRating = null;
+            let reviewStarsLength = reviewStars.length;
+
+            if(reviewStarsLength > 0){
+                const totalStars = reviewStars.reduce((sum, starVal) => sum += starVal.stars, 0)
+                // console.log('totalStars', totalStars)
+                avgRating = totalStars / reviewStarsLength;
+                // console.log('avgRating', avgRating)
+            }
+                // console.log('avgRating', avgRating)
+            // console.log('OUTSIDE LOP', totalStarReviews)
+
+            // get the imageURL
+            let previewImage = null;
+            // will find the first image that has the bool value of true to them be assigned that url to the previewImage
+            const previewImg = spotStarReviews.SpotImages.find(imgBoolVal => imgBoolVal.preview === true);
+            // if the previewImg has found a true bool it will set the url to the previewImage
+            if(previewImg){
+                previewImage = previewImg.url
+            }
+            // if previewImg bool false, it will set previewImage to null to prevent any future errors
+            else{
+                previewImage = null;
+            }
+
+            return {
+                id: spotStarReviews.id,
+                ownerId: spotStarReviews.ownerId,
+                address: spotStarReviews.address,
+                city: spotStarReviews.city,
+                state: spotStarReviews.state,
+                country: spotStarReviews.country,
+                lat: spotStarReviews.lat,
+                lng: spotStarReviews.lng,
+                name:spotStarReviews.name,
+                description: spotStarReviews.description,
+                price: spotStarReviews.price,
+                createdAt: spotStarReviews.createdAt,
+                updatedAt: spotStarReviews.updatedAt,
+                avgRating: avgRating,
+                previewImage: previewImage
+            }
+        })
+
+
+
+        // This will only give the userId number
+        // console.log('currentUser', extractSpotData.currentUser)
+
+        res.status(200).json({ Spots: extractSpotData  })
     }
      catch (error) { //end of try error
-        console.log(error);
+        next(error)
         res.status(500).json({ message: "Internal Server Error" })
     }
 });
@@ -187,16 +270,69 @@ router.get('/:id', async (req, res) => {
     try {
         // get the id of the URL
         const getSpotId = req.params.id;
-        const currentSpot = await Spot.findByPk(getSpotId);
 
-        if(!currentSpot) {
-            res.status(404).json({ message: "Spot couldn't be found" });
+        const currentSpot = await Spot.findByPk( getSpotId, {
+            include: [
+                {
+                    model: SpotImage,
+                    attributes: ['id','url', 'preview']
+                },
+                {
+                    model: User,
+                    // as: 'Owner',
+                    attributes: ['id', 'firstName', 'lastName']
+                },
+                {
+                    model: Review,
+                    attributes: ['stars']
+                }
+
+            ]
+        });
+
+        if (!currentSpot) {
+            return res.status(404).json({ message: "Spot couldn't be found" });
         }
-        res.json(currentSpot);
+
+        const spotStarReviews = currentSpot.toJSON();
+        let reviewArr = spotStarReviews.Reviews;
+        let numReviews = reviewArr.length;
+        let avgRating = null;
+
+            if(numReviews > 0){
+                const totalStars = reviewArr.reduce((sum, starVal) => sum += starVal.stars, 0)
+                // console.log('totalStars', totalStars)
+                avgRating = totalStars / numReviews;
+            }
+
+             const Spots = {
+                 id: spotStarReviews.id,
+                 ownerId: spotStarReviews.ownerId,
+                 address: spotStarReviews.address,
+                 city: spotStarReviews.city,
+                 state: spotStarReviews.state,
+                 country: spotStarReviews.country,
+                 lat: spotStarReviews.lat,
+                 lng: spotStarReviews.lng,
+                 name:spotStarReviews.name,
+                 description: spotStarReviews.description,
+                 price: spotStarReviews.price,
+                 createdAt: spotStarReviews.createdAt,
+                 updatedAt: spotStarReviews.updatedAt,
+                 numReviews: numReviews,
+                 avgRating: avgRating,
+                 SpotImages: spotStarReviews.SpotImages,
+                 Owner: spotStarReviews.User
+            }
+
+                res.status(200).json({ Spots })
+
+
+                // res.status(200).json({ extractSpotData })
 
     } catch (error) {
-        console.log(error)
-        res.status(500).json({ message: "Internal Server Error" })
+        // console.log(error)
+        res.status(404).json({ message: "Spot couldn't be found" });
     }
 });
 // POST /api/spots - Create a new spot

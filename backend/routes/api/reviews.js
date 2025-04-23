@@ -24,45 +24,62 @@ const validateReviews = [
 
 // 4. Implement GET /api/reviews/current endpoint:
 //    - Apply requireAuth middleware
+
+
 router.get('/current', requireAuth, async (req, res, next) => {
     //    - Get current user ID from request
     const getUserId = req.user.id
     try {
         //    - Query database for reviews by this user
-        const reviewsQuery = await Review.findAll({
+        const allReviews = await Review.findAll({
             where: { userId: getUserId },
             include: [
                 {
-                model: Spot,
-                attributes: ['id', 'name', 'city', 'state', 'country'],
-                include: [
-                    {
-                        model: SpotImage,
-                        attributes: ['url'],
-                        where: {
-                            preview: true
-                        },
-                        required: false
-                    }
+                    model: User,
+                    attributes: ['id', 'firstName', 'lastName']
+                },
+                {
+                    model: Spot,
+                    attributes: ['id','ownerId','address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price'],
+                    include: [
+                        {
+                            model: SpotImage,
+                            attributes: ['url'],
+                            where: { preview: true},
+                            required: false
+                        }
                     ]
                 },
                 {
-                model: ReviewImage,
-                attributes: ['id', 'url'],
-                },
-            ],
+                    model: ReviewImage,
+                    attributes: ['id', 'url']
+                }
+            ]
         });
-        //    - Include associated User, Spot (with preview image), and ReviewImages
-        //    - Format response with proper data structure:
-        //      - Add previewImage to each Spot
-        //      - Arrange the data in the required format
-        //    - Return JSON response with reviews array
-        res.status(200).json({ Reviews: reviewsQuery })
+
+        const extractReviewData = allReviews.map(review => {
+            const reviewsCurrent = review.toJSON();
+
+            let previewImageUrl = null;
+
+            if( reviewsCurrent.Spot && reviewsCurrent.Spot.SpotImage && reviewsCurrent.Spot.SpotImages.length > 0) {
+                previewImageUrl = reviewsCurrent.Spot.SpotImage[0].url;
+            }
+
+            delete reviewsCurrent.Spot.previewImage
+
+            return reviewsCurrent;
+        });
+
+        res.status(200).json({ Reviews:extractReviewData })
     }
     catch (error) {
-        next(error);
+        next(error)
+        res.status(500).json({ message: "Internal Server Error" })
     };
 });
+
+
 
 // 5. Implement POST /api/reviews/:reviewId/images endpoint:
 //    - Apply requireAuth middleware
@@ -80,7 +97,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
     }
     //    - Check if user owns the review, return 403 if not
     if(review.userId !== userId){
-        res.status(404).json({ message: "Error response: Couldn't find a Review with the specified id" });
+        res.status(404).json({ message: "Review couldn't be found" });
     }
     //    - Check if review already has 10 images, return 403 if so
     // counter for images per review

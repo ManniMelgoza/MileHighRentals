@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
         Spot.belongsTo(models.User, {
           foreignKey: 'ownerId',
-          as: 'Owner',
+          // as: 'Owner',
           onDelete: 'CASCADE'
         });
 
@@ -103,19 +103,19 @@ module.exports = (sequelize, DataTypes) => {
       }
      },
     lat: {
-    type: DataTypes.DECIMAL(10,7),
+    type: DataTypes.FLOAT(10,7),
     allowNull: false,
     validate: {
-      isDecimal: true,
+      isFloat: true,
       min: -90,
       max: 90
     }
     },
     lng: {
-      type: DataTypes.DECIMAL(10,7),
+      type: DataTypes.FLOAT(10,7),
       allowNull: false,
       validate: {
-        isDecimal: true,
+        isFloat: true,
         min: -180,
         max: 180
     }

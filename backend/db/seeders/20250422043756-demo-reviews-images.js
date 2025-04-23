@@ -21,14 +21,41 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
+    await ReviewImage.bulkCreate([
+      {
+        reviewId: 1,
+        url: 'https://example.com/images/image_url1.jpg',
+      },
+      {
+        reviewId: 2,
+        url: 'https://example.com/images/image_url2.jpg',
+      },
+      {
+        reviewId: 3,
+        url: 'https://example.com/images/image_url3.jpg',
+      },
+      {
+        reviewId: 4,
+        url: 'https://example.com/images/image_url4.jpg',
+      },
+      {
+        reviewId: 1,
+        url: 'https://example.com/images/image_url1-1.jpg',
+      },
+      {
+        reviewId: 2,
+        url: 'https://example.com/images/image_url2-2.jpg',
+      }
+    ], { validate: true });
   },
 
-  async down (queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
-  }
-};
+    async down (queryInterface, Sequelize) {
+      /**
+       * Add commands to revert seed here.
+       *
+       * Example:
+       * await queryInterface.bulkDelete('People', null, {});
+       */
+      await queryInterface.bulkDelete('ReviewImages', null, {});
+    }
+  };
