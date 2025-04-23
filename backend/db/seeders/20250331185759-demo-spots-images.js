@@ -23,7 +23,7 @@ module.exports = {
   await SpotImage.bulkCreate([
     {
       spotId: 1,
-      url: 'https://example.com/images/image_url.jpg',
+      url: '../images/image_url.jpg',
       preview: true
     },
     {

@@ -42,7 +42,7 @@ const validateSpot = [
         .exists({ checkFalsy: true })
         .notEmpty()
         .isLength({ max: 50 })
-        .withMessage("Provide a name"),
+        .withMessage("Name must be less than 50 characters"),
         // .withMessage("Name must be less than 50 characters"),
     check('description')
         .exists({ checkFalsy: true })
@@ -50,7 +50,7 @@ const validateSpot = [
     check('price')
         .exists({ checkFalsy: true})
         .isFloat({ min: 1, max: 100000})
-        .withMessage("Price per day is required"),
+        .withMessage("Price per day must be a positive number"),
     handleValidationErrors
 ];
 
@@ -83,24 +83,83 @@ const validateReviews = [
 
 // API ENDPOINT ROUTED FOR SPOTS HERE
   // GET /api/spots
-router.get('/', async (req, res) => {
-    try {
-        // Query the database to get all spots without specifying attributes
-        const spots = await Spot.findAll();
-        /*
-        1. Need to find all the spots review stars associate with the spotId Owner
-        2. store all start values in arr
-        3. Iterate through all the starts and div by length
-        const avgRating = spots.stars
-         */
+router.get('/', async (req, res, next) => {
+    // try {
+
+        // Get all the data from the review and spotImage
+        const allSpots = await Spot.findAll({
+            // include will pull the association of the Review and SpotImage models
+            include: [
+                {
+                    // Include the model: model name
+                    model: Review,
+                    // this will only extract the variable that we need from the Review model
+                    attributes:['stars']
+                },
+                {
+                    model: SpotImage,
+                    attributes: ['url', 'preview']
+                }
+            ]
+        });
+
+        // console.log('ALLSPOTS', allSpots)
+        // Iterate throuhg the data that was pulled from the extraction of findAll from the database
+        const extractSpotData = allSpots.map(spot => {
+            // This will turn the sequelize that into an obj to better manipulate the data
+            const spotStarReviews = spot.toJSON();
+            // This will store the array of rewies for each spot
+            const reviewStars = spotStarReviews.Reviews;
+            // console.log('Print spot and Review', spotStarReviews)
+            // console.log('All Reviews per spot', spotStarReviews.Review)
+
+            // loop through the spotStarReviews
+            let avgRating = null;
+            let reviewStarsLength = reviewStars.length;
+            if(reviewStarsLength > 0){
+                const totalStars = reviewStars.reduce((sum, starVal) => sum += starVal.stars, 0)
+                // console.log('totalStars', totalStars)
+                avgRating = totalStars / reviewStarsLength;
+                // console.log('avgRating', avgRating)
+            }
+                // console.log('avgRating', avgRating)
+            // console.log('OUTSIDE LOP', totalStarReviews)
+
+            // get the imageURL
+
+            let previewImage = null;
+            const previewImg = spotStarReviews.SpotImages.find(img => img.preview === true);
+            previewImage = previewImg.url;
+
+            return {
+                id: spotStarReviews.id,
+                ownerId: spotStarReviews.ownerId,
+                address: spotStarReviews.address,
+                city: spotStarReviews.city,
+                state: spotStarReviews.state,
+                country: spotStarReviews.country,
+                lat: spotStarReviews.lat,
+                lng: spotStarReviews.lng,
+                name:spotStarReviews.name,
+                description: spotStarReviews.description,
+                price: spotStarReviews.price,
+                createdAt: spotStarReviews.createdAt,
+                updatedAt: spotStarReviews.updatedAt,
+                avgRating: avgRating,
+                previewImage: previewImage
+            }
+        })
+
+
 
         // Send the response
-        return res.status(200).json({ spots });
+        return res.status(200).json({ Spots: extractSpotData });
 
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: 'Failed to retrieve spots' });
-    }
+    // } catch (error) {
+    //     // console.error(error);
+    //     return res.status(500).json({ error: 'Failed to retrieve spots' });
+    //     // next();
+    // }
   });
 
 // GET /api/spots/current - Get all spots owned by the current user

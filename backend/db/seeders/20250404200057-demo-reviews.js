@@ -54,7 +54,7 @@ module.exports = {
           userId: user2.id,
           spotId: spot1.id,
           review: 'A lot of great open spaces',
-          stars: 4
+          stars: 1
         },
         {
           userId: user2.id,

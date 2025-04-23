@@ -53,7 +53,7 @@ router.post(
 
       // Check if user exist
 
-      const exitingEmail = await User.findOne({
+      const existingEmail = await User.findOne({
         where: { email }
       });
 
@@ -61,19 +61,19 @@ router.post(
         where: { username }
       });
 
-      if(exitingEmail || existingUsername) {
+      if(existingEmail || existingUsername) {
         const existingUserErrorMessage = {
           message: "User already exists",
           errors: {}
         };
         // (email from the database extraction === the email trying to be added to the database)
-        if (exitingEmail) {
-          // if (exitingEmail.email === email) {
+        if (existingEmail && existingEmail.email === email) {
+          // if (existingEmail.email === email) {
           // need to dot into the obj to add message to the errors obj nested in the obj existingUserErrorMessage
           existingUserErrorMessage.errors.email = "User with that email already exists";
         };
         // if (existingUsername.username === username) {
-        if (existingUsername) {
+        if (existingUsername && existingUsername.username === username) {
           existingUserErrorMessage.errors.username = "User with that username already exists";
         };
 
@@ -101,3 +101,4 @@ router.post(
   );
 
 module.exports = router;
+
