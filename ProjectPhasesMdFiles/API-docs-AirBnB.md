@@ -2,8 +2,7 @@
 
 ## Database Schema Design
 
-`<insert database schema design here>`
-[db-schema]: ./images/airbnb_dbdiagram.png
+[db-schema]: ../images/airbnb_dbdiagram.png
 
 ## API Documentation
 
@@ -622,7 +621,7 @@ Returns all the reviews written by the current user.
 * Require Authentication: true
 * Request
   * Method: GET
-  * Route path: /api/spots
+  * Route path: /api/reviews/current
   * Body: none
 
 * Successful Response
@@ -810,8 +809,8 @@ Create and return a new image for a review specified by id.
 * Require Authentication: true
 * Require proper authorization: Review must belong to the current user
 * Request
-  * Method: ?
-  * Route path: ?
+  * Method: POST
+  * Route path:  /api/reviews/:reviewId/images
   * Headers:
     * Content-Type: application/json
   * Body:
