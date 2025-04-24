@@ -7,6 +7,7 @@ const sessionRouter = require('./session.js');
 const spotsRouter = require('./spots.js');
 const usersRouter = require('./users.js');
 const reviewsRouter = require('./reviews.js');
+const reviewImagesRouter = require('./review-images.js')
 const { requireAuth } = require('../../utils/auth');
 
 router.get('/test', requireAuth, (req, res) => {
@@ -27,6 +28,7 @@ const { restoreUser } = require("../../utils/auth.js");
   router.use('/users', usersRouter);
   router.use('/spots', spotsRouter);
   router.use('/reviews', reviewsRouter);
+  router.use('/review-images', reviewImagesRouter);
 
 
 // test end point for mod 5 project for from end testing

@@ -167,9 +167,10 @@ router.get('/', async (req, res, next) => {
         return res.status(200).json({ Spots: extractSpotData });
 
     } catch (error) {
-        // console.error(error);
-        return res.status(500).json({ error: 'Failed to retrieve spots' });
-        // next();
+        // TODO 
+         // console.error(error);
+        // return res.status(500).json({ error: 'Failed to retrieve spots' });
+        next(error);
     }
   });
 
@@ -261,7 +262,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
     }
      catch (error) { //end of try error
         next(error)
-        res.status(500).json({ message: "Internal Server Error" })
+        // res.status(500).json({ message: "Internal Server Error" })
     }
 });
 // OK
@@ -331,8 +332,9 @@ router.get('/:id', async (req, res) => {
                 // res.status(200).json({ extractSpotData })
 
     } catch (error) {
+        next(error)
         // console.log(error)
-        res.status(404).json({ message: "Spot couldn't be found" });
+        // res.status(404).json({ message: "Spot couldn't be found" });
     }
 });
 // POST /api/spots - Create a new spot
@@ -385,8 +387,9 @@ router.post('/:id/images', requireAuth, async (req, res) => {
         });
     }
     catch (error){
-        console.log('Error adding image: ', error);
-        res.status(500).json({ message: "Internal Server Error" })
+        next(error)
+        // console.log('Error adding image: ', error);
+        // res.status(500).json({ message: "Internal Server Error" })
     }
 });
 
@@ -460,21 +463,58 @@ fetch('/api/spots/1/reviews')
   .then(data => console.log(data));
 
 */
+// TODO Does the order of the spotId and userId matter on the body return
 router.get('/:spotId/reviews', async (req, res, next) => {
     try {
       const spotId = req.params.spotId;
 
-      const spot = await Spot.findByPk(spotId);
+      const getSpot = await Spot.findByPk(spotId)
 
-      if (!spot) {
+      if (!getSpot) {
         return res.status(404).json({ message: "Spot couldn't be found" });
       }
 
-      const reviews = await Review.findAll({
-        where: { spotId }
+    const getSpotReview = await Review.findAll({
+        where : { spotId },
+        include: [
+            {
+                model: User,
+                attributes: ['id', 'firstName', 'lastName']
+            },
+            {
+                model: ReviewImage,
+                attributes: ['id', 'url']
+            }
+        ]
+    });
+
+    /*
+    // USE IF YOU EANT TO REORDER spotId and userId where userId comes before spotId
+    const formattedReviews = getSpotReview.map(reviewItem => {
+        return {
+          id: reviewItem.id,
+          userId: reviewItem.userId,
+          spotId: reviewItem.spotId,
+          review: reviewItem.review,
+          stars: reviewItem.stars,
+          createdAt: reviewItem.createdAt,
+          updatedAt: reviewItem.updatedAt,
+          User: {
+            id: reviewItem.User.id,
+            firstName: reviewItem.User.firstName,
+            lastName: reviewItem.User.lastName
+          },
+          ReviewImages: reviewItem.ReviewImages.map(img => ({
+            id: img.id,
+            url: img.url
+          }))
+        };
       });
 
-      return res.status(200).json(reviews);
+    return res.status(200).json({ Reviews: formattedReviews });
+    */
+
+    return res.status(200).json({ Reviews: getSpotReview });
 
     } catch (error) {
       next(error);
@@ -489,7 +529,7 @@ router.get('/:spotId/reviews', async (req, res, next) => {
 
 // router.post('/:spotId/reviews', requireAuth, validateReviews, async (req, res, next) => {
 
-    router.post('/:spotId/reviews', requireAuth, validateReviews, async (req, res, next) => {
+router.post('/:spotId/reviews', requireAuth, validateReviews, async (req, res, next) => {
         try {
           const spotId = req.params.spotId;
           const userId = req.user.id;

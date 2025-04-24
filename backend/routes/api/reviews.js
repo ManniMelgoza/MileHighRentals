@@ -71,11 +71,11 @@ router.get('/current', requireAuth, async (req, res, next) => {
             return reviewsCurrent;
         });
 
-        res.status(200).json({ Reviews:extractReviewData })
+        res.status(200).json({ Reviews: extractReviewData })
     }
     catch (error) {
         next(error)
-        res.status(500).json({ message: "Internal Server Error" })
+        // res.status(500).json({ message: "Internal Server Error" })
     };
 });
 
@@ -120,73 +120,41 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
         });
 
     } catch (error) {
-        console.log(error)
-        res.status(500).json({ message: "Internal Server Error" })
+        next(error)
+        // res.status(500).json({ message: "Internal Server Error" })
     }
 });
 
 
 // // PUT /api/reviews/:reviewId - Edit a Review
-// // 1. Create PUT route for /reviews/:reviewId
-// // 2. Apply requireAuth and validateReview middleware
-// router.post('/:reviewId/images', requireAuth, async (req, res) => {
-//     // Get the logged-in user's id from the req.user object
-//     const userId = req.user.id;
+router.put('/:reviewId', requireAuth, validateReviews, async (req, res, next) => {
 
-//     // Extract the reviewId from the URL path
-//     const reviewId = req.params.reviewId;
+    try {
+        const getReviewId = req.params.reviewId;
+        const getUserId = req.user.id
+        const { review, stars} = req.body;
 
-//     // Get the image URL from the request body
-//     const { url } = req.body;
+        const findEditReview = await Review.findByPk(getReviewId);
 
-//     // Try block to catch and handle errors
-//     try {
-//       // Find the review with the given ID
-//       const review = await Review.findByPk(reviewId);
+        if(!findEditReview) {
+            return res.status(404).json({ message: "Review couldn't be found" })
+        }
 
-//       // If review doesn't exist, return a 404 error
-//       if (!review) {
-//         return res.status(404).json({
-//           message: "Review couldn't be found"
-//         });
-//       }
+        // if(findEditReview.userId !== getUserId){
+        //     return res.status(403).json({ message: 'Forbidden access' })
+        // }
 
-//       // Check if the review belongs to the current user
-//       if (review.userId !== userId) {
-//         return res.status(403).json({
-//           message: "Forbidden"
-//         });
-//       }
+        await findEditReview.update({
+            review, stars
+        });
 
-//       // Count how many images are already associated with the review
-//       const imageCount = await ReviewImage.count({
-//         where: { reviewId }
-//       });
+        return res.status(200).json(findEditReview)
 
-//       // If there are already 10 or more images, return an error
-//       if (imageCount >= 10) {
-//         return res.status(403).json({
-//           message: "Maximum number of images for this resource was reached"
-//         });
-//       }
-
-//       // Create a new image for the review
-//       const newImage = await ReviewImage.create({
-//         reviewId,
-//         url
-//       });
-
-//       // Send the response with the new image's id and url
-//       return res.status(201).json({
-//         id: newImage.id,
-//         url: newImage.url
-//       });
-//     } catch (err) {
-//       // Catch any unexpected errors and log them
-//       console.error(err);
-//       res.status(500).json({ message: "Internal server error" });
-//     }
-//   });
+    } catch (error) {
+        next(error)
+        // return res.status(500).json({ message: "Internal server Error" })
+    }
+});
 
 // DELETE /api/reviews/:reviewId - Delete a Review
 // 1. Create DELETE route for /reviews/:reviewId
@@ -215,9 +183,9 @@ router.delete('/:reviewId', requireAuth, async (req, res, next) => {
         return res.status(200).json({ message: "Successfully deleted" });
 
     } catch (error) {
-        // next(error)
-        console.log(error)
-        res.status(500).json({ message: "Internal Server Error" })
+        next(error)
+        // console.log(error)
+        // res.status(500).json({ message: "Internal Server Error" })
     }
 
 });
