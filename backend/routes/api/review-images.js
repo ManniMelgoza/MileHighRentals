@@ -9,25 +9,25 @@ const { Op } = require('sequelize');
 
 const router = express.Router();
 
-router.delete('/review-images/:imageId', requireAuth, async (req, res, next) => {
+router.delete('/:imageId', requireAuth, async (req, res, next) => {
     try {
 
         const imageId = req.params.imageId;
         const userId = req.user.id;
 
-        const image = await ReviewImage.findByPk(imageId, {
+        const reviewImage = await ReviewImage.findByPk(imageId, {
           include:  Review
         });
 
-        if (!image) {
+        if (!reviewImage) {
           return res.status(404).json({ message: "Review Image couldn't be found" });
         }
 
-        if (image.userId !== userId) {
+        if (reviewImage.Review.userId !== userId) {
             return res.status(403).json({ message: "Forbidden: You don't own this review" });
         }
 
-        await image.destroy();
+        await reviewImage.destroy();
         return res.status(200).json({ message: "Successfully deleted" });
     }
     catch (error){
