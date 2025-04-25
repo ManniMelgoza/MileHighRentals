@@ -45,6 +45,6 @@ module.exports = {
     // await queryInterface.dropTable('ReviewImages');
     options.tableName = 'ReviewImages';
   // we pass the oprtions obj as the first arg instead of a str of the table name
-  return queryInterface.dropTable('ReviewImages');
+  return queryInterface.dropTable(options);
   }
 };

@@ -58,6 +58,6 @@ module.exports = {
     // options.property = tablename
   options.tableName = 'Reviews';
   // we pass the oprtions obj as the first arg instead of a str of the table name
-  return queryInterface.dropTable('Reviews');
+  return queryInterface.dropTable(options);
   }
 };

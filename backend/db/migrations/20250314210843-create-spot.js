@@ -87,6 +87,6 @@ async down(queryInterface, Sequelize) {
   options.tableName = "Spots";
   // we pass the oprtions obj as the first arg instead of a str of the table name
   // return queryInterface.dropTable("Spots", options);
-  return queryInterface.dropTable("Spots");
+  return queryInterface.dropTable(options);
 }
 };
