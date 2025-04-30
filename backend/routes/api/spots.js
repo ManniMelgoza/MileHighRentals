@@ -81,98 +81,169 @@ const validateReviews = [
 //     handleValidationErrors
 // ];
 
-// API ENDPOINT ROUTED FOR SPOTS HERE
-  // GET /api/spots
-router.get('/', async (req, res, next) => {
-    try {
+// //   GET ALL SPOTS ENDPOINT START START START START START START START START
 
-        // Get all the data from the review and spotImage
-        const allSpots = await Spot.findAll({
-            // include will pull the association of the Review and SpotImage models
-            include: [
-                {
-                    // Include the model: model name
-                    model: Review,
-                    // this will only extract the variable that we need from the Review model
-                    attributes:['stars']
-                },
-                {
-                    model: SpotImage,
-                    attributes: ['url', 'preview']
-                }
-            ]
-        });
+// // API ENDPOINT ROUTED FOR SPOTS HERE
+//   // GET /api/spots
+// router.get('/', async (req, res, next) => {
+//     try {
 
-        // console.log('ALLSPOTS', allSpots)
-        // Iterate throuhg the data that was pulled from the extraction of findAll from the database
-        const extractSpotData = allSpots.map(spot => {
-            // This will turn the sequelize that into an obj to better manipulate the data
-            // this would be the obj of each spot buyt fornated in a way that we can access each keyand its value
-            const spotStarReviews = spot.toJSON();
-            // console.log('spotStarReviews', spotStarReviews)
-            // This will store the array of obj of all the reviews that are assosiated to the spot
-            const reviewStars = spotStarReviews.Reviews;
-            // console.log('reviewStars', typeof(reviewStars))
-            // console.log('Print spot and Review', spotStarReviews)
-            // console.log('All Reviews per spot', spotStarReviews.Review)
+//         // Get all the data from the review and spotImage
+//         const allSpots = await Spot.findAll({
+//             // include will pull the association of the Review and SpotImage models
+//             include: [
+//                 {
+//                     // Include the model: model name
+//                     model: Review,
+//                     // this will only extract the variable that we need from the Review model
+//                     attributes:['stars']
+//                 },
+//                 {
+//                     model: SpotImage,
+//                     attributes: ['url', 'preview']
+//                 }
+//             ]
+//         });
 
-            // loop through the spotStarReviews
-            let avgRating = null;
-            let reviewStarsLength = reviewStars.length;
+//         // console.log('ALLSPOTS', allSpots)
+//         // Iterate throuhg the data that was pulled from the extraction of findAll from the database
+//         const extractSpotData = allSpots.map(spot => {
+//             // This will turn the sequelize that into an obj to better manipulate the data
+//             // this would be the obj of each spot buyt fornated in a way that we can access each keyand its value
+//             const spotStarReviews = spot.toJSON();
+//             // console.log('spotStarReviews', spotStarReviews)
+//             // This will store the array of obj of all the reviews that are assosiated to the spot
+//             const reviewStars = spotStarReviews.Reviews;
+//             // console.log('reviewStars', typeof(reviewStars))
+//             // console.log('Print spot and Review', spotStarReviews)
+//             // console.log('All Reviews per spot', spotStarReviews.Review)
 
-            if(reviewStarsLength > 0){
-                const totalStars = reviewStars.reduce((sum, starVal) => sum += starVal.stars, 0)
-                // console.log('totalStars', totalStars)
-                avgRating = totalStars / reviewStarsLength;
-                // console.log('avgRating', avgRating)
-            }
-                // console.log('avgRating', avgRating)
-            // console.log('OUTSIDE LOP', totalStarReviews)
+//             // loop through the spotStarReviews
+//             let avgRating = null;
+//             let reviewStarsLength = reviewStars.length;
 
-            // get the imageURL
-            let previewImage = null;
-            // will find the first image that has the bool value of true to them be assigned that url to the previewImage
-            const previewImg = spotStarReviews.SpotImages.find(imgBoolVal => imgBoolVal.preview === true);
-            // if the previewImg has found a true bool it will set the url to the previewImage
-            if(previewImg){
-                previewImage = previewImg.url
-            }
-            // if previewImg bool false, it will set previewImage to null to prevent any future errors
-            else{
-                previewImage = null;
-            }
+//             if(reviewStarsLength > 0){
+//                 const totalStars = reviewStars.reduce((sum, starVal) => sum += starVal.stars, 0)
+//                 // console.log('totalStars', totalStars)
+//                 avgRating = totalStars / reviewStarsLength;
+//                 // console.log('avgRating', avgRating)
+//             }
+//                 // console.log('avgRating', avgRating)
+//             // console.log('OUTSIDE LOP', totalStarReviews)
 
-            return {
-                id: spotStarReviews.id,
-                ownerId: spotStarReviews.ownerId,
-                address: spotStarReviews.address,
-                city: spotStarReviews.city,
-                state: spotStarReviews.state,
-                country: spotStarReviews.country,
-                lat: spotStarReviews.lat,
-                lng: spotStarReviews.lng,
-                name:spotStarReviews.name,
-                description: spotStarReviews.description,
-                price: spotStarReviews.price,
-                createdAt: spotStarReviews.createdAt,
-                updatedAt: spotStarReviews.updatedAt,
-                avgRating: avgRating,
-                previewImage: previewImage
-            }
-        })
+//             // get the imageURL
+//             let previewImage = null;
+//             // will find the first image that has the bool value of true to them be assigned that url to the previewImage
+//             const previewImg = spotStarReviews.SpotImages.find(imgBoolVal => imgBoolVal.preview === true);
+//             // if the previewImg has found a true bool it will set the url to the previewImage
+//             if(previewImg){
+//                 previewImage = previewImg.url
+//             }
+//             // if previewImg bool false, it will set previewImage to null to prevent any future errors
+//             else{
+//                 previewImage = null;
+//             }
+
+//             return {
+//                 id: spotStarReviews.id,
+//                 ownerId: spotStarReviews.ownerId,
+//                 address: spotStarReviews.address,
+//                 city: spotStarReviews.city,
+//                 state: spotStarReviews.state,
+//                 country: spotStarReviews.country,
+//                 lat: spotStarReviews.lat,
+//                 lng: spotStarReviews.lng,
+//                 name:spotStarReviews.name,
+//                 description: spotStarReviews.description,
+//                 price: spotStarReviews.price,
+//                 createdAt: spotStarReviews.createdAt,
+//                 updatedAt: spotStarReviews.updatedAt,
+//                 avgRating: avgRating,
+//                 previewImage: previewImage
+//             }
+//         })
 
 
 
-        // Send the response
-        return res.status(200).json({ Spots: extractSpotData });
+//         // Send the response
+//         return res.status(200).json({ Spots: extractSpotData });
 
-    } catch (error) {
-        // TODO 
-         // console.error(error);
-        // return res.status(500).json({ error: 'Failed to retrieve spots' });
-        next(error);
-    }
+//     } catch (error) {
+//         // TODO
+//          // console.error(error);
+//         // return res.status(500).json({ error: 'Failed to retrieve spots' });
+//         next(error);
+//     }
+//   });
+
+// //   GET ALL SPOTS ENDPOINT ENDS ENDS ENDS ENDS ENDS ENDS ENDS ENDS ENDS ENDS ENDS ENDS
+
+//   GET ALL SPOTS FILTER QUERY
+// START FILTER ENDPOINT
+
+// Get all spots with query filters
+router.get("/", async (req, res) => {
+    let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+
+    const where = {};
+
+    // Validation and defaults
+    page = parseInt(page) || 1;
+    size = parseInt(size) || 20;
+
+    if (page < 1) page = 1;
+    if (size < 1) size = 20;
+    if (size > 20) size = 20;
+
+    // Filters
+    if (minLat) where.lat = { [Op.gte]: parseFloat(minLat) };
+    if (maxLat) where.lat = { ...where.lat, [Op.lte]: parseFloat(maxLat) };
+    if (minLng) where.lng = { [Op.gte]: parseFloat(minLng) };
+    if (maxLng) where.lng = { ...where.lng, [Op.lte]: parseFloat(maxLng) };
+    if (minPrice) where.price = { [Op.gte]: parseFloat(minPrice) };
+    if (maxPrice) where.price = { ...where.price, [Op.lte]: parseFloat(maxPrice) };
+
+    const spots = await Spot.findAll({
+      where,
+      include: [
+        { model: Review },
+        { model: SpotImage }
+      ],
+      limit: size,
+      offset: size * (page - 1)
+    });
+
+    const formatted = spots.map(spot => {
+      const reviews = spot.Reviews;
+      const avgRating = reviews.length
+        ? reviews.reduce((sum, r) => sum + r.stars, 0) / reviews.length
+        : 0;
+
+      const previewImage = spot.SpotImages.find(img => img.preview)?.url || null;
+
+      return {
+        id: spot.id,
+        ownerId: spot.ownerId,
+        address: spot.address,
+        city: spot.city,
+        state: spot.state,
+        country: spot.country,
+        lat: spot.lat,
+        lng: spot.lng,
+        name: spot.name,
+        description: spot.description,
+        price: spot.price,
+        createdAt: spot.createdAt,
+        updatedAt: spot.updatedAt,
+        avgRating,
+        previewImage
+      };
+    });
+
+    res.json({ Spots: formatted, page, size });
   });
+// END OF FILTER QUERY ENDPOINT
+
 
 // GET /api/spots/current - Get all spots owned by the current user
 // The requireAuth needs the used to be log in to be able to get data
