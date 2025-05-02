@@ -35,10 +35,10 @@ const validateSignup = [
     check('lastName')
       .notEmpty()
       .withMessage("Last Name is required"),
-    check('password')
-      .exists({ checkFalsy: true })
-      .isLength({ min: 6 })
-      .withMessage('Password must be 6 characters or more.'),
+    // check('password')
+    //   .exists({ checkFalsy: true })
+    //   .isLength({ min: 6 })
+    //   .withMessage('Password must be 6 characters or more.'),
     handleValidationErrors
   ];
 
@@ -65,18 +65,18 @@ router.post(
         const existingUserErrorMessage = {
           message: "User already exists",
           errors: {}
+
         };
         // (email from the database extraction === the email trying to be added to the database)
-        if (existingEmail && existingEmail.email === email) {
+        if (existingEmail) {
           // if (existingEmail.email === email) {
           // need to dot into the obj to add message to the errors obj nested in the obj existingUserErrorMessage
           existingUserErrorMessage.errors.email = "User with that email already exists";
         };
         // if (existingUsername.username === username) {
-        if (existingUsername && existingUsername.username === username) {
+        if (existingUsername) {
           existingUserErrorMessage.errors.username = "User with that username already exists";
         };
-
         return res.status(500).json(existingUserErrorMessage);
       };
 
@@ -101,4 +101,3 @@ router.post(
   );
 
 module.exports = router;
-
