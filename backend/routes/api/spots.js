@@ -182,8 +182,75 @@ const validateReviews = [
 // START FILTER ENDPOINT
 
 // Get all spots with query filters
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
+    // destructre the query request
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+
+    // error validation
+
+    // we will store all the errors
+    const errors = {};
+
+    if(page !== undefined && (isNaN(page) || parseInt(page) < 1)){
+        errors.page = "Page must be greater than or equal to 1"
+    }
+
+    if(size !== undefined && (isNaN(size) || parseInt(size) < 1)){
+        errors.size = "Size must be greater than or equal to 1"
+    }
+
+    if(maxLat !== undefined && isNaN(parseInt(maxLat))) {
+        errors.maxLat = "Maximum latitude is invalid"
+    }
+
+    if(minLat !== undefined && isNaN(parseInt(minLat))) {
+        errors.minLat = "Minimum latitude is invalid"
+    }
+
+    if(maxLng !== undefined && isNaN(parseInt(maxLng))){
+        errors.maxLng = "Maximum longitude is invalid"
+    }
+
+    if(minLng !== undefined && isNaN(parseInt(minLng))){
+        errors.minLng = "Minimum longitude is invalid"
+    }
+
+    if(minPrice !== undefined && (isNaN(minPrice)  || parseInt(minPrice))){
+        errors.minPrice = "Minimum price must be greater than or equal to 0"
+    }
+
+    if(maxPrice !== undefined && (isNaN(maxPrice) || parseInt(maxPrice))){
+        errors.maxPrice = "Maximum price must be greater than or equal to 0"
+    }
+
+
+    // EXMPLE TO MODEL
+
+    /*
+    if (!validationErrors.isEmpty()) {
+    const errors = {};
+    validationErrors
+      .array()
+      .forEach(error => errors[error.path] = error.msg);
+    const err = Error("Bad request.");
+    err.errors = errors;
+    err.status = 400;
+    err.title = "Bad request.";
+    next(err);
+  }
+
+    */
+
+//   CHECK IF ERROR OBJ
+
+    if (Object.entries(errors).length > 0){
+
+        const err = new Error('Bad Request.');
+        err.title = 'Bad Request.';
+        err.errors = errors;
+        err.status = 400;
+        return next(err)
+    }
 
     const where = {};
 
