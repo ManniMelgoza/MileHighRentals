@@ -1,11 +1,14 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import { thunk } from 'redux-thunk';
+import thunk from 'redux-thunk';
 
 
-const rootReducer = combineReducers({});
+const rootReducer = combineReducers({
+
+    // Reducer will go here 
+});
 
 let enhancer;
-if (import.meta.env.MODE === 'production') {
+if (import.meta.env.MODE === "production") {
     enhancer = applyMiddleware(thunk);
 } else {
     const logger = (await import('redux-logger')).default;
