@@ -56,4 +56,24 @@ export const restoreUser = () => async (dispatch) => {
     return response;
   };
 
+
+//SIGN UP thunk action
+
+export const signup = (user) => async (dispatch) => {
+    // This will destructure the users info
+    const { username, firstName, lastName, email, password } = user;
+
+    const response = await csrfFetch("/api/users", {
+        method: "POST",
+        body: JSON.stringify({
+            username, firstName, lastName, email, password
+        })
+    });
+    const data = await  response.json();
+    dispatch(setUser(data.user));
+    return response;
+}
+
+
+
 export default sessionReducer;
