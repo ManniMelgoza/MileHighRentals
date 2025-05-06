@@ -2,8 +2,6 @@
 import { csrfFetch } from './csrf';
 // import { combineReducers } from 'redux';
 
-
-
 const SET_USER = "session/setUser";
 const REMOVE_USER = "session/removeUser";
 
@@ -16,9 +14,9 @@ const setUser = (user) => {
 
 const removeUser = () => {
   return {
+    // action
     type: REMOVE_USER,
-    payload: user
-  };
+    };
 };
 
 export const login = (user) => async (dispatch) => {
@@ -40,6 +38,8 @@ const initialState = { user: null };
 const sessionReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_USER:
+        // the spread operator will retunr a new obj with the new state
+        // NEVER return the old state/ same obj
       return { ...state, user: action.payload };
     case REMOVE_USER:
       return { ...state, user: null };
@@ -47,5 +47,13 @@ const sessionReducer = (state = initialState, action) => {
       return state;
   }
 };
+
+// restoreUser thunk action
+export const restoreUser = () => async (dispatch) => {
+    const response = await csrfFetch("/api/session");
+    const data = await response.json();
+    dispatch(setUser(data.user));
+    return response;
+  };
 
 export default sessionReducer;
