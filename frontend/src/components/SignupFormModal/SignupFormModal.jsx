@@ -1,24 +1,48 @@
+// Import React's useState hook to manage form input and error state
 import { useState } from 'react';
+// Import useDispatch from react-redux to dispatch actions to the Redux store
 import { useDispatch } from 'react-redux';
-import { useModal } from '../../context/Modal';
-import * as sessionActions from '../../store/session';
+// Import useModal custom hook to control modal behavior (e.g., closing the modal)
+import { useModal } from '../context/Modal';
+// Import all session-related action creators (like signup) as an object
+import * as sessionActions from '../store/session';
+// Import CSS styles for the SignupForm component
 import './SignupForm.css';
 
-function SignupFormModal() {
-  const dispatch = useDispatch();
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [errors, setErrors] = useState({});
-  const { closeModal } = useModal();
 
+// Define a functional React component for the Signup form modal
+function SignupFormModal() {
+    // Create a dispatch function to send actions to the Redux store
+    const dispatch = useDispatch();
+    // Create state for the email input field
+    const [email, setEmail] = useState("");
+    // Create state for the username input field
+    const [username, setUsername] = useState("");
+    // Create state for the first name input field
+    const [firstName, setFirstName] = useState("");
+    // Create state for the last name input field
+    const [lastName, setLastName] = useState("");
+    // Create state for the password input field
+    const [password, setPassword] = useState("");
+    // Create state for the confirm password input field
+    const [confirmPassword, setConfirmPassword] = useState("");
+    // Create state to store any validation or server errors
+    const [errors, setErrors] = useState({});
+    // Destructure the closeModal function from useModal context
+    const { closeModal } = useModal();
+
+
+  // Define a function to handle form submission
   const handleSubmit = (e) => {
+    // Prevent default form submission behavior (i.e., page reload)
     e.preventDefault();
+
+    // Check if password and confirmPassword fields match
     if (password === confirmPassword) {
+      // Clear any previous errors
       setErrors({});
+
+      // Dispatch the signup action with user details
       return dispatch(
         sessionActions.signup({
           email,
@@ -28,14 +52,21 @@ function SignupFormModal() {
           password
         })
       )
+        // If signup succeeds, close the modal
         .then(closeModal)
+
+        // If signup fails, catch the error and parse the response
         .catch(async (res) => {
           const data = await res.json();
+
+          // If the response contains validation errors, set them in state
           if (data?.errors) {
             setErrors(data.errors);
           }
         });
     }
+
+    // If passwords don't match, set an error message for confirmPassword
     return setErrors({
       confirmPassword: "Confirm Password field must be the same as the Password field"
     });
