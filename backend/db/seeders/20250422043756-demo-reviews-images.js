@@ -39,12 +39,28 @@ module.exports = {
         url: 'https://example.com/images/image_url4.jpg',
       },
       {
-        reviewId: 1,
+        reviewId: 5,
         url: 'https://example.com/images/image_url1-1.jpg',
       },
       {
-        reviewId: 2,
+        reviewId: 6,
         url: 'https://example.com/images/image_url2-2.jpg',
+      },
+      {
+        reviewId: 7,
+        url: 'https://example.com/images/image_url3-3.jpg',
+      },
+      {
+        reviewId: 8,
+        url: 'https://example.com/images/image_url4-4.jpg',
+      },
+      {
+        reviewId: 9,
+        url: 'https://example.com/images/image_url5-5.jpg',
+      },
+      {
+        reviewId: 10,
+        url: 'https://example.com/images/image_url6-6.jpg',
       }
     ], { validate: true });
   },

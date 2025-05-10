@@ -22,20 +22,12 @@ module.exports = {
         }
       ])
       */
-     {
-       email: 'demo@user.io',
-       username: 'Demo-lition',
-       // Hashing happens with the bcrypt
-       hashedPassword: bcrypt.hashSync('password'),
-       firstName: 'Demo',
-       lastName: 'User',
-      },
       {
-        email: 'user1@user.io',
-        username: 'FakeUser1',
-        hashedPassword: bcrypt.hashSync('password2'),
-        firstName: 'Fake',
-        lastName: 'User1',
+        email: 'demo@user.io',
+        username: 'Demo-lition',
+        hashedPassword: bcrypt.hashSync('password'),
+        firstName: 'Demo',
+        lastName: 'User',
       },
       {
         email: 'user2@user.io',
@@ -43,6 +35,62 @@ module.exports = {
         hashedPassword: bcrypt.hashSync('password3'),
         firstName: 'Fake',
         lastName: 'User2',
+      },
+      {
+        email: 'user3@user.io',
+        username: 'FakeUser3',
+        hashedPassword: bcrypt.hashSync('password4'),
+        firstName: 'Fake',
+        lastName: 'User3',
+      },
+      {
+        email: 'user4@user.io',
+        username: 'FakeUser4',
+        hashedPassword: bcrypt.hashSync('password5'),
+        firstName: 'Fake',
+        lastName: 'User4',
+      },
+      {
+        email: 'user5@user.io',
+        username: 'FakeUser5',
+        hashedPassword: bcrypt.hashSync('password6'),
+        firstName: 'Fake',
+        lastName: 'User5',
+      },
+      {
+        email: 'user6@user.io',
+        username: 'FakeUser6',
+        hashedPassword: bcrypt.hashSync('password7'),
+        firstName: 'Fake',
+        lastName: 'User6',
+      },
+      {
+        email: 'user7@user.io',
+        username: 'FakeUser7',
+        hashedPassword: bcrypt.hashSync('password8'),
+        firstName: 'Fake',
+        lastName: 'User7',
+      },
+      {
+        email: 'user8@user.io',
+        username: 'FakeUser8',
+        hashedPassword: bcrypt.hashSync('password9'),
+        firstName: 'Fake',
+        lastName: 'User8',
+      },
+      {
+        email: 'user9@user.io',
+        username: 'FakeUser9',
+        hashedPassword: bcrypt.hashSync('password10'),
+        firstName: 'Fake',
+        lastName: 'User9',
+      },
+      {
+        email: 'user10@user.io',
+        username: 'FakeUser10',
+        hashedPassword: bcrypt.hashSync('password11'),
+        firstName: 'Fake',
+        lastName: 'User10',
       }
       /*
       by default, bulkCreate does not run validations on each object that is going to be
@@ -57,7 +105,7 @@ module.exports = {
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
       // This are the things that we dont want to expose to the public
-      username: { [Op.in]: ['Demo-lition', 'FakeUser1', 'FakeUser2'] }
+      username: { [Op.in]: ['Demo-lition', 'FakeUser2', 'FakeUser3'] }
     }, {});
   }
 };

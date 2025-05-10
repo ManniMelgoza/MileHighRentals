@@ -33,40 +33,64 @@ module.exports = {
 
       await Review.bulkCreate([
         {
-          userId: user1.id,
-          spotId: spot1.id,
-          review: 'Great place to study hard and learn',
+          userId: 1,
+          spotId: 1,
+          review: 'Peaceful retreat surrounded by nature.',
+          stars: 5
+        },
+        {
+          userId: 2,
+          spotId: 2,
+          review: 'Clean cottage, perfect for a weekend stay.',
           stars: 4
         },
         {
-          userId: user1.id,
-          spotId: spot2.id,
-          review: 'Great place',
+          userId: 3,
+          spotId: 3,
+          review: 'Lovely views but too cold at night.',
           stars: 3
         },
         {
-          userId: user1.id,
-          spotId: spot3.id,
-          review: 'Great place grow',
+          userId: 4,
+          spotId: 4,
+          review: 'Everything was perfect. Would stay again!',
+          stars: 5
+        },
+        {
+          userId: 5,
+          spotId: 5,
+          review: 'Small but cozy, great hiking nearby.',
+          stars: 4
+        },
+        {
+          userId: 6,
+          spotId: 6,
+          review: 'Not very clean and quite noisy.',
           stars: 2
         },
         {
-          userId: user2.id,
-          spotId: spot1.id,
-          review: 'A lot of great open spaces',
-          stars: 1
+          userId: 7,
+          spotId: 7,
+          review: 'Nice decor and well-stocked kitchen.',
+          stars: 4
         },
         {
-          userId: user2.id,
-          spotId: spot2.id,
-          review: 'The views of the mountains are breathtaking',
+          userId: 8,
+          spotId: 8,
+          review: 'Too remote, hard to find at night.',
+          stars: 2
+        },
+        {
+          userId: 9,
+          spotId: 9,
+          review: 'Beautiful sunrise view from the porch.',
+          stars: 5
+        },
+        {
+          userId: 10,
+          spotId: 10,
+          review: 'Decent place but overpriced.',
           stars: 3
-        },
-        {
-          userId: user3.id,
-          spotId: spot3.id,
-          review: 'Amazing beach access, but needs cosmetic work',
-          stars: 2
         }
     ], { validate: true });
   },
