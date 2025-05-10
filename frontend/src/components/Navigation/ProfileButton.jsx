@@ -18,6 +18,7 @@ import SignupFormModal from "../SignupFormModal";
 import "./Navigation.css";
 */
 
+import './ProfileButton.css';
 // Delcaration of react componets that takes in a prop as a destructure to get the user
 // You’re a receptionist (component) that gets a user folder (object) passed to you, and you open it to find out their name, email, etc
 function ProfileButton({ user }) {

@@ -1,13 +1,13 @@
 // This imports the useState hook from React.
 import { useState } from 'react';
 // This imports all exported members from the ../store/session file into an object named sessionActions.
-import * as sessionActions from '../store/session';
+import * as sessionActions from '../../store/session';
 // This imports the useDispatch hook from react-redux.
 // useDispatch lets you dispatch Redux actions (like login) from inside a React component.
 import { useDispatch } from 'react-redux';
 // Imports a custom React context hook called useModal, which gives you access to modal-related logic.
 // useModal likely includes functions like closeModal to close the modal UI.
-import { useModal } from '../context/Modal';
+import { useModal } from '../../context/Modal';
 // Imports the CSS file
 import './LoginForm.css';
 

@@ -7,9 +7,9 @@ import ProfileButton from './ProfileButton';
 // TODO: come back to explain what OpenModalButton does
 import OpenModalButton from  '../OpenModalButton/OpenModalButton';
 //  TODO: GIVE BETTER EXPLANATION //Used when the user is not authenticated.
-import LoginFormModal from '../../LoginFormModal/LoginFormModal';
+import LoginFormModal from '../LoginFormModal/LoginFormModal';
 //  TODO: GIVE BETTER EXPLANATION
-import SignupFormModal from '../../SignupFormModal/SignupFormModal';
+import SignupFormModal from '../SignupFormModal/SignupFormModal';
 // Imports the css file for the navigation
 import './Navigation.css';
 

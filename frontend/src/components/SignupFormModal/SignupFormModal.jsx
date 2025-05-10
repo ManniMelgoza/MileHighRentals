@@ -3,9 +3,9 @@ import { useState } from 'react';
 // Import useDispatch from react-redux to dispatch actions to the Redux store
 import { useDispatch } from 'react-redux';
 // Import useModal custom hook to control modal behavior (e.g., closing the modal)
-import { useModal } from '../context/Modal';
+import { useModal } from '../../context/Modal';
 // Import all session-related action creators (like signup) as an object
-import * as sessionActions from '../store/session';
+import * as sessionActions from '../../store/session';
 // Import CSS styles for the SignupForm component
 import './SignupForm.css';
 
