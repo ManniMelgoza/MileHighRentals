@@ -6,18 +6,18 @@ const csurf = require('csurf');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 
-// This will catch any Sequelize errors and formating them b4 sending the error response
-const { ValidationError } = require('sequelize');
-
 const { environment } = require('./config');
 // This checks if project is in production environment or not
 const isProduction = environment === 'production';
+
+// This will catch any Sequelize errors and formating them b4 sending the error response
+const { ValidationError } = require('sequelize');
 
 // Initialized epxress package
 const app = express();
 
 // backend/app.js
-const routes = require('./routes/api');
+const routes = require('./routes');
 
 // morgan middleware for logging info about request
 // global middleware needs to appear towards the top of the document
@@ -52,7 +52,7 @@ if (!isProduction) {
     })
   );
 
-  app.use('/api', routes); // Connect all the routes below this seciton
+  app.use(routes); // Connect all the routes below this seciton
 
 
   // catch ERRORS handler things that are not
