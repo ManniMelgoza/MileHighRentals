@@ -32,11 +32,11 @@ const validateSpot = [
         // .withMessage("This cannot be empty you need to provide a country name"),
     check('lat')
         .exists({ checkFalsy: true })
-        .isFloat({ min: -90, max: 90})
+        .isDecimal({ min: -90, max: 90})
         .withMessage("Latitude is not valid must be within -90 and 90"),
     check('lng')
         .exists({ checkFalsy: true })
-        .isFloat({ min: -180, max: 180})
+        .isDecimal({ min: -180, max: 180})
         .withMessage("Longitude is not valid must be within -180 and 180"),
     check('name')
         .exists({ checkFalsy: true })
@@ -49,7 +49,7 @@ const validateSpot = [
         .withMessage("Description is required"),
     check('price')
         .exists({ checkFalsy: true})
-        .isFloat({ min: 1, max: 100000})
+        .isDecimal({ min: 1, max: 100000})
         .withMessage("Price per day must be a positive number"),
     handleValidationErrors
 ];
