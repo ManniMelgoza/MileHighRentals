@@ -54,6 +54,9 @@ if (!isProduction) {
 
   app.use(routes); // Connect all the routes below this seciton
 
+  app.get('/', (req, res) => {
+    res.json({ message: 'Welcome to Mile High Rentals API!' });
+  });
   // catch ERRORS handler things that are not
   // catch unhandled request and forwards to error handler
 
