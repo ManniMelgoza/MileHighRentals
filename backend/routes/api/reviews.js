@@ -24,8 +24,6 @@ const validateReviews = [
 
 // 4. Implement GET /api/reviews/current endpoint:
 //    - Apply requireAuth middleware
-
-
 router.get('/current', requireAuth, async (req, res, next) => {
     //    - Get current user ID from request
     const getUserId = req.user.id
@@ -57,26 +55,24 @@ router.get('/current', requireAuth, async (req, res, next) => {
             ]
         });
 
-        const extractReviewData = allReviews.map(review => {
+            const extractReviewData = allReviews.map(review => {
             const reviewsCurrent = review.toJSON();
 
-            let previewImageUrl = null;
-
-            if( reviewsCurrent.Spot && reviewsCurrent.Spot.SpotImage && reviewsCurrent.Spot.SpotImages.length > 0) {
-                previewImageUrl = reviewsCurrent.Spot.SpotImage[0].url;
+            if (reviewsCurrent.Spot && reviewsCurrent.Spot.SpotImages && reviewsCurrent.Spot.SpotImages.length > 0) {
+                reviewsCurrent.Spot.previewImage = reviewsCurrent.Spot.SpotImages[0].url;
+            } else {
+                reviewsCurrent.Spot.previewImage = null;
             }
 
-            delete reviewsCurrent.Spot.previewImage
+            delete reviewsCurrent.Spot.SpotImages;
 
             return reviewsCurrent;
         });
 
-        res.status(200).json({ Reviews: extractReviewData })
+        res.status(200).json({ Reviews: extractReviewData });
+    } catch (error) {
+        next(error);
     }
-    catch (error) {
-        next(error)
-        // res.status(500).json({ message: "Internal Server Error" })
-    };
 });
 
 
@@ -184,7 +180,6 @@ router.delete('/:reviewId', requireAuth, async (req, res, next) => {
 
     } catch (error) {
         next(error)
-        // console.log(error)
         // res.status(500).json({ message: "Internal Server Error" })
     }
 

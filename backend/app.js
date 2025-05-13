@@ -110,8 +110,6 @@ app.use((err, _req, _res, next) => {
 // ERROR formator
   app.use((err, _req, res, _next) => {
     res.status(err.status || 500);
-    // eventually this should be commented out for production
-    console.error(err);
     res.json({
       title: err.title || 'Server Error',
       message: err.message,

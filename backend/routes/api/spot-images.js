@@ -12,6 +12,7 @@ const { OP, where } = require('sequelize')
 const router = express.Router();
 
 // TODO when the score card metions that we authorication is that were we check if the current usser can delete the iamge as long as that image they own
+//  /api/spot-images/:imageId
 router.delete('/:imageId', requireAuth, async (req, res, next) => {
 
     try{

@@ -705,10 +705,4 @@ router.post('/:spotId/reviews', requireAuth, validateReviews, async (req, res, n
     // GET /api/spots
 
 
-
-
-
-
-
-
 module.exports = router;
