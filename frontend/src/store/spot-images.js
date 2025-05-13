@@ -26,7 +26,7 @@ export const thunkGetSpotImage = (spotsId) => async (dispatch) => {
     const response = csrfFetch(`/api/spots/${spotsId}/images`);
     const data = (await response).json();
     dispatch(addSpotImageAction(data))
-    return response;
+    return data;
 }
 
 

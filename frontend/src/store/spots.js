@@ -53,16 +53,19 @@ export const thunkRetriveAllSpots = () => async (dispatch) => {
     const response = await csrfFetch("api/spots");
     const data = await response.json();
     dispatch(getAllSpotsAction(data.spots));
-    return response;
+    return data;
 };
 
 // const GET_CURRENT_SPOT = "spots/getCurrentSpot"; ACTION
 
 export const thunkCurrentSpot = () => async (dispatch) => {
     const response = await csrfFetch("api/current");
-    const data = await response.json();
-    dispatch(getCurrentSpotAction(data.spot));
-    return response;
+    if (response.ok){
+        const data = await response.json();
+        
+        dispatch(getCurrentSpotAction(data.spot));
+        return data;
+    }
 };
 
 // const CREATE_NEW_SPOT = "spots/createNewSpot"; ACTION
@@ -79,10 +82,11 @@ export const thunkCreateNewSpot = (spots) => async (dispatch) => {
 
         const data = await response.json();
         dispatch(createNewSpotAction(data.spots));
-        return response;
+        return data;
     } else {
         const errors = await response.json();
-        throw errors;
+        return errors;
+        // throw errors;
     }
 };
 
@@ -99,7 +103,8 @@ export const thunkEditSpot = (spotId, updateSpot) => async (dispatch) => {
         return data;
     } else {
         const errors = await response.json();
-        throw errors;
+        return errors;
+         // throw errors;
     }
 };
 
@@ -120,9 +125,11 @@ const initialState = {
 // REUCER REUCER REUCER REUCER REUCER REUCER REUCER REUCER REUCER REUCER
 const spotsReducer = (state = initialState, action) => {
     switch (action.type) {
-        case GET_ALL_SPOTS:
-        return { ...state, spots: action.payload};
-
+        case GET_ALL_SPOTS:{
+            const newState = {};
+            action.spots.array.forEach((spot) => (newState[spot.id] = spot));
+            return newState;
+        }
         case GET_CURRENT_SPOT:
             return { ...state, spots: action.payload};
 
@@ -136,8 +143,7 @@ const spotsReducer = (state = initialState, action) => {
             // This would be more if we were deleting all the spots
             // return { ...state, spots: null };
             return {
-                ...state,
-                [action.payload.id]: action.payload
+                ...state, [action.payload.id]: action.payload
             }
     default:
         return state;

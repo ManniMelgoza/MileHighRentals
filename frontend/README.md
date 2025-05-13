@@ -1,5 +1,6 @@
 # App Academy React Vite Template
-
+npx dotenv sequelize db:seed:all
+npx dotenv sequelize db:migrate
 This repo contains a basic Vite React template configured for use in App Academy
 projects.
 

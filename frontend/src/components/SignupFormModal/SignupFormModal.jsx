@@ -6,7 +6,6 @@ import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
 // Import all session-related action creators (like signup) as an object
 import * as sessionActions from '../../store/session';
-console.log(sessionActions);
 // import { thunkCreateNewSpot } from '../../store/spots';
 // Import CSS styles for the SignupForm component
 import './SignupForm.css';
