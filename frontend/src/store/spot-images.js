@@ -55,5 +55,4 @@ const spotImageReducer = (state = initialState, action) => {
     }
 };
 
-
 export default spotImageReducer;

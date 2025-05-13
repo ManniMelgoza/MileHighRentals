@@ -3,6 +3,7 @@ import { csrfFetch } from "./csrf";
 // ACTIONS
 const GET_CURRENT_REVIEW = 'reviews/getCurrentReview';
 const EDIT_REVIEW = 'reviews/editReview';
+// const ADD_REVIEW_IMAGE = 'reviews/addReviewImage'
 const DELETE_REVIEW = 'reviews/deleteReview';
 
 // ACTION CREATORS
@@ -21,6 +22,13 @@ const editReviewAction = (review) => {
     }
 };
 
+// const addReviewImageAction = (review) => {
+//     return {
+//         type: ADD_REVIEW_IMAGE,
+//         payload: review
+//     }
+// }
+
 const deleteReviewAction = (reviewId) => {
     return {
         type: DELETE_REVIEW,
@@ -30,8 +38,6 @@ const deleteReviewAction = (reviewId) => {
 
 
 // THUNKS
-
-
 // const GET_CURRENT_REVIEW = 'reviews/getCurrentReview';
 // The currentReview is being exported so it can be imported to other files
 // Purpose: It makes the currentReview function accessible outside this module,
@@ -100,11 +106,31 @@ export const thunkEditReview = (reviewId, updateReview) => async (dispatch) => {
         const data = await response.json();
         dispatch(editReviewAction(data))
         return data;
+
     } else {
         const errors = await response.json();
         throw errors;
     }
 };
+
+// coonst ADD_REVIEW_IMAGE = 'reviews/addReviewImage'
+
+// export const thunkAddReviewImage = (reviewId, reviewImage) => async (dispatch) => {
+//     const response = await csrfFetch(`/api/reviews/${reviewId}/images`, {
+//         method: "POST",
+//         headers: { 'content-type': 'application/json'},
+//         body: JSON.stringify(reviewImage)
+//     });
+//     if (response.ok){
+//         const data = await response.json();
+//         dispatch(addReviewImageAction(data))
+//     } else {
+//         const error = await response.json();
+//         // Dont throw error it will break site
+//         return error;
+//     }
+
+// };
 
 // const DELETE_REVIEW = 'reviews/deleteReview';
 export const thunkDeleteReview = (reviewId) => async (dispatch) => {
@@ -130,6 +156,8 @@ const reviewsReducer = (state = initialState, action) => {
             return { ...state, reviews: action.payload}
         case EDIT_REVIEW:
             return { ...state, [action.payload.id]: action.payload }
+        // case ADD_REVIEW_IMAGE:
+            // return { ...state, [action.payload.id]: action.payload }
         case DELETE_REVIEW:
             return { ...state, [action.payload.id]: action.payload}
     default:
