@@ -49,12 +49,12 @@ module.exports = {
     },
     {
       spotId: 2,
-      url: 'https://res.cloudinary.com/dnfeiduuu/image/upload/v1747154830/CreeksideRetreat3_fwwci2.jpg',
+      url: 'https://res.cloudinary.com/dnfeiduuu/image/upload/v1747154829/CreeksideRetreat2_bym0lu.jpg',
       preview: true
     },
     {
       spotId: 2,
-      url: 'https://res.cloudinary.com/dnfeiduuu/image/upload/v1747154829/CreeksideRetreat2_bym0lu.jpg',
+      url: 'https://res.cloudinary.com/dnfeiduuu/image/upload/v1747154830/CreeksideRetreat3_fwwci2.jpg',
       preview: false
     },
     {
