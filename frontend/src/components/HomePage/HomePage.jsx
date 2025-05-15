@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { thunkRetriveAllSpots } from "../../store/spots"
-// import { Tooltip } from 'react-tooltip'
-// import 'react-tooltip/dist/react-tooltip.css'
+
 // import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import "./HomePage.css";
 

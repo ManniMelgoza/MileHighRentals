@@ -54,23 +54,24 @@ function Navigation({ isLoaded }) {
   }
   // Anything inside the return statement will render any JSX components
   return (
+    <nav className='navigation-box'>
+        <div className='nav-left'>
+          <NavLink to="/">
+            <img src="/MileHighRentalsLogo.png" alt='Mile High Rentals Logo' />
+          </NavLink>
+        </div>
+  {/* A link to the homepage (<NavLink to="/">Home</NavLink>)
+  Additional navigation options (from sessionLinks) only if isLoaded is true:
+  If the user is logged in: show profile button.
+  If not: show login and signup buttons. */}
 
-    <ul>
-      <li>
-        <NavLink to="/">
-          <img src="/MileHighRentalsLogo.png" alt='Mile High Rentals Logo' />
-        </NavLink>
-      </li>
-{/* A link to the homepage (<NavLink to="/">Home</NavLink>)
-Additional navigation options (from sessionLinks) only if isLoaded is true:
-If the user is logged in: show profile button.
-If not: show login and signup buttons. */}
-
-  {/* -if isLoaded is FALSE && sessionLink will render the signUp and logIn buttons
-      -if isLoaded is TRUE && sessionLInk will render the profilebutton with the currentUsers info that is coming from sessionsUsers
-  */}
-      {isLoaded && sessionLinks}
-    </ul>
+    {/* -if isLoaded is FALSE && sessionLink will render the signUp and logIn buttons
+        -if isLoaded is TRUE && sessionLInk will render the profilebutton with the currentUsers info that is coming from sessionsUsers
+        */}
+      <ul className='nav-right'>
+        {isLoaded && sessionLinks}
+      </ul>
+    </nav>
   );
 }
 
