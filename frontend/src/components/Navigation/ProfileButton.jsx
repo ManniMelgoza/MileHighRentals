@@ -88,7 +88,7 @@ function ProfileButton({ user }) {
       <ul className={ulClassName} ref={ulRef}>
         {/* the display of data of the user */}
         <li>{user.username}</li>
-        <li>{user.firstName} {user.lastName}</li>
+        <li>Hello {user.firstName} {user.lastName}</li>
         <li>{user.email}</li>
         <li>
 

@@ -54,10 +54,12 @@ function Navigation({ isLoaded }) {
   }
   // Anything inside the return statement will render any JSX components
   return (
+
     <ul>
       <li>
-        {/*  */}
-        <NavLink to="/">Home</NavLink>
+        <NavLink to="/">
+          <img src="/MileHighRentalsLogo.png" alt='Mile High Rentals Logo' />
+        </NavLink>
       </li>
 {/* A link to the homepage (<NavLink to="/">Home</NavLink>)
 Additional navigation options (from sessionLinks) only if isLoaded is true:

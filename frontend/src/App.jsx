@@ -8,6 +8,10 @@ import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import Navigation from './components/Navigation';
 // Import all session-related action creators, such as restoreUser, from the session store
 import * as sessionActions from './store/session';
+import HomePage from './components/HomePage/HomePage';
+// import CreateSpotPage from './components/CreateSpotPage/CreateSpotPage';
+
+import "./index.css"
 
 
 
@@ -55,7 +59,11 @@ const router = createBrowserRouter([
         // Route for the root path "/"
         path: '/',
         // Renders a heading for the homepage
-        element: <h1>Mile-High Rentals</h1>
+        element: <HomePage />
+      },
+      {
+        path: "/create-spot",
+        // element: <CreateSpotPage />
       }
     ]
   }

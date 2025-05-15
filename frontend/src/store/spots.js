@@ -42,7 +42,7 @@ const editSpotAction = (spot) => {
 const deleteSpotAction = (spotId) => {
     return {
         type: DELETE_SPOT,
-        payload: spotId
+        payload: spotId,
     };
 };
 
@@ -50,9 +50,13 @@ const deleteSpotAction = (spotId) => {
 // const GET_ALL_SPOTS = "spots/getAllSpots"; ACTION
 
 export const thunkRetriveAllSpots = () => async (dispatch) => {
+    // Getting data from DB
     const response = await csrfFetch("api/spots");
+    // Making data readable
     const data = await response.json();
-    dispatch(getAllSpotsAction(data.spots));
+    // console.log('DATA from backend fetch at THUNK', data.Spots)
+    // dispatch the data from DB to the Action
+    dispatch(getAllSpotsAction(data.Spots));
     return data;
 };
 
@@ -62,7 +66,7 @@ export const thunkCurrentSpot = () => async (dispatch) => {
     const response = await csrfFetch("api/current");
     if (response.ok){
         const data = await response.json();
-        
+
         dispatch(getCurrentSpotAction(data.spot));
         return data;
     }
@@ -127,7 +131,9 @@ const spotsReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_ALL_SPOTS:{
             const newState = {};
-            action.spots.array.forEach((spot) => (newState[spot.id] = spot));
+            // console.log('PASSING DATA TO REDUCER', action.spots)
+            // console.log(action.payload)
+            action.payload.forEach((spot) => (newState[spot.id] = spot));
             return newState;
         }
         case GET_CURRENT_SPOT:
