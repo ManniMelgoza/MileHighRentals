@@ -1,0 +1,25 @@
+#signUpButton {
+
+    background: red;
+    color: white;
+    border-radius: 5px;
+    margin-top: 20px;
+    /* margin-bottom: 12px; */
+    margin-left: 20px;
+    margin-right: 20px;
+    box-shadow: 110px rgb(14, 195, 62);
+    background-color: #923737;
+}
+
+h1 {
+    text-align: center;
+}
+
+.formContainer {
+    display: grid;
+    grid-template-columns: repeat(1);
+    margin-top: 80px;
+    margin-left: 110px;
+    margin-right: 110px;
+    margin-bottom: 80px;
+}

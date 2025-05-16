@@ -17,30 +17,37 @@ const HomePage = () => {
         dispatch(thunkRetriveAllSpots());
     }, [dispatch]);
 
-    return (
-        <>
-            <h1>Spots List</h1>
-            {/* maps do {parenthesis} because is JSX, but function is JS are {curlies} */}
-            {spotsArr?.map((spot) => {
-    console.log('Spot:', spot);
-    return (
-        <div key={spot.id}>
-            {/* <Tooltip anchorSelect=".my-anchor-element" place="bottom">
-                {spot.name}
-            </Tooltip> */}
-            <img
+   return (
+    <div className="imageContainerBox">
+      {spotsArr?.map((spot) => {
+        const rating = spot.avgRating || 0;
+        const maxRating = 5;
+        const percentage = (rating / maxRating) * 100;
 
-            src={spot.previewImage}
-            alt={spot.name}
-            style={{ width: '300px', height: '300px'}}
+        return (
+          <div key={spot.id} className="imageDisplayBox">
+            <img
+              src={spot.previewImage}
+              alt={spot.name}
+              style={{ width: "300px", height: "300px", objectFit: "cover" }}
             />
-            <p>{spot.city}, {spot.state}</p>
+             <div className="locationRating">
+    <p className="locationText">
+              {spot.city}, {spot.state}
+            </p>
+
+            <div className="stars" style={{ "--rating-width": `${percentage}%` }}>
+              <span className="stars-base">★★★★★</span>
+              <span className="stars-overlay">★★★★★</span>
+            </div>
+            </div>
+
             <p>${spot.price} night</p>
-        </div>
-    );
-})}
-        </>
-    );
+          </div>
+        );
+      })}
+    </div>
+  );
 };
 
-export default HomePage;
+export default HomePage

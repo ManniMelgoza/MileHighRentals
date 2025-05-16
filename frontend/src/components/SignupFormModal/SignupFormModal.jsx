@@ -69,14 +69,15 @@ function SignupFormModal() {
 
     // If passwords don't match, set an error message for confirmPassword
     return setErrors({
-      confirmPassword: "Confirm Password field must be the same as the Password field"
+      confirmPassword: "Confirm Password field must be the same as the Password field",
+
     });
   };
 
   return (
     <>
       <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className='formContainer'>
         <label>
           First Name
           <input
@@ -139,7 +140,7 @@ function SignupFormModal() {
         {errors.confirmPassword && (
           <p>{errors.confirmPassword}</p>
         )}
-        <button type="submit">Sign Up</button>
+        <button type="submit" id='signUpButton'>Sign Up</button>
       </form>
     </>
   );
