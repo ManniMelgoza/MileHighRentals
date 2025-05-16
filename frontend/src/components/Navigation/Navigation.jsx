@@ -1,5 +1,5 @@
 // It creates navigation links that apply styling when the route matches
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 // A React-Redux hook. Lets React components read data from the Redux store. Its a function that reads data from Redux
 import { useSelector } from 'react-redux';
 // This is importing the ProfileButton from the same folder directory (./)
@@ -28,9 +28,14 @@ function Navigation({ isLoaded }) {
     //if the user is logged in or there is a user the sessionLinks variable will be assinged to the component ProfileButton with and passing a prop that will pass an obj of sessionsUsers delcared ealier
     // The seesionUser will be the infotmation of that session user that is logged in
     sessionLinks = (
+     <>
+      <li>
+        <Link to='/spots' className='newSpotLink'>Create a New Spot</Link>
+      </li>
       <li>
         <ProfileButton user={sessionUser} />
       </li>
+     </>
     );
   } else {
     //  since the user is not logged in or there is a record the sessionLinks will be assinged to the LogIn and SingUp(buttons) JSX components

@@ -1,9 +1,11 @@
 // Imports react hooks from the react library
 import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 // useDispatch: This gives you the ability to send messages (actions) to the Redux store — like calling out orders in a restaurant kitchen.
 import { useDispatch } from 'react-redux';
 // This is a visual icon component — a little user circle you can display on screen.
 import { FaUserCircle } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 /*
 Imports everything from the session store file as an object called sessionActions
 “Bring in everything from that file, and put it under the name sessionActions.”
@@ -24,6 +26,7 @@ import './ProfileButton.css';
 function ProfileButton({ user }) {
   // set useDispatch to a variable that You call useDispatch() to get the dispatch function — lets you send actions to the Redux store.
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   // use state hook
   // showMenu A booelan that keeps track of the menue visibility
   // setShowMenu a fucnton that changes the value
@@ -67,8 +70,15 @@ function ProfileButton({ user }) {
     // Stops the default button behavior (like form submission).
     e.preventDefault();
     // Sends a logout action to Redux.
-    dispatch(sessionActions.logout());
+    dispatch(sessionActions.logout())
+      .then(() => {
+        navigate('/', {replace: true });
+      });
   };
+
+  // const createNewSpot = () => {
+  //   navigate('')
+  // }
 
   // Combines class names based on whether the menu is visible.
   // If showMenu === true, className is "profile-dropdown".
@@ -91,7 +101,7 @@ function ProfileButton({ user }) {
         <li>Hello {user.firstName} {user.lastName}</li>
         <li>{user.email}</li>
         <li>
-
+        <Link className='manageSpotLink'>Manage Spot</Link>
           {/* A logout button that triggers the logout function */}
           <button onClick={logout}>Log Out</button>
         </li>

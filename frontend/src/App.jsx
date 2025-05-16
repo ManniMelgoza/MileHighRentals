@@ -8,8 +8,10 @@ import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import Navigation from './components/Navigation';
 // Import all session-related action creators, such as restoreUser, from the session store
 import * as sessionActions from './store/session';
+// import * as spotsActions from './store/spots';
+
 import HomePage from './components/HomePage/HomePage';
-// import CreateSpotPage from './components/CreateSpotPage/CreateSpotPage';
+import CreateSpot from './components/CreateSpot/CreateSpot';
 
 import "./index.css"
 
@@ -62,8 +64,8 @@ const router = createBrowserRouter([
         element: <HomePage />
       },
       {
-        path: "/create-spot",
-        // element: <CreateSpotPage />
+        path: "/spots",
+        element: <CreateSpot />
       }
     ]
   }
