@@ -36,7 +36,7 @@ export const thunkGetSpotImage = (spotsId) => async (dispatch) => {
 }
 
 export const thunkDeleteSpotImage = (imageId) => async (dispatcd) => {
-    const response = await csrfFetch(`/apispots/images/${imageId}`, {
+    const response = await csrfFetch(`/api/spots/images/${imageId}`, {
         method: 'DELETE'
     });
     if (response.ok){

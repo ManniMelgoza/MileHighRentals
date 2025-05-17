@@ -51,7 +51,7 @@ const deleteSpotAction = (spotId) => {
 
 export const thunkRetriveAllSpots = () => async (dispatch) => {
     // Getting data from DB
-    const response = await csrfFetch("api/spots");
+    const response = await csrfFetch("/api/spots");
     // Making data readable
     if(response.ok){
 
@@ -68,12 +68,12 @@ export const thunkRetriveAllSpots = () => async (dispatch) => {
 
 // const GET_CURRENT_SPOT = "spots/getCurrentSpot"; ACTION
 
-export const thunkCurrentSpot = () => async (dispatch) => {
-    const response = await csrfFetch("api/current");
+export const thunkCurrentSpot = (spotId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}`);
     if (response.ok){
         const data = await response.json();
-
-        dispatch(getCurrentSpotAction(data.spot));
+        console.log('SPOT THUNK DATA', data)
+        dispatch(getCurrentSpotAction(data));
         return data;
     } else {
         const error = await response.json();
@@ -85,7 +85,7 @@ export const thunkCurrentSpot = () => async (dispatch) => {
 export const thunkCreateNewSpot = (spots) => async (dispatch) => {
     const { address, city, state, country, lat, lng, name, description, price } = spots;
 
-    const response = await csrfFetch("api/spots", {
+    const response = await csrfFetch("/", {
         method: "POST",
         body: JSON.stringify({
             address, city, state, country, lat, lng, name, description, price
@@ -151,10 +151,12 @@ const spotsReducer = (state = initialState, action) => {
             return newState;
         }
         case GET_CURRENT_SPOT:
-            return { ...state, spots: action.payload};
+            // return { ...state, [action.payload.id]: action.payload};
+            return { ...state, currentSpot: action.payload};
 
         case CREATE_NEW_SPOT:
             return { ...state, spots: action.payload};
+            // return { ...state, [action.payload.id]: action.payload};
 
         case EDIT_SPOT:
             return { ...state, [action.payload.id]: action.payload};

@@ -13,6 +13,7 @@ import SignupFormModal from '../SignupFormModal/SignupFormModal';
 // Imports the css file for the navigation
 import './Navigation.css';
 
+
 // a function Navigation that passes a destructured proped, isLoaded most likely a boolean value
 function Navigation({ isLoaded }) {
   // sessionUser will hold the logged-in user data that is being access by the useSelector that retrieves data from the redux store selector
@@ -30,7 +31,7 @@ function Navigation({ isLoaded }) {
     sessionLinks = (
      <>
       <li>
-        <Link to='/spots' className='newSpotLink'>Create a New Spot</Link>
+        <Link to='/spots/new' className='newSpotLink'>Create a New Spot</Link>
       </li>
       <li>
         <ProfileButton user={sessionUser} />

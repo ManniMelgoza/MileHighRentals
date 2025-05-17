@@ -11,6 +11,7 @@ import * as sessionActions from './store/session';
 // import * as spotsActions from './store/spots';
 
 import HomePage from './components/HomePage/HomePage';
+import SpotPage from './components/SpotPage/SpotPage';
 import CreateSpot from './components/CreateSpot/CreateSpot';
 
 import "./index.css"
@@ -64,9 +65,13 @@ const router = createBrowserRouter([
         element: <HomePage />
       },
       {
-        path: "/spots",
-        element: <CreateSpot />
-      }
+        path: `/spots/:id`,
+        element: <SpotPage/>
+      },
+      {
+  path: `/spots/new`,
+  element: <CreateSpot />
+}
     ]
   }
 ]);

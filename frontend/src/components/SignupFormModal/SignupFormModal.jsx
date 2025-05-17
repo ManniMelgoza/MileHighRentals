@@ -73,8 +73,10 @@ function SignupFormModal() {
 
     });
   };
+  const userValidation = username.length >= 4;
+  const passwordValidation = password.length >= 5;
+  const completedForm = !email || !username || !firstName || !lastName || !password || !confirmPassword || !userValidation | !passwordValidation;
 
-  const completedForm = !email || !username || !firstName || !lastName || !password || !confirmPassword;
   return (
     <>
       <h1>Sign Up</h1>

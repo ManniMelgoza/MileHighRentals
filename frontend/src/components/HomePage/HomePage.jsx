@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { thunkRetriveAllSpots } from "../../store/spots"
 import { FaStar } from 'react-icons/fa';
@@ -28,26 +29,30 @@ const HomePage = () => {
         // const percentage = (rating / maxRating) * 100;
 
         return (
-          <div key={spot.id} className="imageDisplayBox">
-            <img
-              src={spot.previewImage}
-              alt={spot.name}
-              style={{ width: "300px", height: "300px", objectFit: "cover" }}
-            />
-             <div className="locationRating">
-    <p className="locationText">
-              {spot.city}, {spot.state}
-            </p>
+          <>
+            <Link to={`/spots/${spot.id}`}>
+              <div key={spot.id} className="imageDisplayBox">
+                <img
+                  src={spot.previewImage}
+                  alt={spot.name}
+                  style={{ width: "300px", height: "300px", objectFit: "cover" }}
+                />
+                <div className="locationRating">
+                  <p className="locationText">
+                  {spot.city}, {spot.state}
+                </p>
 
-            <div className="stars">
-              {/* <span className="stars-base">★★★★★</span>
-              <span className="stars-overlay">★★★★★</span> */}
-             <FaStar /> {spot.avgRating}
-            </div>
-            </div>
+                <div className="stars">
+                  {/* <span className="stars-base">★★★★★</span>
+                  <span className="stars-overlay">★★★★★</span> */}
+                <FaStar /> {spot.avgRating === Number('0.0') ? 'New' : spot.avgRating}
+                </div>
+                </div>
 
-            <p> <FaDollarSign /> {spot.price} night</p>
-          </div>
+                <p> <FaDollarSign /> {spot.price} night</p>
+              </div>
+            </Link>
+          </>
         );
       })}
     </div>
