@@ -405,7 +405,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
 });
 // OK
 // GET /api/spots/:id - Get details of a specific spot
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res,) => {
     try {
         // get the id of the URL
         const getSpotId = req.params.id;
@@ -477,7 +477,7 @@ router.get('/:id', async (req, res) => {
 });
 // POST /api/spots - Create a new spot
 // OK
-router.post('/', requireAuth, validateSpot, async (req, res, next) => {
+router.post('/spots', requireAuth, validateSpot, async (req, res, next) => {
     try{
         const ownerId = req.user.id;
         const { address, city, state, country, lat, lng, name, description, price } = req.body;
