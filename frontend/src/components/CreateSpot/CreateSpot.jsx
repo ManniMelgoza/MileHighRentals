@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useModal } from "../../context/Modal";
+// import { useModal } from "../../context/Modal";
 import * as spotsActions from '../../store/spots';
 import './CreateSpot.css';
 
@@ -18,15 +18,14 @@ function CreateSpotFormModal() {
     // const [previewImage, setpreviewImage] = useState("")
     // const [image, setImage] = useState("")
     const [errors, setErrors] = useState({});
-    const {closeModal} = useModal();
+    // const {closeModal} = useModal();
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-    if (address === null){
-
         setErrors({});
+
+        if (address && city && state && country && name && description && price){
 
         return dispatch(
             spotsActions.thunkCreateNewSpot({
@@ -37,23 +36,36 @@ function CreateSpotFormModal() {
                 name,
                 description,
                 price
-            })
-        )
-            .then(closeModal)
+            }))
+
+            // .then(closeModal)
+
+
             .catch(async (res) => {
                 const data = await res.json();
 
                 // If the response contains validation errors, set them in state
-                if (data?.errors) {
+                if (data && data.errors) {
                     setErrors(data.errors);
                 }
             });
-
     }
-    return setErrors({
-        price: "Needs Country",
-    });
+
 }
+
+
+//    .catch(async (res) => {
+//         try {
+//           const text = await res.text();
+//           const data = text ? JSON.parse(text) : null;
+//           if (data?.errors) setErrors(data.errors);
+//           else setErrors({ general: "Something went wrong" });
+//         } catch {
+//           setErrors({ general: "Invalid server response" });
+//         }
+//       });
+//   }
+// };
 
 return (
     <div className='createSpotFormContainer'>

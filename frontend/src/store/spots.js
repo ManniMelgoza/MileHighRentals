@@ -83,18 +83,19 @@ export const thunkCurrentSpot = (spotId) => async (dispatch) => {
 
 // const CREATE_NEW_SPOT = "spots/createNewSpot"; ACTION
 export const thunkCreateNewSpot = (spots) => async (dispatch) => {
-    const { address, city, state, country, lat, lng, name, description, price } = spots;
+    const { address, city, state, country, name, description, price } = spots;
 
-    const response = await csrfFetch("/", {
+    const response = await csrfFetch("/spots", {
         method: "POST",
+         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            address, city, state, country, lat, lng, name, description, price
+            address, city, state, country, name, description, price
         })
     });
     if(response.ok){
 
         const data = await response.json();
-        dispatch(createNewSpotAction(data.spots));
+        dispatch(createNewSpotAction(data));
         return data;
     } else {
         const error = await response.json();
