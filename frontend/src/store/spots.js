@@ -60,7 +60,7 @@ export const thunkRetriveAllSpots = () => async (dispatch) => {
         return data;
     } else {
         const error = await response.json();
-        return { error: error.errors || []}
+        return { error: error.errors || ['No Data Retrieved']}
     }
     // console.log('DATA from backend fetch at THUNK', data.Spots)
     // dispatch the data from DB to the Action
@@ -75,6 +75,9 @@ export const thunkCurrentSpot = () => async (dispatch) => {
 
         dispatch(getCurrentSpotAction(data.spot));
         return data;
+    } else {
+        const error = await response.json();
+        return { error: error.errors || ['No Data Retrieved']}
     }
 };
 
@@ -94,8 +97,8 @@ export const thunkCreateNewSpot = (spots) => async (dispatch) => {
         dispatch(createNewSpotAction(data.spots));
         return data;
     } else {
-        const errors = await response.json();
-        return errors;
+        const error = await response.json();
+        return { error: error.errors || ['No Data Retrieved']}
         // throw errors;
     }
 };
@@ -112,8 +115,8 @@ export const thunkEditSpot = (spotId, updateSpot) => async (dispatch) => {
         dispatch(editSpotAction(data))
         return data;
     } else {
-        const errors = await response.json();
-        return errors;
+        const error = await response.json();
+        return { error: error.errors || ['No Data Retrieved']}
          // throw errors;
     }
 };
@@ -123,8 +126,13 @@ export const thunkDeleteSpot = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}`, {
         method: 'DELETE'
     });
-    dispatch(deleteSpotAction(spotId))
-    return response;
+    if (response.ok){
+        dispatch(deleteSpotAction(spotId))
+        return response;
+    } else {
+        const error = await response.json();
+        return { error: error.errors || ['No Data Retrieved']}
+    }
 }
 
 // ACTION CREATORS

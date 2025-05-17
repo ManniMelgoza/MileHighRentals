@@ -75,9 +75,8 @@ export const signup = (user) => async (dispatch) => {
       return data;
     }
      else {
-        const errors = await response.json();
-        // throw errors;
-        return errors;
+        const error = await response.json();
+        return { error: error.errors || ['No Data Retrieved']}
      }
 }
 
@@ -88,8 +87,14 @@ export const logout = () => async (dispatch) => {
     const response = await csrfFetch("/api/session", {
         method: 'DELETE'
     });
-    dispatch(removeUser())
-    return response;
+    if ( response.ok){
+
+      dispatch(removeUser())
+      return response;
+    } else{
+         const error = await response.json();
+        return { error: error.errors || ['No Data Retrieved']}
+    }
 }
 
 

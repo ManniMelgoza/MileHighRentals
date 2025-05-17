@@ -18,8 +18,14 @@ export const deleteReviewImageThunk = (imageId) => async (dispatch) => {
     const response = await csrfFetch(`/api/review-images/${imageId}`, {
         method: "DELETE"
     });
-    dispatch(deleteReviewImageAction(imageId));
-    return response;
+    if(response.ok){
+
+        dispatch(deleteReviewImageAction(imageId));
+        return response;
+    } else {
+        const error = await response.json();
+        return { error: error.errors || ['No Data Retrieved']}
+    }
 };
 
 // REDUCER
