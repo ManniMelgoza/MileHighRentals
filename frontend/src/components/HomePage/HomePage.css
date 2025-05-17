@@ -3,16 +3,20 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     padding: 20px;
+    text-decoration: none;
+    /* border: 10px; */
 }
 
 .imageDisplayBox {
     /* border: 1px solid #c92323; */
-    padding: 0px 70px;
+    padding: 0px 80px;
     padding-top: 20px;
     padding-right: 10px;
+    padding-bottom: 10px;
     border-radius: 20px;
     box-shadow: 100 112px 100 rgb(12, 11, 11);
     background-color: rgb(243, 216, 175);
+    text-decoration: none;
 
     /* display: flex; */
     /* flex-direction: column; */
@@ -22,38 +26,20 @@
 
 }
 
+
 .locationRating {
   display: flex;
   align-items: center;
   gap: 120px;
   margin-top: 10px;
+  text-decoration: none;
 }
 
 .locationText {
   margin: 0;
+  text-decoration: none;
 }
 
-.stars {
-  position: relative;
-  /* cursor: pointer; */
-  font-size: 15px;
-  font-family: Arial, sans-serif;
-  color: #000000; /* empty stars color */
-  display: inline-block;
-  letter-spacing: 4px;
-}
-
-.stars-base {
-  color: #cc4343;
-}
-
-.stars-overlay {
-  color: rgb(0, 189, 57);
-  position: absolute;
-  top: 0;
-  left: 0;
-  /* white-space: nowrap; */
-  overflow: hidden;
-  width: var(--rating-width);
-  pointer-events: none;
+.starts {
+  text-decoration: none;
 }

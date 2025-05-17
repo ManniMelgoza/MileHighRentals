@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 // import { useDispatch } from 'react-redux';
 // This is a visual icon component — a little user circle you can display on screen.
 import { FaUserCircle } from 'react-icons/fa';
+import { GiHamburgerMenu } from "react-icons/gi";
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import LoginFormModal from '../LoginFormModal/LoginFormModal';
 import SignupFormModal from '../SignupFormModal/SignupFormModal';
@@ -46,23 +47,23 @@ function MenuButton() {
     return (
         <>
             <button onClick={toggleMenu}>
-                    <FaUserCircle />
+                <GiHamburgerMenu /> <FaUserCircle />
                     <ul className={ulClassName} ref={ulRef}>
-                        <li>
-                    <OpenModalButton
-                    buttonText="Log In"
-                    modalComponent={<LoginFormModal />}
-                    />
-                </li>
-                <li>
-                    <OpenModalButton
-                    buttonText="Sign Up"
-                    modalComponent={<SignupFormModal />}
-                    />
-                </li>
+
+                    <li>
+                        <OpenModalButton
+                        buttonText="Log In"
+                        modalComponent={<LoginFormModal />}
+                        />
+                    </li>
+                    <li>
+                        <OpenModalButton
+                        buttonText="Sign Up"
+                        modalComponent={<SignupFormModal />}
+                        />
+                    </li>
                 </ul>
             </button>
-
         </>
     );
 }
