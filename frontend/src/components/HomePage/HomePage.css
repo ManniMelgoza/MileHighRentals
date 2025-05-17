@@ -30,7 +30,7 @@
 }
 
 .locationText {
-  margin: 0; 
+  margin: 0;
 }
 
 .stars {
@@ -38,17 +38,17 @@
   /* cursor: pointer; */
   font-size: 15px;
   font-family: Arial, sans-serif;
-  color: #ffffff; /* empty stars color */
+  color: #000000; /* empty stars color */
   display: inline-block;
   letter-spacing: 4px;
 }
 
 .stars-base {
-  color: #000000;
+  color: #cc4343;
 }
 
 .stars-overlay {
-  color: rgb(222, 165, 51);
+  color: rgb(0, 189, 57);
   position: absolute;
   top: 0;
   left: 0;

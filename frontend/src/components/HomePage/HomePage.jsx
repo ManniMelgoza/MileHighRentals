@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { thunkRetriveAllSpots } from "../../store/spots"
+import { FaStar } from 'react-icons/fa';
+import { FaDollarSign } from "react-icons/fa6";
+
 
 // import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import "./HomePage.css";
@@ -20,9 +23,9 @@ const HomePage = () => {
    return (
     <div className="imageContainerBox">
       {spotsArr?.map((spot) => {
-        const rating = spot.avgRating || 0;
-        const maxRating = 5;
-        const percentage = (rating / maxRating) * 100;
+        // const rating = spot.avgRating || 0;
+        // const maxRating = 5;
+        // const percentage = (rating / maxRating) * 100;
 
         return (
           <div key={spot.id} className="imageDisplayBox">
@@ -36,13 +39,14 @@ const HomePage = () => {
               {spot.city}, {spot.state}
             </p>
 
-            <div className="stars" style={{ "--rating-width": `${percentage}%` }}>
-              <span className="stars-base">★★★★★</span>
-              <span className="stars-overlay">★★★★★</span>
+            <div className="stars">
+              {/* <span className="stars-base">★★★★★</span>
+              <span className="stars-overlay">★★★★★</span> */}
+             <FaStar /> {spot.avgRating}
             </div>
             </div>
 
-            <p>${spot.price} night</p>
+            <p> <FaDollarSign /> {spot.price} night</p>
           </div>
         );
       })}

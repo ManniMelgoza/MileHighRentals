@@ -53,11 +53,17 @@ export const thunkRetriveAllSpots = () => async (dispatch) => {
     // Getting data from DB
     const response = await csrfFetch("api/spots");
     // Making data readable
-    const data = await response.json();
+    if(response.ok){
+
+        const data = await response.json();
+        dispatch(getAllSpotsAction(data.Spots));
+        return data;
+    } else {
+        const error = await response.json();
+        return { error: error.errors || []}
+    }
     // console.log('DATA from backend fetch at THUNK', data.Spots)
     // dispatch the data from DB to the Action
-    dispatch(getAllSpotsAction(data.Spots));
-    return data;
 };
 
 // const GET_CURRENT_SPOT = "spots/getCurrentSpot"; ACTION

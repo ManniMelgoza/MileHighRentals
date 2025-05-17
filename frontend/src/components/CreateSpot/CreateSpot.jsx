@@ -15,8 +15,11 @@ function CreateSpotFormModal() {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
+    // const [previewImage, setpreviewImage] = useState("")
+    // const [image, setImage] = useState("")
     const [errors, setErrors] = useState({});
     const {closeModal} = useModal();
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -55,7 +58,7 @@ function CreateSpotFormModal() {
 return (
     <div className='createSpotFormContainer'>
         <h1>Create a new Spot</h1>
-        <h2>Wheres your place located?</h2>
+        <h2>Where&apos;s your place located?</h2>
         <p>Guest will only get your exact address once they booked a reservation.</p>
 
         <form onSubmit={handleSubmit} className='spotFormEntryBoxes'>
@@ -105,7 +108,7 @@ return (
             {errors.sate && <p>{errors.state}</p>}
             <div className="forLineDivider" />
             <label>
-                Describe you place to guest
+                <h2>Describe you place to guest</h2>
                 <p>
                 Mention the best features of your space, any special amentities like
                 fast wifi or parking, and what you love about the neighborhood.
@@ -121,9 +124,9 @@ return (
             {errors.description && <p>{errors.description}</p>}
              <div className="forLineDivider" />
             <label>
-                Create a title for your spot
+                <h2>Create a title for your spot</h2>
                 <p>
-                Catch guests attention with a spot title that highlights what makes
+                Catch guests&apos; attention with a spot title that highlights what makes
                 your place special.
                 </p>
                 <input
@@ -137,7 +140,7 @@ return (
             {errors.name && <p>{errors.name}</p>}
              <div className="forLineDivider" />
             <label>
-                Set a base price for your spot
+                <h2>Set a base price for your spot</h2>
                 <p>
                 Competitive pricing can help your listing stand out and rank higher
                 in search results.
@@ -151,6 +154,28 @@ return (
                 />
             </label>
             {errors.price && <p>{errors.price}</p>}
+            {/* <label>
+                <h2>Liven up your spot with photos</h2>
+                <p>
+                Catch guests attention with a spot title that highlights what makes
+                your place special.
+                </p>
+                <input
+                    type='text'
+                    value={previewImage}
+                    placeholder="Preview Image URL"
+                    onChange={(e) => setpreviewImage(e.target.value)}
+                    required
+                />
+                <input
+                    type='text'
+                    value={image}
+                    placeholder="Image URL"
+                    onChange={(e) => setImage(e.target.value)}
+                    required
+                />
+            </label>
+            {errors.image && <p>{errors.image}</p>} */}
              <div className="forLineDivider" />
             <button type='submit' id="createSpotButton">Create Spot</button>
         </form>

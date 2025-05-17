@@ -29,6 +29,8 @@ function LoginFormModal() {
   // This will be called when login is successful to close the modal.
   const { closeModal } = useModal();
 
+// THE START FOR THE LOG IN OF A USER ALREADY ON THE DB
+// THE START FOR THE LOG IN OF A USER ALREADY ON THE DB
   // Starts the submit handler function for the form.
   const handleSubmit = (e) => {
     // Prevents the default form submission behavior (which would reload the page).
@@ -48,9 +50,29 @@ function LoginFormModal() {
         if (data && data.errors) {
           setErrors(data.errors);
         }
-      });
-  };
+        // THE START FOR DEMO-USER PRELOAD LOGIN // THE START FOR DEMO-USER PRELOAD LOGIN
 
+        // THE END FOR DEMO-USER PRELOAD LOGIN // THE END FOR DEMO-USER PRELOAD LOGIN
+      })
+    }
+      const handleDemoLogIn = () => {
+        const demoUser = {
+          credential: "Demo-lition",
+          password: 'password'
+        };
+
+        dispatch(sessionActions.login(demoUser))
+          .then(closeModal)
+          .catch(async (res) => {
+            const data = await res.json();
+
+            if(data && data.errors) {
+              setErrors(data.errors);
+            }
+          })
+      }
+  // THE END FOR THE LOG IN OF A USER ALREADY ON THE DB
+  // THE END FOR THE LOG IN OF A USER ALREADY ON THE DB
   return (
     <>
       <h1>Log In</h1>
@@ -81,6 +103,7 @@ function LoginFormModal() {
           <p>{errors.credential}</p>
         )}
         <button type="submit">Log In</button>
+        <button type='button' onClick={handleDemoLogIn}>Log in as Demo User</button>
       </form>
     </>
   );
