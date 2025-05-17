@@ -109,7 +109,7 @@ export const thunkEditReview = (reviewId, updateReview) => async (dispatch) => {
 
     } else {
         const error = await response.json();
-        return { error: error.errors || ['No Data Retrieved']}
+        return { error: error.errors || ['Unable to edit review']}
          // throw errors;
     }
 };
@@ -127,7 +127,7 @@ export const thunkAddReviewImage = (reviewId, reviewImage) => async (dispatch) =
         return data;
     } else {
        const error = await response.json();
-        return { error: error.errors || ['No Data Retrieved']}
+        return { error: error.errors || ['Unable to add review image']}
          // throw errors;
     }
 
@@ -145,7 +145,7 @@ export const thunkDeleteReview = (reviewId) => async (dispatch) => {
         return response;
     } else {
         const error = await response.json();
-        return { error: error.errors || ['No Data Retrieved']}
+        return { error: error.errors || ['unable to delete review']}
     }
 
 };

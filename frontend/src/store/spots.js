@@ -60,7 +60,7 @@ export const thunkRetriveAllSpots = () => async (dispatch) => {
         return data;
     } else {
         const error = await response.json();
-        return { error: error.errors || ['No Data Retrieved']}
+        return { error: error.errors || ['No Data Retrieved of all spots']}
     }
     // console.log('DATA from backend fetch at THUNK', data.Spots)
     // dispatch the data from DB to the Action
@@ -77,7 +77,7 @@ export const thunkCurrentSpot = () => async (dispatch) => {
         return data;
     } else {
         const error = await response.json();
-        return { error: error.errors || ['No Data Retrieved']}
+        return { error: error.errors || ['No Data Retrieved of current spot']}
     }
 };
 
@@ -98,7 +98,7 @@ export const thunkCreateNewSpot = (spots) => async (dispatch) => {
         return data;
     } else {
         const error = await response.json();
-        return { error: error.errors || ['No Data Retrieved']}
+        return { error: error.errors || ['Not able to create a new spot']}
         // throw errors;
     }
 };
@@ -116,7 +116,7 @@ export const thunkEditSpot = (spotId, updateSpot) => async (dispatch) => {
         return data;
     } else {
         const error = await response.json();
-        return { error: error.errors || ['No Data Retrieved']}
+        return { error: error.errors || ['Unable to Edit Spot']}
          // throw errors;
     }
 };
@@ -131,7 +131,7 @@ export const thunkDeleteSpot = (spotId) => async (dispatch) => {
         return response;
     } else {
         const error = await response.json();
-        return { error: error.errors || ['No Data Retrieved']}
+        return { error: error.errors || ['Spot Not DELETED']}
     }
 }
 

@@ -31,7 +31,7 @@ export const thunkGetSpotImage = (spotsId) => async (dispatch) => {
         return data;
     } else {
         const error = await response.json();
-        return { error: error.errors || ['No Data Retrieved']}
+        return { error: error.errors || ['Unable to get spot image']}
     }
 }
 
@@ -45,7 +45,7 @@ export const thunkDeleteSpotImage = (imageId) => async (dispatcd) => {
         return response;
     } else {
         const error = await response.json();
-        return { error: error.errors || ['No Data Retrieved']}
+        return { error: error.errors || ['Spot Image Not DELETED']}
     }
 }
 // Reducers

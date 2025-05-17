@@ -24,7 +24,7 @@ export const deleteReviewImageThunk = (imageId) => async (dispatch) => {
         return response;
     } else {
         const error = await response.json();
-        return { error: error.errors || ['No Data Retrieved']}
+        return { error: error.errors || ['Unable to delete review image']}
     }
 };
 

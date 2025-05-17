@@ -76,7 +76,7 @@ export const signup = (user) => async (dispatch) => {
     }
      else {
         const error = await response.json();
-        return { error: error.errors || ['No Data Retrieved']}
+        return { error: error.errors || ['No able to signup user']}
      }
 }
 
@@ -93,9 +93,8 @@ export const logout = () => async (dispatch) => {
       return response;
     } else{
          const error = await response.json();
-        return { error: error.errors || ['No Data Retrieved']}
+        return { error: error.errors || ['User was not logout']}
     }
 }
-
 
 export default sessionReducer;
