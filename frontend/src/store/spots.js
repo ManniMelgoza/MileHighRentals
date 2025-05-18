@@ -42,7 +42,7 @@ const editSpotAction = (spot) => {
 const deleteSpotAction = (spotId) => {
     return {
         type: DELETE_SPOT,
-        payload: spotId
+        payload: spotId,
     };
 };
 
@@ -50,42 +50,56 @@ const deleteSpotAction = (spotId) => {
 // const GET_ALL_SPOTS = "spots/getAllSpots"; ACTION
 
 export const thunkRetriveAllSpots = () => async (dispatch) => {
-    const response = await csrfFetch("api/spots");
-    const data = await response.json();
-    dispatch(getAllSpotsAction(data.spots));
-    return data;
+    // Getting data from DB
+    const response = await csrfFetch("/api/spots");
+    // Making data readable
+    if(response.ok){
+
+        const data = await response.json();
+        dispatch(getAllSpotsAction(data.Spots));
+        return data;
+    } else {
+        const error = await response.json();
+        return { error: error.errors || ['No Data Retrieved of all spots']}
+    }
+    // console.log('DATA from backend fetch at THUNK', data.Spots)
+    // dispatch the data from DB to the Action
 };
 
 // const GET_CURRENT_SPOT = "spots/getCurrentSpot"; ACTION
 
-export const thunkCurrentSpot = () => async (dispatch) => {
-    const response = await csrfFetch("api/current");
+export const thunkCurrentSpot = (spotId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}`);
     if (response.ok){
         const data = await response.json();
-        
-        dispatch(getCurrentSpotAction(data.spot));
+        console.log('SPOT THUNK DATA', data)
+        dispatch(getCurrentSpotAction(data.Spots));
         return data;
+    } else {
+        const error = await response.json();
+        return { error: error.errors || ['No Data Retrieved of current spot']}
     }
 };
 
 // const CREATE_NEW_SPOT = "spots/createNewSpot"; ACTION
 export const thunkCreateNewSpot = (spots) => async (dispatch) => {
-    const { address, city, state, country, lat, lng, name, description, price } = spots;
+    const { address, city, state, country, name, description, price } = spots;
 
-    const response = await csrfFetch("api/spots", {
+    const response = await csrfFetch("/spots", {
         method: "POST",
+         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            address, city, state, country, lat, lng, name, description, price
+            address, city, state, country, name, description, price
         })
     });
     if(response.ok){
 
         const data = await response.json();
-        dispatch(createNewSpotAction(data.spots));
+        dispatch(createNewSpotAction(data.Spots));
         return data;
     } else {
-        const errors = await response.json();
-        return errors;
+        const error = await response.json();
+        return { error: error.errors || ['Not able to create a new spot']}
         // throw errors;
     }
 };
@@ -102,8 +116,8 @@ export const thunkEditSpot = (spotId, updateSpot) => async (dispatch) => {
         dispatch(editSpotAction(data))
         return data;
     } else {
-        const errors = await response.json();
-        return errors;
+        const error = await response.json();
+        return { error: error.errors || ['Unable to Edit Spot']}
          // throw errors;
     }
 };
@@ -113,8 +127,13 @@ export const thunkDeleteSpot = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}`, {
         method: 'DELETE'
     });
-    dispatch(deleteSpotAction(spotId))
-    return response;
+    if (response.ok){
+        dispatch(deleteSpotAction(spotId))
+        return response;
+    } else {
+        const error = await response.json();
+        return { error: error.errors || ['Spot Not DELETED']}
+    }
 }
 
 // ACTION CREATORS
@@ -127,14 +146,18 @@ const spotsReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_ALL_SPOTS:{
             const newState = {};
-            action.spots.array.forEach((spot) => (newState[spot.id] = spot));
+            // console.log('PASSING DATA TO REDUCER', action.spots)
+            // console.log(action.payload)
+            action.payload.forEach((spot) => (newState[spot.id] = spot));
             return newState;
         }
         case GET_CURRENT_SPOT:
-            return { ...state, spots: action.payload};
+            // return { ...state, [action.payload.id]: action.payload};
+            return { ...state, currentSpot: action.payload};
 
         case CREATE_NEW_SPOT:
             return { ...state, spots: action.payload};
+            // return { ...state, [action.payload.id]: action.payload};
 
         case EDIT_SPOT:
             return { ...state, [action.payload.id]: action.payload};

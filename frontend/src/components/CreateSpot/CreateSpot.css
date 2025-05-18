@@ -1,0 +1,16 @@
+.createSpotFormContainer {
+    text-align: center;
+
+}
+
+.spotFormEntryBoxes{
+    display: grid;
+    grid-template-columns: repeat(1);
+}
+
+.forLineDivider{
+    height: 4px;
+    background-color: black;
+    margin: 40px 400px;
+    border: 1px;
+}

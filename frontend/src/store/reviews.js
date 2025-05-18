@@ -108,8 +108,8 @@ export const thunkEditReview = (reviewId, updateReview) => async (dispatch) => {
         return data;
 
     } else {
-        const errors = await response.json();
-        return errors;
+        const error = await response.json();
+        return { error: error.errors || ['Unable to edit review']}
          // throw errors;
     }
 };
@@ -126,9 +126,8 @@ export const thunkAddReviewImage = (reviewId, reviewImage) => async (dispatch) =
         dispatch(addReviewImageAction(data))
         return data;
     } else {
-        const error = await response.json();
-        // Dont throw error it will break site
-        return error;
+       const error = await response.json();
+        return { error: error.errors || ['Unable to add review image']}
          // throw errors;
     }
 
@@ -140,8 +139,14 @@ export const thunkDeleteReview = (reviewId) => async (dispatch) => {
     const response = await csrfFetch(`/api/reviews/${reviewId}`, {
         method: 'DELETE'
     });
-    dispatch(deleteReviewAction(reviewId))
-    return response;
+    if (response.ok){
+
+        dispatch(deleteReviewAction(reviewId))
+        return response;
+    } else {
+        const error = await response.json();
+        return { error: error.errors || ['unable to delete review']}
+    }
 
 };
 

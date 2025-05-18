@@ -24,18 +24,29 @@ const deleteSpotImageAction = (spotImage) => {
 
 export const thunkGetSpotImage = (spotsId) => async (dispatch) => {
     const response = csrfFetch(`/api/spots/${spotsId}/images`);
-    const data = (await response).json();
-    dispatch(addSpotImageAction(data))
-    return data;
+
+    if (response.ok){
+        const data = (await response).json();
+        dispatch(addSpotImageAction(data))
+        return data;
+    } else {
+        const error = await response.json();
+        return { error: error.errors || ['Unable to get spot image']}
+    }
 }
 
-
 export const thunkDeleteSpotImage = (imageId) => async (dispatcd) => {
-    const response = await csrfFetch(`/apispots/images/${imageId}`, {
+    const response = await csrfFetch(`/api/spots/images/${imageId}`, {
         method: 'DELETE'
     });
-    dispatcd(deleteSpotImageAction(imageId));
-    return response;
+    if (response.ok){
+
+        dispatcd(deleteSpotImageAction(imageId));
+        return response;
+    } else {
+        const error = await response.json();
+        return { error: error.errors || ['Spot Image Not DELETED']}
+    }
 }
 // Reducers
 

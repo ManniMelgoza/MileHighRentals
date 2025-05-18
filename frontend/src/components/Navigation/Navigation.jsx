@@ -1,17 +1,20 @@
 // It creates navigation links that apply styling when the route matches
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 // A React-Redux hook. Lets React components read data from the Redux store. Its a function that reads data from Redux
 import { useSelector } from 'react-redux';
 // This is importing the ProfileButton from the same folder directory (./)
 import ProfileButton from './ProfileButton';
 // TODO: come back to explain what OpenModalButton does
-import OpenModalButton from  '../OpenModalButton/OpenModalButton';
+// import OpenModalButton from  '../OpenModalButton/OpenModalButton';
 //  TODO: GIVE BETTER EXPLANATION //Used when the user is not authenticated.
-import LoginFormModal from '../LoginFormModal/LoginFormModal';
+// import LoginFormModal from '../LoginFormModal/LoginFormModal';
 //  TODO: GIVE BETTER EXPLANATION
-import SignupFormModal from '../SignupFormModal/SignupFormModal';
+// import SignupFormModal from '../SignupFormModal/SignupFormModal';
+import MenuButton from '../MenuButton/MenuButton';
 // Imports the css file for the navigation
 import './Navigation.css';
+// import MenuButton from '../MenuButton/MenuButton';
+
 
 // a function Navigation that passes a destructured proped, isLoaded most likely a boolean value
 function Navigation({ isLoaded }) {
@@ -28,47 +31,61 @@ function Navigation({ isLoaded }) {
     //if the user is logged in or there is a user the sessionLinks variable will be assinged to the component ProfileButton with and passing a prop that will pass an obj of sessionsUsers delcared ealier
     // The seesionUser will be the infotmation of that session user that is logged in
     sessionLinks = (
+     <>
+      <li>
+        <Link to='/spots' className='newSpotLink'>Create a New Spot</Link>
+      </li>
       <li>
         <ProfileButton user={sessionUser} />
       </li>
+      {/* <li>
+        <MenuButton user={sessionUser} />
+      </li> */}
+     </>
     );
   } else {
     //  since the user is not logged in or there is a record the sessionLinks will be assinged to the LogIn and SingUp(buttons) JSX components
     // It will display both buttons to get the new user or current user to sign up or log in to the site
     sessionLinks = (
-    <>
-      <li>
-        <OpenModalButton
-          buttonText="Log In"
-          modalComponent={<LoginFormModal />}
-        />
+    // <>
+    //   <li>
+    //     <OpenModalButton
+    //       buttonText="Log In"
+    //       modalComponent={<LoginFormModal />}
+    //     />
+    //   </li>
+    //   <li>
+    //     <OpenModalButton
+    //       buttonText="Sign Up"
+    //       modalComponent={<SignupFormModal />}
+    //     />
+    //   </li>
+    // </>
+    <li>
+        <MenuButton user={sessionUser} />
       </li>
-      <li>
-        <OpenModalButton
-          buttonText="Sign Up"
-          modalComponent={<SignupFormModal />}
-        />
-      </li>
-    </>
     );
   }
   // Anything inside the return statement will render any JSX components
   return (
-    <ul>
-      <li>
-        {/*  */}
-        <NavLink to="/">Home</NavLink>
-      </li>
-{/* A link to the homepage (<NavLink to="/">Home</NavLink>)
-Additional navigation options (from sessionLinks) only if isLoaded is true:
-If the user is logged in: show profile button.
-If not: show login and signup buttons. */}
+    <nav className='navigation-box'>
+        <div className='nav-left'>
+          <NavLink to="/">
+            <img src="/MileHighRentalsLogo.png" alt='Mile High Rentals Logo' />
+          </NavLink>
+        </div>
+  {/* A link to the homepage (<NavLink to="/">Home</NavLink>)
+  Additional navigation options (from sessionLinks) only if isLoaded is true:
+  If the user is logged in: show profile button.
+  If not: show login and signup buttons. */}
 
-  {/* -if isLoaded is FALSE && sessionLink will render the signUp and logIn buttons
-      -if isLoaded is TRUE && sessionLInk will render the profilebutton with the currentUsers info that is coming from sessionsUsers
-  */}
-      {isLoaded && sessionLinks}
-    </ul>
+    {/* -if isLoaded is FALSE && sessionLink will render the signUp and logIn buttons
+        -if isLoaded is TRUE && sessionLInk will render the profilebutton with the currentUsers info that is coming from sessionsUsers
+        */}
+      <ul className='nav-right'>
+        {isLoaded && sessionLinks}
+      </ul>
+    </nav>
   );
 }
 

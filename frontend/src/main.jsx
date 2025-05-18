@@ -16,6 +16,7 @@ import { restoreCSRF, csrfFetch } from './store/csrf';
 import * as sessionActions from './store/session';
 // Import Modal and ModalProvider from custom context to manage modal state across the app
 import { Modal, ModalProvider } from './context/Modal';
+// import HomePage from './components/HomePage/HomePage';
 
 
 // Create the Redux store instance by calling configureStore
@@ -44,7 +45,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Provider store={store}>
         {/* App is the root component of the application that contains all routes and pages */}
         <App />
-
         {/* Modal renders the actual modal component which can be triggered from anywhere in the app */}
         <Modal />
       </Provider>

@@ -69,34 +69,18 @@ function SignupFormModal() {
 
     // If passwords don't match, set an error message for confirmPassword
     return setErrors({
-      confirmPassword: "Confirm Password field must be the same as the Password field"
+      confirmPassword: "Confirm Password field must be the same as the Password field",
+
     });
   };
+  const userValidation = username.length >= 4;
+  const passwordValidation = password.length >= 5;
+  const completedForm = !email || !username || !firstName || !lastName || !password || !confirmPassword || !userValidation | !passwordValidation;
 
   return (
     <>
       <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
-        {errors.email && <p>{errors.email}</p>}
-        <label>
-          Username
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </label>
-        {errors.username && <p>{errors.username}</p>}
+      <form onSubmit={handleSubmit} className='formContainer'>
         <label>
           First Name
           <input
@@ -117,6 +101,26 @@ function SignupFormModal() {
           />
         </label>
         {errors.lastName && <p>{errors.lastName}</p>}
+        <label>
+          Email
+          <input
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </label>
+        {errors.email && <p>{errors.email}</p>}
+        <label>
+          Username
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </label>
+        {errors.username && <p>{errors.username}</p>}
         <label>
           Password
           <input
@@ -139,7 +143,7 @@ function SignupFormModal() {
         {errors.confirmPassword && (
           <p>{errors.confirmPassword}</p>
         )}
-        <button type="submit">Sign Up</button>
+        <button type="submit" id='signUpButton' disabled={completedForm}>Sign Up</button>
       </form>
     </>
   );

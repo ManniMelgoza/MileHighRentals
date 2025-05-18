@@ -69,9 +69,15 @@ export const signup = (user) => async (dispatch) => {
             username, firstName, lastName, email, password
         })
     });
-    const data = await response.json();
-    dispatch(setUser(data.user));
-    return data;
+    if (response.ok){
+      const data = await response.json();
+      dispatch(setUser(data.user));
+      return data;
+    }
+     else {
+        const error = await response.json();
+        return { error: error.errors || ['No able to signup user']}
+     }
 }
 
 
@@ -81,9 +87,14 @@ export const logout = () => async (dispatch) => {
     const response = await csrfFetch("/api/session", {
         method: 'DELETE'
     });
-    dispatch(removeUser())
-    return response;
-}
+    if ( response.ok){
 
+      dispatch(removeUser())
+      return response;
+    } else{
+         const error = await response.json();
+        return { error: error.errors || ['User was not logout']}
+    }
+}
 
 export default sessionReducer;
