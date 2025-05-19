@@ -65,13 +65,13 @@ const router = createBrowserRouter([
         element: <HomePage />
       },
       {
-        path: `/spots/:id`,
-        element: <SpotPage/>
+        path: `/spots/:spotId`,
+        element: <SpotPage />
       },
       {
-  path: `/spots`,
-  element: <CreateSpot />
-}
+      path: `/spots`,
+      element: <CreateSpot />
+      }
     ]
   }
 ]);

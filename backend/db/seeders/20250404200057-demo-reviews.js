@@ -92,6 +92,7 @@ module.exports = {
           review: "Quiet, remote, and incredibly peaceful. This spot is ideal for a solo writing retreat or a couple's getaway. Nothing fancy, but the stillness and solitude were priceless.",
           stars: 3
         }
+        
     ], { validate: true });
   },
     async down (queryInterface, Sequelize) {

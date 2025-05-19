@@ -15,8 +15,8 @@ function CreateSpotFormModal() {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
-    // const [previewImage, setpreviewImage] = useState("")
-    // const [image, setImage] = useState("")
+    const [previewImage, setpreviewImage] = useState("")
+    const [image, setImage] = useState("")
     const [errors, setErrors] = useState({});
     // const {closeModal} = useModal();
 
@@ -166,11 +166,11 @@ return (
                 />
             </label>
             {errors.price && <p>{errors.price}</p>}
-            {/* <label>
+             <div className="forLineDivider" />
+            <label>
                 <h2>Liven up your spot with photos</h2>
                 <p>
-                Catch guests attention with a spot title that highlights what makes
-                your place special.
+                Submit a link to at least one photo to publish your spot.
                 </p>
                 <input
                     type='text'
@@ -186,8 +186,29 @@ return (
                     onChange={(e) => setImage(e.target.value)}
                     required
                 />
+                <input
+                    type='text'
+                    value={image}
+                    placeholder="Image URL"
+                    onChange={(e) => setImage(e.target.value)}
+                    required
+                />
+                <input
+                    type='text'
+                    value={image}
+                    placeholder="Image URL"
+                    onChange={(e) => setImage(e.target.value)}
+                    required
+                />
+                <input
+                    type='text'
+                    value={image}
+                    placeholder="Image URL"
+                    onChange={(e) => setImage(e.target.value)}
+                    required
+                />
             </label>
-            {errors.image && <p>{errors.image}</p>} */}
+            {errors.image && <p>{errors.image}</p>}
              <div className="forLineDivider" />
             <button type='submit' id="createSpotButton">Create Spot</button>
         </form>

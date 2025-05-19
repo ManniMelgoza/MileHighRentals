@@ -156,7 +156,7 @@ const spotsReducer = (state = initialState, action) => {
             return { ...state, currentSpot: action.payload};
 
         case CREATE_NEW_SPOT:
-            return { ...state, spots: action.payload};
+            return { ...state, spots: [...action.payload]};
             // return { ...state, [action.payload.id]: action.payload};
 
         case EDIT_SPOT:

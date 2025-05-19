@@ -43,9 +43,8 @@ const HomePage = () => {
                 </p>
 
                 <div className="stars">
-                  {/* <span className="stars-base">★★★★★</span>
-                  <span className="stars-overlay">★★★★★</span> */}
-                <FaStar /> {spot.avgRating === Number('0.0') ? 'New' : spot.avgRating}
+                <FaStar />
+                {spot.avgRating ? Number(spot.avgRating).toFixed(1) : 'New'}
                 </div>
                 </div>
 

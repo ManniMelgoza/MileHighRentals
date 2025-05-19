@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { thunkCurrentSpot } from '../../store/spots';
@@ -7,50 +7,54 @@ import './SpotPage.css';
 function SpotDetails() {
     const { spotId } = useParams();
     const dispatch = useDispatch();
-    const [mainImage, setMainImage] = useState(null);
+    // const [mainImage, setMainImage] = useState(null);
 
     const spot = useSelector(state => state.spots);
     // const spotsArr = Object.values(spot)
-    console.log('SPOT',spot)
+    console.log('SPOT',spot.currentSpot?.Owner?.firstName)
+    // const spotsArr = Object.values(spot)
     // console.log('SPOTARR', spotsArr.Spots)
 
     useEffect(() => {
-        // if (spotId)
+        if (spotId)
+            console.log('HEY')
             dispatch(thunkCurrentSpot(spotId));
     }, [dispatch, spotId]);
 
-if (!spot.id || !spot.SpotImages) return <div>Loading...</div>
+    // const {
+    //     name,
+    //     city,
+    //     state,
+    //     country,
+    //     price,
+    //     avgStarRating,
+    //     numReviews,
+    //     description,
+    //     SpotImages,
+    //     Owner
+    // } = spot;
 
-    const {
-        name,
-        city,
-        state,
-        country,
-        price,
-        avgStarRating,
-        numReviews,
-        description,
-        SpotImages,
-        Owner
-    } = spot;
+if (!spot.currentSpot) return <div>Loading...</div>
 
-    const previewImage = SpotImages?.find(img => img.preview) || SpotImages?.[0] || {};
+
+    // const previewImage = spot.SpotImages?.find(img => img.preview) || SpotImages?.[0] || {};
 
     return (
         <div className="spot-details">
-            <h1>{name}</h1>
-            <p>{city}, {state}, {country}</p>
+            <h1>{spot.currentSpot?.name}</h1>
+            <p>{spot.currentSpot.city}, {spot.currentSpot.state}, {spot.currentSpot.country}</p>
 
             {/* Image Display */}
             <div className="images-section">
-    <div className="main-image-wrapper">
+    {/* <div className="main-image-wrapper">
         <img
             className="main-image"
-            src={mainImage || previewImage?.url}
-            alt="Main Spot"
+            // src={mainImage || previewImage?.url}
+            // src={spot.currentSpot.SpotImages.spotId}
+            alt="Display Image of the Spot"
         />
-    </div>
-    <div className="thumbnails">
+    </div> */}
+    {/* <div className="thumbnails">
         {SpotImages.filter(img => img.url !== (mainImage || previewImage?.url)).map((img, i) => (
             <img
                 key={i}
@@ -60,19 +64,22 @@ if (!spot.id || !spot.SpotImages) return <div>Loading...</div>
                 onClick={() => setMainImage(img.url)}
             />
         ))}
-    </div>
+    </div> */}
 </div>
 
             {/* Owner & Description */}
             <div className="spot-info">
-                <h2>Hosted by {Owner?.firstName} {Owner?.lastName}</h2>
-                <p>{description}</p>
+                <h2>Hosted by {spot.currentSpot?.Owner?.firstName} {spot.currentSpot?.Owner?.lastName}</h2>
+                <p>{spot.currentSpot.description}</p>
             </div>
 
             {/* Price + Ratings */}
             <div className="booking-box">
-                <p><strong>${price}</strong> night</p>
-                <p>⭐ {avgStarRating} · {numReviews} review{numReviews !== 1 && 's'}</p>
+                <p><strong>${spot.currentSpot.price}</strong> night</p>
+                <p>{spot.currentSpot.avgStarRating} · {spot.currentSpot.numReviews} review{spot.currentSpot.numReviews !== 1 && 's'}</p>
+                <button onClick={() => alert("Feature coming soon")}>
+                Reserve
+                </button>
             </div>
         </div>
     );
