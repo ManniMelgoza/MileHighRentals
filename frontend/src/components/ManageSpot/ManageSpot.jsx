@@ -1,26 +1,29 @@
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { thunkCurrentSpot } from '../../store/spots';
-// import { FaStar } from 'react-icons/fa';
+// import { thunkEditSpot} from '../../store/spots';
+// import { thunkDeleteSpot } from '../../store/spots';
+import { FaStar } from 'react-icons/fa';
 import './ManageSpot.css';
 
 function ManageSpot() {
-    const { spotId } = useParams();
+    const { id } = useParams();
     const dispatch = useDispatch();
     // const [mainImage, setMainImage] = useState(null);
 
+    // console.log('IMAGE DISPLAY', spot.currentSpot.SpotImages[0].url)
     const spot = useSelector(state => state.spots);
     // const spotsArr = Object.values(spot)
-    console.log('IMAGE DISPLAY', spot[spotId])
     // const spotsArr = Object.values(spot)
     // console.log('SPOTARR', spotsArr.Spots)
 
     useEffect(() => {
-        if (spotId)
-            console.log('HEY')
-            dispatch(thunkCurrentSpot(spotId));
-    }, [dispatch, spotId]);
+        if (id)
+            // console.log('HEY')
+            dispatch(thunkCurrentSpot(id));
+    }, [dispatch, id]);
 
     // const {
     //     name,
@@ -37,7 +40,7 @@ function ManageSpot() {
 
 // if (!spot.currentSpot) return <div>Loading...</div>
 
-    console.log('SPOT', spot.city)
+    console.log('SPOT', spot.spots)
     // const previewImage = spot.SpotImages?.find(img => img.preview) || spot.currentSpot?.SpotImages?.[0] || {};
 
     return (
@@ -51,12 +54,29 @@ function ManageSpot() {
         <img
             // className="main-image"
             // src={mainImage || previewImage?.url}
-            src={spot.currentSpot?.SpotImages[0].url}
+            src={spot.currentSpot}
             alt="Display Image of the Spot"
             style={{ width: "300px", height: "300px", objectFit: "cover", border: '5px solid black'}}
         />
-        <p>{spot.currentSpot?.city}</p>
+        <p>{spot.currentSpot?.city}, {spot.currentSpot?.state} {''}<FaStar />  {" "}
+
+                                {spot.currentSpot ? spot.currentSpot?.avgRating.toFixed(1) : 'New'}
+
+                                {spot.currentSpot?.numReviews > 0 && (
+                                    <> · {spot.currentSpot.numReviews} Reviews</>
+                                )}</p>
+                                <p>{spot.currentSpot?.price}</p>
     </div>
+    <>
+
+     <li>
+        <Link to='/api/spots/:id' className='newSpotLink'>Update</Link>
+    </li>
+    <li>
+        <Link to={`/:id`} className='newSpotLink'>Delete</Link>
+    </li>
+    </>
+    { ' ' }
 
 </div>
         </div>

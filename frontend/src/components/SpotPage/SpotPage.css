@@ -8,7 +8,7 @@ display:block;
   align-items: center;
   list-style: none;
   margin-left: 400px;
-  margin-right: 1300px;
+  margin-right: 1100px;
   padding: 10px;
   /* display: flex; */
   /* flex-direction: row; */
@@ -27,4 +27,11 @@ display:block;
 
 .spotDetailsWrap {
   justify-content: center;
+}
+
+.forLineDivider{
+    height: 4px;
+    background-color: black;
+    margin: 40px 400px;
+    border: 1px;
 }

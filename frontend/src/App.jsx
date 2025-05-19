@@ -14,6 +14,7 @@ import HomePage from './components/HomePage/HomePage';
 import SpotPage from './components/SpotPage/SpotPage';
 import CreateSpot from './components/CreateSpot/CreateSpot';
 import ManageSpot from './components/ManageSpot/ManageSpot';
+import UpdateSpot from './components/UpdateSpot/UpdateSpot';
 
 import "./index.css"
 
@@ -74,9 +75,19 @@ const router = createBrowserRouter([
       element: <CreateSpot />
       },
       {
+        path: '/api/spots/:id',
+        element: <UpdateSpot />
+
+      },
+      {
         path: '/current',
         element: <ManageSpot />
+      },
+      {
+        path: '/:id',
+        element: <SpotPage />
       }
+
     ]
   }
 ]);

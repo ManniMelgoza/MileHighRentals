@@ -103,6 +103,7 @@ function LoginFormModal() {
           <p>{errors.credential}</p>
         )}
         <button type="submit">Log In</button>
+        <br />
         <button type='button' onClick={handleDemoLogIn}>Log in as Demo User</button>
       </form>
     </>

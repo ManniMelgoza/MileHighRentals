@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { thunkCurrentSpot } from '../../store/spots';
-// import { FaStar } from 'react-icons/fa';
+import { FaStar } from 'react-icons/fa';
 import './SpotPage.css';
 
 function SpotDetails() {
@@ -12,7 +12,7 @@ function SpotDetails() {
 
     const spot = useSelector(state => state.spots);
     // const spotsArr = Object.values(spot)
-    console.log('IMAGE DISPLAY',spot.currentSpot?.SpotImages.url)
+    // console.log('IMAGE DISPLAY',spot.currentSpot?.SpotImages.url)
     // const spotsArr = Object.values(spot)
     // console.log('SPOTARR', spotsArr.Spots)
 
@@ -77,7 +77,7 @@ if (!spot.currentSpot) return <div>Loading...</div>
                 <p><strong>${spot.currentSpot.price}</strong> night</p>
                 {/* <p> <FaStar /> {spot.currentSpot.avgRating ? spot.currentSpot.avgRating.toFixed(1) : 'New'} · {spot.currentSpot.numReviews} Review{spot.currentSpot.numReviews !== 1 && 's'}</p> */}
                 <p>
-                    {" "}
+                  <FaStar />  {" "}
 
                     {spot.currentSpot.avgRating ? spot.currentSpot.avgRating.toFixed(1) : 'New'}
 
@@ -94,7 +94,19 @@ if (!spot.currentSpot) return <div>Loading...</div>
                 <h2>Hosted by {spot.currentSpot?.Owner?.firstName} {spot.currentSpot?.Owner?.lastName}</h2>
                 <p>{spot.currentSpot.description}</p>
             </div>
+        <div className="forLineDivider" />
+        <div>
+            <h2>
+                 <FaStar />  {" "}
 
+                    {spot.currentSpot.avgRating ? spot.currentSpot.avgRating.toFixed(1) : 'New'}
+
+                    {spot.currentSpot.numReviews > 0 && (
+                        <> · {spot.currentSpot.numReviews} Reviews</>
+                    )}
+            </h2>
+
+        </div>
         </div>
     );
 }
