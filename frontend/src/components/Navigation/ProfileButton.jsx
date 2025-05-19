@@ -101,7 +101,7 @@ function ProfileButton({ user }) {
         <li>Hello {user.firstName} {user.lastName}</li>
         <li>{user.email}</li>
         <li>
-        <Link className='manageSpotLink'>Manage Spot</Link>
+        <Link to='/current' className='manageSpotLink'>Manage Spot</Link>
           {/* A logout button that triggers the logout function */}
           <button onClick={logout}>Log Out</button>
         </li>

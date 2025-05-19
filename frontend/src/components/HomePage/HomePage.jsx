@@ -43,12 +43,13 @@ const HomePage = () => {
                 </p>
 
                 <div className="stars">
-                <FaStar />
+                <FaStar />{ " " }
                 {spot.avgRating ? Number(spot.avgRating).toFixed(1) : 'New'}
                 </div>
                 </div>
 
-                <p> <FaDollarSign /> {spot.price} night</p>
+                <p> <FaDollarSign />
+                <strong>{Number(spot.price?.toFixed(2))}</strong> night</p>
               </div>
             </Link>
           </>

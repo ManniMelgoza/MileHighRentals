@@ -1,0 +1,30 @@
+/* .thumbnails{
+    display: flex;
+    grid-template-columns: repeat(1, 1fr);
+} */
+
+.booking-box{
+display:block;
+  align-items: center;
+  list-style: none;
+  margin-left: 400px;
+  margin-right: 1300px;
+  padding: 10px;
+  /* display: flex; */
+  /* flex-direction: row; */
+  gap: 10px;
+  border: 6px solid black;
+
+
+}
+
+.booking-box button {
+  border: 1px solid #7e4628;
+  border-radius: 4px;
+  background-color: #923737;
+  color: white
+}
+
+.spotDetailsWrap {
+  justify-content: center;
+}

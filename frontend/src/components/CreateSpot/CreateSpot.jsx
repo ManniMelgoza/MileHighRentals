@@ -184,28 +184,28 @@ return (
                     value={image}
                     placeholder="Image URL"
                     onChange={(e) => setImage(e.target.value)}
-                    required
+
                 />
                 <input
                     type='text'
                     value={image}
                     placeholder="Image URL"
                     onChange={(e) => setImage(e.target.value)}
-                    required
+
                 />
                 <input
                     type='text'
                     value={image}
                     placeholder="Image URL"
                     onChange={(e) => setImage(e.target.value)}
-                    required
+
                 />
                 <input
                     type='text'
                     value={image}
                     placeholder="Image URL"
                     onChange={(e) => setImage(e.target.value)}
-                    required
+                   
                 />
             </label>
             {errors.image && <p>{errors.image}</p>}

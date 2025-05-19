@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { thunkCurrentSpot } from '../../store/spots';
+// import { FaStar } from 'react-icons/fa';
 import './SpotPage.css';
 
 function SpotDetails() {
@@ -11,13 +12,13 @@ function SpotDetails() {
 
     const spot = useSelector(state => state.spots);
     // const spotsArr = Object.values(spot)
-    console.log('SPOT',spot.currentSpot?.Owner?.firstName)
+    console.log('IMAGE DISPLAY',spot.currentSpot?.SpotImages.url)
     // const spotsArr = Object.values(spot)
     // console.log('SPOTARR', spotsArr.Spots)
 
     useEffect(() => {
         if (spotId)
-            console.log('HEY')
+            // console.log('HEY')
             dispatch(thunkCurrentSpot(spotId));
     }, [dispatch, spotId]);
 
@@ -37,50 +38,63 @@ function SpotDetails() {
 if (!spot.currentSpot) return <div>Loading...</div>
 
 
-    // const previewImage = spot.SpotImages?.find(img => img.preview) || SpotImages?.[0] || {};
+    // const previewImage = spot.SpotImages?.find(img => img.preview) || spot.currentSpot?.SpotImages?.[0] || {};
 
     return (
+        <div className='spotDetailsWrap'>
         <div className="spot-details">
             <h1>{spot.currentSpot?.name}</h1>
             <p>{spot.currentSpot.city}, {spot.currentSpot.state}, {spot.currentSpot.country}</p>
 
             {/* Image Display */}
             <div className="images-section">
-    {/* <div className="main-image-wrapper">
+    <div className="main-image-wrapper">
         <img
-            className="main-image"
+            // className="main-image"
             // src={mainImage || previewImage?.url}
-            // src={spot.currentSpot.SpotImages.spotId}
+            src={spot.currentSpot?.SpotImages[0].url}
             alt="Display Image of the Spot"
+            style={{ width: "300px", height: "300px", objectFit: "cover", border: '5px solid black'}}
         />
-    </div> */}
-    {/* <div className="thumbnails">
-        {SpotImages.filter(img => img.url !== (mainImage || previewImage?.url)).map((img, i) => (
+    </div>
+    <div className="thumbnails">
+        {spot.currentSpot?.SpotImages?.slice(1).map((img, i) => (
             <img
                 key={i}
                 src={img.url}
                 alt={`Thumbnail ${i}`}
                 className="thumbnail"
-                onClick={() => setMainImage(img.url)}
+                style={{ width: "120px", height: "120px", objectFit: "cover", border: '5px solid black'}}
+                // onClick={() => setMainImage(img.url)}
             />
         ))}
-    </div> */}
+    </div>
+</div>
 </div>
 
+            {/* Price + Ratings */}
+            <div className="booking-box">
+                <p><strong>${spot.currentSpot.price}</strong> night</p>
+                {/* <p> <FaStar /> {spot.currentSpot.avgRating ? spot.currentSpot.avgRating.toFixed(1) : 'New'} · {spot.currentSpot.numReviews} Review{spot.currentSpot.numReviews !== 1 && 's'}</p> */}
+                <p>
+                    {" "}
+
+                    {spot.currentSpot.avgRating ? spot.currentSpot.avgRating.toFixed(1) : 'New'}
+
+                    {spot.currentSpot.numReviews > 0 && (
+                        <> · {spot.currentSpot.numReviews} Reviews</>
+                    )}
+                </p>
+                <button onClick={() => alert("Feature coming soon")}>
+                Reserve
+                </button>
+            </div>
             {/* Owner & Description */}
             <div className="spot-info">
                 <h2>Hosted by {spot.currentSpot?.Owner?.firstName} {spot.currentSpot?.Owner?.lastName}</h2>
                 <p>{spot.currentSpot.description}</p>
             </div>
 
-            {/* Price + Ratings */}
-            <div className="booking-box">
-                <p><strong>${spot.currentSpot.price}</strong> night</p>
-                <p>{spot.currentSpot.avgStarRating} · {spot.currentSpot.numReviews} review{spot.currentSpot.numReviews !== 1 && 's'}</p>
-                <button onClick={() => alert("Feature coming soon")}>
-                Reserve
-                </button>
-            </div>
         </div>
     );
 }
