@@ -72,7 +72,7 @@ export const thunkCurrentSpot = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}`);
     if (response.ok){
         const data = await response.json();
-        console.log('SPOT THUNK DATA', data)
+        // console.log('SPOT THUNK DATA', data)
         dispatch(getCurrentSpotAction(data.Spots));
         return data;
     } else {
