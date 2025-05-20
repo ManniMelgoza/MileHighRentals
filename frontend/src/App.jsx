@@ -85,7 +85,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/:id',
-        element: <SpotPage />
+        element: <HomePage />
       }
 
     ]
