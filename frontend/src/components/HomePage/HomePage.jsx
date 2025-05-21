@@ -44,12 +44,14 @@ const HomePage = () => {
 
                 <div className="stars">
                 <FaStar />{ " " }
-                {spot.avgRating ? Number((spot.avgRating)?.toFixed(1)) : 'New'}
+                {/* {spot.avgRating ? Number((spot.avgRating)).toFixed(1) : 'New'} */}
+                 {spot.avgRating ? spot.avgRating : 'New'}
                 </div>
                 </div>
 
                 <p> <FaDollarSign />
-                <strong>{Number(spot.price?.toFixed(2))}</strong> night</p>
+                {/* <strong>{Number(spot.price).toFixed(2)}</strong> night</p> */}
+                <strong>{spot.price}</strong> night</p>
               </div>
             </Link>
           </>

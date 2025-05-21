@@ -60,7 +60,8 @@ function ManageSpot() {
         />
         <p>{spot.currentSpot?.city}, {spot.currentSpot?.state} {''}<FaStar />  {" "}
 
-                                {spot.currentSpot ? spot.currentSpot?.avgRating?.toFixed(1) : 'New'}
+                                {/* {spot.currentSpot ? Number(spot.currentSpot?.avgRating)?.toFixed(1) : 'New'} */}
+                                {spot.currentSpot ? spot.currentSpot?.avgRating : 'New'}
 
                                 {spot.currentSpot?.numReviews > 0 && (
                                     <> · {spot.currentSpot.numReviews} Reviews</>
