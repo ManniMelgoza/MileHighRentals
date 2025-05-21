@@ -79,7 +79,7 @@ if (!spot.currentSpot) return <div>Loading...</div>
                 <p>
                   <FaStar />  {" "}
 
-                    {spot.currentSpot.avgRating ? spot.currentSpot.avgRating.toFixed(1) : 'New'}
+                    {spot.currentSpot.avgRating ? Number(spot.currentSpot.avgRating?.toFixed(1)) : 'New'}
 
                     {spot.currentSpot.numReviews > 0 && (
                         <> · {spot.currentSpot.numReviews} Reviews</>
@@ -99,7 +99,7 @@ if (!spot.currentSpot) return <div>Loading...</div>
             <h2>
                  <FaStar />  {" "}
 
-                    {spot.currentSpot.avgRating ? spot.currentSpot.avgRating.toFixed(1) : 'New'}
+                    {spot.currentSpot.avgRating ? Number(spot.currentSpot.avgRating?.toFixed(1)) : 'New'}
 
                     {spot.currentSpot.numReviews > 0 && (
                         <> · {spot.currentSpot.numReviews} Reviews</>

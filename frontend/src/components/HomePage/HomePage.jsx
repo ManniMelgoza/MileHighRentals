@@ -44,7 +44,7 @@ const HomePage = () => {
 
                 <div className="stars">
                 <FaStar />{ " " }
-                {spot.avgRating ? Number(spot.avgRating).toFixed(1) : 'New'}
+                {spot.avgRating ? Number((spot.avgRating)?.toFixed(1)) : 'New'}
                 </div>
                 </div>
 
