@@ -15,6 +15,7 @@ function ManageSpot() {
 
     // console.log('IMAGE DISPLAY', spot.currentSpot.SpotImages[0].url)
     const spot = useSelector(state => state.spots);
+    console.log("MANAGESPOTDATA", spot)
     // const spotsArr = Object.values(spot)
     // const spotsArr = Object.values(spot)
     // console.log('SPOTARR', spotsArr.Spots)
@@ -40,7 +41,7 @@ function ManageSpot() {
 
 // if (!spot.currentSpot) return <div>Loading...</div>
 
-    console.log('SPOT', spot.spots)
+    console.log('SPOT DATA PRINT', spot)
     // const previewImage = spot.SpotImages?.find(img => img.preview) || spot.currentSpot?.SpotImages?.[0] || {};
 
     return (
@@ -54,14 +55,14 @@ function ManageSpot() {
         <img
             // className="main-image"
             // src={mainImage || previewImage?.url}
-            src={spot.currentSpot}
+            src={spot.currentSpot.SpotImages[0].url}
             alt="Display Image of the Spot"
             style={{ width: "300px", height: "300px", objectFit: "cover", border: '5px solid black'}}
-        />
+            />
         <p>{spot.currentSpot?.city}, {spot.currentSpot?.state} {''}<FaStar />  {" "}
 
                                 {/* {spot.currentSpot ? Number(spot.currentSpot?.avgRating)?.toFixed(1) : 'New'} */}
-                                {spot.currentSpot ? spot.currentSpot?.avgRating : 'New'}
+                                {spot.currentSpot?.avgRating === null ? 'New' : spot.currentSpot?.avgRating}
 
                                 {spot.currentSpot?.numReviews > 0 && (
                                     <> · {spot.currentSpot.numReviews} Reviews</>
@@ -83,5 +84,6 @@ function ManageSpot() {
         </div>
     );
 }
+
 
 export default ManageSpot;

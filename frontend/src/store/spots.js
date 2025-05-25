@@ -24,10 +24,10 @@ const getCurrentSpotAction = (spot) => {
     };
 };
 
-const createNewSpotAction = (spots) => {
+const createNewSpotAction = (spot) => {
     return {
         type: CREATE_NEW_SPOT,
-        payload: spots
+        payload: spot
     };
 };
 
@@ -51,7 +51,7 @@ const deleteSpotAction = (spotId) => {
 
 export const thunkRetriveAllSpots = () => async (dispatch) => {
     // Getting data from DB
-    const response = await csrfFetch("/api/spots");
+    const response = await csrfFetch("/");
     // Making data readable
     if(response.ok){
 
@@ -82,10 +82,10 @@ export const thunkCurrentSpot = (spotId) => async (dispatch) => {
 };
 
 // const CREATE_NEW_SPOT = "spots/createNewSpot"; ACTION
-export const thunkCreateNewSpot = (spots) => async (dispatch) => {
-    const { address, city, state, country, name, description, price } = spots;
+export const thunkCreateNewSpot = (spot) => async (dispatch) => {
+    const { address, city, state, country, name, description, price } = spot;
 
-    const response = await csrfFetch("/spots", {
+    const response = await csrfFetch("/api/spots", {
         method: "POST",
          headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -95,6 +95,7 @@ export const thunkCreateNewSpot = (spots) => async (dispatch) => {
     if(response.ok){
 
         const data = await response.json();
+        console.log('DATA FROM THUNK API', data)
         dispatch(createNewSpotAction(data.Spots));
         return data;
     } else {
@@ -156,7 +157,7 @@ const spotsReducer = (state = initialState, action) => {
             return { ...state, currentSpot: action.payload};
 
         case CREATE_NEW_SPOT:
-            return { ...state, spots: [...action.payload]};
+            return { ...state, newSpot: [...action.payload]};
             // return { ...state, [action.payload.id]: action.payload};
 
         case EDIT_SPOT:
