@@ -20,6 +20,7 @@ module.exports = {
   production: {
     // this is where the hosting url will go to deploy the project
     use_env_variable: 'DATABASE_URL', //render will use this later on
+    // use_env_variable: 'postgresql://manni_bd_main_user:rddD7nfqePlWkNFlBckzD2DSpBWRJFBA@dpg-d05soaer433s73e0pipg-a.oregon-postgres.render.com/manni_bd_main', //render will use this later on
     // dialect: 'sequelize',
     dialect: 'postgres', //original
     seederStorage: 'sequelize',
