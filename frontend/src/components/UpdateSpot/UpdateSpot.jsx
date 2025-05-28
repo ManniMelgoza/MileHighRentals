@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 // import { useModal } from "../../context/Modal";
+import { useParams } from 'react-router-dom';
 import * as spotsActions from '../../store/spots';
 import './UpdateSpot.css';
 
 
 function UpdateSpotForm() {
 
-    const dispatch = useDispatch();
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
@@ -17,9 +17,33 @@ function UpdateSpotForm() {
     const [price, setPrice] = useState("");
     const [previewImage, setpreviewImage] = useState("")
     const [image, setImage] = useState("")
-    const [errors, setErrors] = useState({});
-    // const {closeModal} = useModal();
 
+    const { spotId } = useParams();
+    const spot = useSelector(state => state.spots.currentSpot);
+    // const {closeModal} = useModal();
+    const dispatch = useDispatch();
+    const [errors, setErrors] = useState({});
+
+         useEffect(() => {
+            // const [mainImage, setMainImage] = useState(null);
+            if (spotId)
+                // console.log('HEY')
+                dispatch(spotsActions.thunkCurrentSpot(spotId));
+        }, [dispatch, spotId]);
+
+    useEffect(() => {
+        if (spot) {
+            setAddress(spot.spots.address);
+            setCity(spot.city);
+            setState()
+            setCountry()
+            setName()
+            setDescription()
+            setPrice()
+            setpreviewImage()
+            setImage()
+        }
+    }, [spot])
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -35,7 +59,9 @@ function UpdateSpotForm() {
                 country,
                 name,
                 description,
-                price
+                price,
+                previewImage,
+                image
             }))
 
             // .then(closeModal)
@@ -52,7 +78,6 @@ function UpdateSpotForm() {
     }
 
 }
-
 
 //    .catch(async (res) => {
 //         try {

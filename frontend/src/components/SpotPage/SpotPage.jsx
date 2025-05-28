@@ -1,8 +1,11 @@
+
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { thunkCurrentSpot } from '../../store/spots';
 import { FaStar } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { ReviewSpotInfo } from '../ReviewsSpots/ReviewSpotInfo'
 import './SpotPage.css';
 
 function SpotDetails() {
@@ -15,6 +18,8 @@ function SpotDetails() {
     // console.log('IMAGE DISPLAY',spot.currentSpot?.SpotImages.url)
     // const spotsArr = Object.values(spot)
     // console.log('SPOTARR', spotsArr.Spots)
+
+
 
     useEffect(() => {
         if (spotId)
@@ -74,7 +79,7 @@ if (!spot.currentSpot) return <div>Loading...</div>
 
             {/* Price + Ratings */}
             <div className="booking-box">
-                <p><strong>${spot.currentSpot.price}</strong> night</p>
+                <p><strong>${spot.currentSpot.price.toFixed(2)}</strong> night</p>
                 {/* <p> <FaStar /> {spot.currentSpot.avgRating ? spot.currentSpot.avgRating.toFixed(1) : 'New'} · {spot.currentSpot.numReviews} Review{spot.currentSpot.numReviews !== 1 && 's'}</p> */}
                 <p>
                   <FaStar />  {" "}
@@ -95,6 +100,8 @@ if (!spot.currentSpot) return <div>Loading...</div>
                 <p>{spot.currentSpot.description}</p>
             </div>
         <div className="forLineDivider" />
+
+        {/* Button */}
         <div>
             <h2>
                  <FaStar />  {" "}
@@ -106,6 +113,11 @@ if (!spot.currentSpot) return <div>Loading...</div>
                     )}
             </h2>
 
+        </div>
+        <div>
+        {/* TODO: Need to change the route  */}
+        <Link to='/spots/new' className='newSpotLink'>Post Your Review</Link>
+        <ReviewSpotInfo />
         </div>
         </div>
     );

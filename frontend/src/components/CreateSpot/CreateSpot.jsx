@@ -1,71 +1,83 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 // import { useModal } from "../../context/Modal";
-import * as spotsActions from '../../store/spots';
+import { thunkCreateNewSpot } from '../../store/spots';
+// import { addSpotImageAction } from '../../store/spot-images'
+import { FaDollarSign } from "react-icons/fa6";
 import './CreateSpot.css';
 
 
 function CreateSpotFormModal() {
 
     const dispatch = useDispatch();
+
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
     const [country, setCountry] = useState("");
+    const [lat, setLat] = useState("");
+    const [lng, setLng] = useState("");
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
-    const [previewImage, setpreviewImage] = useState("")
-    const [image, setImage] = useState("")
+    const [previewImage, setpreviewImage] = useState("");
+    const [image1, setImage1] = useState("");
+    const [image2, setImage2] = useState("");
+    const [image3, setImage3] = useState("");
+    const [image4, setImage4] = useState("");
     const [errors, setErrors] = useState({});
-    // const {closeModal} = useModal();
-
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setErrors({});
 
-        if (address && city && state && country && name && description && price){
-
-        return dispatch(
-            spotsActions.thunkCreateNewSpot({
-                address,
-                city,
-                state,
-                country,
-                name,
-                description,
-                price
-            }))
-
-            // .then(closeModal)
-
-
-            .catch(async (res) => {
-                const data = await res.json();
-
-                // If the response contains validation errors, set them in state
-                if (data && data.errors) {
-                    setErrors(data.errors);
-                }
+        if(!country || !city || !state || !address || !lat || !lng || !name || !description || !price) {
+            return setErrors({
+                country: "Country is required",
+                address: "Address is required",
+                city: "City is required",
+                state: "State is required",
+                lat: "Latitude is required",
+                lng: "Longiture is required",
+                description: "Description needs a minimum of 30 characters",
+                name: "Name is required",
+                price: "Price is required",
+                previewImage: "Preview image is required.",
+                image1: "Image URL must end in .png, .jpg, or .jpeg"
             });
+        }
+    // if (address && city && state && country && lat && lng && name && description && price && previewImage && image){
+
+    return dispatch(
+        thunkCreateNewSpot({
+            address,
+            city,
+            state,
+            country,
+            lat,
+            lng,
+            name,
+            description,
+            price
+        })
+    )
+
+        .catch(async (res) => {
+            const data = await res.json();
+
+            // If the response contains validation errors, set them in state
+            if (data?.errors) {
+                setErrors(data.errors);
+            }
+        });
     }
 
-}
+// ERROR HANDLER SECTION
 
 
-//    .catch(async (res) => {
-//         try {
-//           const text = await res.text();
-//           const data = text ? JSON.parse(text) : null;
-//           if (data?.errors) setErrors(data.errors);
-//           else setErrors({ general: "Something went wrong" });
-//         } catch {
-//           setErrors({ general: "Invalid server response" });
-//         }
-//       });
-//   }
-// };
+
+//   const userValidation = username.length >= 4;
+//   const passwordValidation = password.length >= 5;
+  const completedForm = !country || !city || !state || !address || !lat || !lng || !name || !description || !price;
 
 return (
     <div className='createSpotFormContainer'>
@@ -117,8 +129,32 @@ return (
                     required
                 />
             </label>
-            {errors.sate && <p>{errors.state}</p>}
+            {errors.state && <p>{errors.state}</p>}
+            <label>
+                Latitude
+                <input
+                    type='text'
+                    value={lat}
+                    placeholder="Latitude"
+                    onChange={(e) => setLat(e.target.value)}
+                    required
+                />
+            </label>
+            {errors.lat && <p>{errors.lat}</p>}
+            <label>
+                Longitude
+                <input
+                    type='text'
+                    value={lng}
+                    placeholder="Longitude"
+                    onChange={(e) => setLng(e.target.value)}
+                    required
+                />
+            </label>
+            {errors.lng && <p>{errors.lng}</p>}
+
             <div className="forLineDivider" />
+
             <label>
                 <h2>Describe you place to guest</h2>
                 <p>
@@ -157,6 +193,7 @@ return (
                 Competitive pricing can help your listing stand out and rank higher
                 in search results.
                 </p>
+           <FaDollarSign />
                 <input
                     type='number'
                     value={price}
@@ -166,7 +203,9 @@ return (
                 />
             </label>
             {errors.price && <p>{errors.price}</p>}
+
              <div className="forLineDivider" />
+
             <label>
                 <h2>Liven up your spot with photos</h2>
                 <p>
@@ -181,36 +220,36 @@ return (
                 />
                 <input
                     type='text'
-                    value={image}
+                    value={image1}
                     placeholder="Image URL"
-                    onChange={(e) => setImage(e.target.value)}
+                    onChange={(e) => setImage1(e.target.value)}
 
                 />
                 <input
                     type='text'
-                    value={image}
+                    value={image2}
                     placeholder="Image URL"
-                    onChange={(e) => setImage(e.target.value)}
+                    onChange={(e) => setImage2(e.target.value)}
 
                 />
                 <input
                     type='text'
-                    value={image}
+                    value={image3}
                     placeholder="Image URL"
-                    onChange={(e) => setImage(e.target.value)}
+                    onChange={(e) => setImage3(e.target.value)}
 
                 />
                 <input
                     type='text'
-                    value={image}
+                    value={image4}
                     placeholder="Image URL"
-                    onChange={(e) => setImage(e.target.value)}
-                   
+                    onChange={(e) => setImage4(e.target.value)}
+
                 />
             </label>
             {errors.image && <p>{errors.image}</p>}
              <div className="forLineDivider" />
-            <button type='submit' id="createSpotButton">Create Spot</button>
+            <button type='submit' id="createSpotButton" disabled={completedForm}>Create Spot</button>
         </form>
     </div>
     )

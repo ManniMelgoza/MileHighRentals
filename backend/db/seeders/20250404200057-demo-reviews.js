@@ -32,12 +32,12 @@ module.exports = {
   //  const spot3 = await Spot.findByPk(3);
 
       await Review.bulkCreate([
-        // {
-        //   userId: 1,
-        //   spotId: 1,
-        //   review: "Absolutely magical! The cottage is tucked away right next to Rocky Mountain National Park, and waking up to the view of towering pines was surreal. Cozy, quiet, and full of charm. Can’t wait to return!",
-        //   stars: 4
-        // },
+        {
+          userId: 1,
+          spotId: 1,
+          review: "Absolutely magical! The cottage is tucked away right next to Rocky Mountain National Park, and waking up to the view of towering pines was surreal. Cozy, quiet, and full of charm. Can’t wait to return!",
+          stars: 4
+        },
         {
           userId: 2,
           spotId: 2,

@@ -33,7 +33,7 @@ function Navigation({ isLoaded }) {
     sessionLinks = (
      <>
       <li>
-        <Link to='/spots' className='newSpotLink'>Create a New Spot</Link>
+        <Link to='/spots/new' className='newSpotLink'>Create a New Spot</Link>
       </li>
       <li>
         <ProfileButton user={sessionUser} />

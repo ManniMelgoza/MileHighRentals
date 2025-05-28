@@ -477,9 +477,10 @@ router.get('/:id', async (req, res,) => {
 });
 // POST /api/spots - Create a new spot
 // OK
-router.post('/spots', requireAuth, validateSpot, async (req, res, next) => {
+router.post('/', requireAuth, validateSpot, async (req, res, next) => {
     try{
         const ownerId = req.user.id;
+        // TODO : ADDED previewImage, image might need to remove if it doesnt work
         const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
         const newSpot = await Spot.create({
