@@ -4,13 +4,14 @@ import { useDispatch } from "react-redux";
 import { thunkCreateNewSpot } from '../../store/spots';
 // import { addSpotImageAction } from '../../store/spot-images'
 import { FaDollarSign } from "react-icons/fa6";
+// import { useNavigate } from "react-router-dom";
 import './CreateSpot.css';
 
 
 function CreateSpotFormModal() {
 
     const dispatch = useDispatch();
-
+    // const navigate = useNavigate();
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
@@ -45,7 +46,6 @@ function CreateSpotFormModal() {
                 image1: "Image URL must end in .png, .jpg, or .jpeg"
             });
         }
-    // if (address && city && state && country && lat && lng && name && description && price && previewImage && image){
 
     return dispatch(
         thunkCreateNewSpot({
@@ -61,6 +61,9 @@ function CreateSpotFormModal() {
         })
     )
 
+    // .then(() => {
+    //     navigate(`/spots/${id}`);
+    // })
         .catch(async (res) => {
             const data = await res.json();
 
@@ -93,7 +96,7 @@ return (
                     value={country}
                     placeholder="Country"
                     onChange={(e) => setCountry(e.target.value)}
-                    required
+
                 />
             </label>
             {errors.country && <p>{errors.country}</p>}
@@ -104,7 +107,7 @@ return (
                     value={address}
                     placeholder="Address"
                     onChange={(e) => setAddress(e.target.value)}
-                    required
+
                 />
             </label>
             {errors.address && <p>{errors.address}</p>}
@@ -115,7 +118,7 @@ return (
                     value={city}
                     placeholder="City"
                     onChange={(e) => setCity(e.target.value)}
-                    required
+
                 />
             </label>
             {errors.city && <p>{errors.city}</p>}
@@ -126,7 +129,7 @@ return (
                     value={state}
                     placeholder="STATE"
                     onChange={(e) => setState(e.target.value)}
-                    required
+
                 />
             </label>
             {errors.state && <p>{errors.state}</p>}
@@ -137,7 +140,7 @@ return (
                     value={lat}
                     placeholder="Latitude"
                     onChange={(e) => setLat(e.target.value)}
-                    required
+
                 />
             </label>
             {errors.lat && <p>{errors.lat}</p>}
@@ -148,7 +151,7 @@ return (
                     value={lng}
                     placeholder="Longitude"
                     onChange={(e) => setLng(e.target.value)}
-                    required
+
                 />
             </label>
             {errors.lng && <p>{errors.lng}</p>}
@@ -166,7 +169,7 @@ return (
                     value={description}
                     placeholder="Please write at least 30 characters"
                     onChange={(e) => setDescription(e.target.value)}
-                    required
+
                 />
             </label>
             {errors.description && <p>{errors.description}</p>}
@@ -182,7 +185,7 @@ return (
                     value={name}
                     placeholder="Name of your spot"
                     onChange={(e) => setName(e.target.value)}
-                    required
+
                 />
             </label>
             {errors.name && <p>{errors.name}</p>}
@@ -199,7 +202,7 @@ return (
                     value={price}
                     placeholder="Price per night (USD)"
                     onChange={(e) => setPrice(Number(e.target.value))}
-                    required
+
                 />
             </label>
             {errors.price && <p>{errors.price}</p>}

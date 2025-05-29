@@ -6,9 +6,14 @@ const GET_CURRENT_SPOT = "spots/getCurrentSpot";
 const CREATE_NEW_SPOT = "spots/createNewSpot";
 const EDIT_SPOT = "spots/editSpot";
 const DELETE_SPOT = "spots/deleteSpot"
+// const CREATE_NEW_REVIEW = 'spots/createNewReview';
 
 
 // ACTION CREATORS
+
+// const createNewReviewAction =
+
+
 
 const getAllSpotsAction = (spots) => {
     return {
@@ -71,10 +76,10 @@ export const thunkRetriveAllSpots = () => async (dispatch) => {
 export const thunkCurrentSpot = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}`);
     if (response.ok){
-        const data = await response.json();
-        dispatch(getCurrentSpotAction(data.Spots));
-        console.log('SPOT THUNK DATA', data)
-        return data;
+        const newSpot = await response.json();
+        dispatch(getCurrentSpotAction(newSpot.Spots));
+        console.log('SPOT THUNK DATA', newSpot)
+        return newSpot;
     } else {
         const error = await response.json();
         return { error: error.errors || ['No Data Retrieved of current spot']}
@@ -106,7 +111,7 @@ export const thunkCreateNewSpot = (spot) => async (dispatch) => {
 
         if (response.ok) {
             const data = await response.json();
-            console.log('NEW POST', data);
+            // console.log('NEW POST', data);
             dispatch(createNewSpotAction(data));
             return data;
         } else {

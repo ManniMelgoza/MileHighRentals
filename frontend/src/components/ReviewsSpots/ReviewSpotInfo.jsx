@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+// import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
@@ -34,7 +35,10 @@ export function ReviewSpotInfo(){
         <>
 
         {reviewArr.length === 0 ? (
-            <p>Be the first to post a review!</p>
+            <>
+                {/* <Link to={`/spots/${spotId}/review`} className='newSpotLink'>Post Your Review</Link> */}
+                <p>Be the first to post a review!</p>
+            </>
         ) : (
 
             reviewArr?.map((review) => (
