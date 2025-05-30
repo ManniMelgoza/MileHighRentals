@@ -6,14 +6,17 @@ const GET_CURRENT_SPOT = "spots/getCurrentSpot";
 const CREATE_NEW_SPOT = "spots/createNewSpot";
 const EDIT_SPOT = "spots/editSpot";
 const DELETE_SPOT = "spots/deleteSpot"
-// const CREATE_NEW_REVIEW = 'spots/createNewReview';
+const CREATE_NEW_REVIEW = 'spots/createNewReview';
 
 
 // ACTION CREATORS
 
-// const createNewReviewAction =
-
-
+const createNewReviewAction = (newReview) => {
+    return{
+        type: CREATE_NEW_REVIEW,
+        payload: newReview
+    };
+};
 
 const getAllSpotsAction = (spots) => {
     return {
@@ -53,6 +56,36 @@ const deleteSpotAction = (spotId) => {
 
 // THUNK PER ACTION
 // const GET_ALL_SPOTS = "spots/getAllSpots"; ACTION
+
+export const thunkCreateNewReview = (createReview) => async (dispatch) => {
+
+    const {review, stars } = createReview;
+
+    try {
+        const response = await csrfFetch('/:spotId/reviews', {
+
+            method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    review, stars
+                }),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            // console.log('NEW POST', data);
+            dispatch(createNewReviewAction(data));
+            return data;
+        } else {
+            const error = await response.json();
+            return { error: error.errors || ['Not able to create a new spot'] };
+        }
+        }   catch (err) {
+            console.error('Error creating spot:', err);
+            return { error: ['Something went wrong. Please try again.'] };
+        }
+    };
+
 
 export const thunkRetriveAllSpots = () => async (dispatch) => {
     // Getting data from DB
@@ -165,6 +198,12 @@ const initialState = {
 // REUCER REUCER REUCER REUCER REUCER REUCER REUCER REUCER REUCER REUCER
 const spotsReducer = (state = initialState, action) => {
     switch (action.type) {
+
+        case CREATE_NEW_REVIEW: {
+            let newReview = { ...state }
+            newReview[action.payload.id] = { ...action.payload }
+            return newReview;
+        }
         case GET_ALL_SPOTS:{
             const newState = {};
             // console.log('PASSING DATA TO REDUCER', action.spots)

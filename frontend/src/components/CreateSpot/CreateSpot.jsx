@@ -62,7 +62,7 @@ function CreateSpotFormModal() {
     )
 
     // .then(() => {
-    //     navigate(`/spots/${id}`);
+    //     navigate(`/spots/${spotId}`);
     // })
         .catch(async (res) => {
             const data = await res.json();
@@ -219,7 +219,7 @@ return (
                     value={previewImage}
                     placeholder="Preview Image URL"
                     onChange={(e) => setpreviewImage(e.target.value)}
-                    required
+
                 />
                 <input
                     type='text'

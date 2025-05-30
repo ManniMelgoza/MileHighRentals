@@ -30,8 +30,8 @@ const HomePage = () => {
 
         return (
           <>
-            <Link to={`/spots/${spot.id}`} style={{textDecoration: 'none', color: "black" }}>
-              <div key={spot.id} className="imageDisplayBox">
+            <Link key={spot.id} to={`/spots/${spot.id}`} style={{textDecoration: 'none', color: "black" }}>
+              <div className="imageDisplayBox">
                 <img
                   src={spot.previewImage}
                   alt={spot.name}
