@@ -256,11 +256,11 @@ router.get("/", async (req, res, next) => {
 
     // Validation and defaults
     page = parseInt(page) || 1;
-    size = parseInt(size) || 20;
+    size = parseInt(size) || 40;
 
     if (page < 1) page = 1;
-    if (size < 1) size = 20;
-    if (size > 20) size = 20;
+    if (size < 1) size = 40;
+    if (size > 20) size = 40;
 
     // Filters
     if (minLat) where.lat = { [Op.gte]: parseFloat(minLat) };

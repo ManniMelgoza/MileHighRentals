@@ -5,20 +5,11 @@ that opens when the user clicks a button (with icons), and closes when the user 
 
 // Imports react hooks from the react library
 import { useState, useEffect, useRef } from 'react';
-// import { Link } from 'react-router-dom';
-// useDispatch: This gives you the ability to send messages (actions) to the Redux store — like calling out orders in a restaurant kitchen.
-// import { useDispatch } from 'react-redux';
-// This is a visual icon component — a little user circle you can display on screen.
-// import { FaUserCircle } from 'react-icons/fa';
-// import { GiHamburgerMenu } from "react-icons/gi";
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
-import LoginFormModal from '../LoginFormModal/LoginFormModal';
-import SignupFormModal from '../SignupFormModal/SignupFormModal';
-import { FaUserCircle } from 'react-icons/fa';
-import { GiHamburgerMenu } from "react-icons/gi";
-import './MenuButton.css'
+import ReviewFormModal from '../ReviewFormModal/ReviewFormModal';
+import './ReviewButton.css'
 
-function MenuButton() {
+function ReviewButton() {
 
     const [showMenu, setShowMenu] = useState(false);
     const ulRef = useRef();
@@ -54,18 +45,12 @@ function MenuButton() {
     return (
         <>
             <button onClick={toggleMenu}>
-                   <GiHamburgerMenu /> <FaUserCircle />
                     <ul className={ulClassName} ref={ulRef}>
+
                     <li>
                         <OpenModalButton
-                        buttonText="Log In"
-                        modalComponent={<LoginFormModal />}
-                        />
-                    </li>
-                    <li>
-                        <OpenModalButton
-                        buttonText="Sign Up"
-                        modalComponent={<SignupFormModal />}
+                        buttonText="Post Your Review"
+                        modalComponent={<ReviewFormModal />}
                         />
                     </li>
                 </ul>
@@ -74,4 +59,4 @@ function MenuButton() {
     );
 }
 // ERND OF FUCTION
-export default MenuButton;
+export default ReviewButton;

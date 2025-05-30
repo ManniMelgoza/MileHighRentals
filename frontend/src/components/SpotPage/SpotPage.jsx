@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { thunkCurrentSpot } from '../../store/spots';
 import { FaStar } from 'react-icons/fa';
 import { ReviewSpotInfo } from '../ReviewsSpots/ReviewSpotInfo';
-// import { ReviewForm } from '../ReviewForm/ReviewForm';
+import ReviewButton from '../ReviewButton/ReviewButton';
 import './SpotPage.css';
 
 function SpotDetails() {
@@ -12,8 +12,8 @@ function SpotDetails() {
     const dispatch = useDispatch();
 
     const spot = useSelector(state => state.spots.currentSpot);
+    // const reviews = useSelector(state => state.reviews.reviews);
     const sessionUser = useSelector(state => state.session.user);
-    const reviews = useSelector(state => state.reviews.reviews);
 
     useEffect(() => {
         if (spotId) dispatch(thunkCurrentSpot(spotId));
@@ -21,10 +21,39 @@ function SpotDetails() {
 
     if (!spot) return <div>Loading...</div>;
 
-    const reviewsArr = Object.values(reviews);
-    const hasUserReviewed = sessionUser && reviewsArr.some(review =>
-        review.userId === sessionUser.id && review.spotId === Number(spotId)
+    // const reviewsArr = Object.values(reviews);
+    // const hasUserReviewed = sessionUser && reviewsArr.some(review =>
+    //     review.userId === sessionUser.id && review.spotId === Number(spotId)
+    // );
+
+
+    let sessionLinks;
+  //This if statemet is checking if there is a user loged in via the sessionUser varibale that was mention above, if sessionUser is true it will excecute the body of the if statement
+  if (sessionUser) {
+    //if the user is logged in or there is a user the sessionLinks variable will be assinged to the component ProfileButton with and passing a prop that will pass an obj of sessionsUsers delcared ealier
+    // The seesionUser will be the infotmation of that session user that is logged in
+    sessionLinks = (
+     <>
+      <li>
+        <Link to='/spots/new' className='newSpotLink'>Create a New Spot</Link>
+      </li>
+      <li>
+         {/* <GiHamburgerMenu /> <FaUserCircle /> */}
+        <ReviewButton user={sessionUser} />
+      </li>
+     </>
     );
+  } else {
+    //  since the user is not logged in or there is a record the sessionLinks will be assinged to the LogIn and SingUp(buttons) JSX components
+    // It will display both buttons to get the new user or current user to sign up or log in to the site
+    sessionLinks = (
+    //
+    <li>
+        {/* ADD SECONDEARY file */}
+      </li>
+    );
+  }
+
 
     return (
         <div className='spotDetailsWrap'>
@@ -100,13 +129,9 @@ function SpotDetails() {
             </div>
 
             {/* Conditionally Render "Post Your Review" Button */}
-            {sessionUser && !hasUserReviewed && (
-                <div className="post-review-btn">
-                    <Link to={`/spots/${spotId}/review`} className="newSpotLink">
-                        Post Your Review
-                    </Link>
-                </div>
-            )}
+                    <div className="sessionlinks">
+                        {sessionLinks}
+                    </div>
 
             {/* Render Reviews */}
             <div>
