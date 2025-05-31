@@ -98,7 +98,7 @@ function SpotDetails() {
             <div className="booking-box">
                 <p><strong>${Number(spot.price).toFixed(2)}</strong> night</p>
                 <p>
-                    <FaStar />{" "}
+                    <FaStar />
                     {spot.avgRating ? spot.avgRating.toFixed(1) : 'New'}
                     {spot.numReviews > 0 && (
                         <> · {spot.numReviews} Reviews</>
@@ -120,8 +120,8 @@ function SpotDetails() {
             {/* Ratings and Reviews */}
             <div>
                 <h2>
-                    <FaStar />{" "}
-                    {spot.avgRating ? spot.avgRating.toFixed(1) : 'New'}
+
+                    <FaStar /> {spot.avgRating ? spot.avgRating.toFixed(1) : 'New'}
                     {spot.numReviews > 0 && (
                         <> · {spot.numReviews} Reviews</>
                     )}

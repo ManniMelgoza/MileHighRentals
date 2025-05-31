@@ -43,7 +43,7 @@ const HomePage = () => {
                 </p>
 
                 <div className="stars">
-                <FaStar />{ " " }
+                <FaStar />
                 {spot.avgRating ? spot?.avgRating.toFixed(1) : 'New'}
                 </div>
                 </div>

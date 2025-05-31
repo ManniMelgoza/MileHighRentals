@@ -60,7 +60,7 @@ console.log('SPOT AFTER', spot)
             alt="Display Image of the Spot"
             style={{ width: "300px", height: "300px", objectFit: "cover", border: '5px solid black'}}
         />
-        <p>{spot.currentSpot?.city}, {spot.currentSpot?.state} {' '}<FaStar />  {" "}
+        <p>{spot.currentSpot?.city}, {spot.currentSpot?.state} {' '}<FaStar />
 
                                 {spot.currentSpot ? spot.currentSpot?.avgRating : 'New'}
 
