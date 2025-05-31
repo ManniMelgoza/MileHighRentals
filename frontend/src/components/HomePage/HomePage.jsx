@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { thunkRetriveAllSpots } from "../../store/spots"
 import { FaStar } from 'react-icons/fa';
-import { FaDollarSign } from "react-icons/fa6";
+// import { FaDollarSign } from "react-icons/fa6";
 
 
 // import OpenModalButton from "../OpenModalButton/OpenModalButton";
@@ -30,8 +30,8 @@ const HomePage = () => {
 
         return (
           <>
-            <Link to={`/spots/${spot.id}`} style={{textDecoration: 'none', color: "black" }}>
-              <div key={spot.id} className="imageDisplayBox">
+            <Link key={spot.id} to={`/spots/${spot.id}`} style={{textDecoration: 'none', color: "black" }}>
+              <div className="imageDisplayBox">
                 <img
                   src={spot.previewImage}
                   alt={spot.name}
@@ -43,15 +43,12 @@ const HomePage = () => {
                 </p>
 
                 <div className="stars">
-                <FaStar />{ " " }
-                {/* {spot.avgRating ? Number((spot.avgRating)).toFixed(1) : 'New'} */}
-                 {spot.avgRating ? spot.avgRating : 'New'}
+                <FaStar />
+                {spot.avgRating ? spot?.avgRating.toFixed(1) : 'New'}
                 </div>
                 </div>
-
-                <p> <FaDollarSign />
-                {/* <strong>{Number(spot.price).toFixed(2)}</strong> night</p> */}
-                <strong>{spot.price}</strong> night</p>
+                {/* <FaDollarSign /> */}
+                <p><strong>$ {spot.price?.toFixed(2)}</strong> night</p>
               </div>
             </Link>
           </>

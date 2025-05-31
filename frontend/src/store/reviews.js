@@ -59,7 +59,7 @@ Dispatch
     What it is: This is the parameter for the inner function. It refers to the dispatch function from Redux, which is used to send actions to the Redux store.
     Purpose: The dispatch function allows this function to trigger Redux actions that will modify the application state.
 */
-export const currentReview = () => async (dispatch) => {
+export const currentReview = (spotId) => async (dispatch) => {
     /*
     const response = await csrfFetch("/api/reviews/current")
         What it is:
@@ -69,7 +69,8 @@ export const currentReview = () => async (dispatch) => {
             csrfFetch("/api/reviews/current"): csrfFetch is presumably a custom function (likely a wrapper around the fetch API) that handles CSRF protection when making HTTP requests to the given URL (/api/reviews/current).
         Purpose: The function sends an HTTP GET request to the server endpoint "/api/reviews/current", and it waits for the server's response before continuing.
     */
-    const response = await csrfFetch("/api/reviews/current")
+    // const response = await csrfFetch("/api/reviews/current")
+    const response = await csrfFetch(`/api/spots/${spotId}/reviews`)
     /*
     const data = await response.json();
         What it is:
@@ -78,6 +79,7 @@ export const currentReview = () => async (dispatch) => {
             JSON body of the response, and assigns it to the data variable.
     */
     const data = await response.json();
+    // console.log('REVIEW DATA Before', data)
     /*
     dispatch(getCurrentReviewAction(data.review));
         What it is:
@@ -85,7 +87,8 @@ export const currentReview = () => async (dispatch) => {
             getCurrentReviewAction(data.review): This is likely an action creator that returns an action to store the current review data. It is passing data.review, which is the review extracted from the response.
         Purpose: This line dispatches an action to Redux with the data received from the server. The action is returned by getCurrentReviewAction, and it includes the review from data as its payload.
     */
-    dispatch(getCurrentReviewAction(data.review));
+    dispatch(getCurrentReviewAction(data.Reviews));
+    // console.log('REVIEW DATA', data)
     /*
     return response;
         What it is: This returns the response object from the API call.
@@ -160,7 +163,7 @@ const initialState = {
 const reviewsReducer = (state = initialState, action) => {
     switch(action.type) {
         case GET_CURRENT_REVIEW:
-            return { ...state, reviews: action.payload}
+            return { ...state, reviews: action.payload }
         case EDIT_REVIEW:
             return { ...state, [action.payload.id]: action.payload }
         case ADD_REVIEW_IMAGE:

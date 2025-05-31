@@ -6,25 +6,26 @@ import { thunkCurrentSpot } from '../../store/spots';
 // import { thunkEditSpot} from '../../store/spots';
 // import { thunkDeleteSpot } from '../../store/spots';
 import { FaStar } from 'react-icons/fa';
+import { FaDollarSign } from "react-icons/fa6";
 import './ManageSpot.css';
 
 function ManageSpot() {
-    const { id } = useParams();
+     const { spotId } = useParams();
     const dispatch = useDispatch();
     // const [mainImage, setMainImage] = useState(null);
 
     // console.log('IMAGE DISPLAY', spot.currentSpot.SpotImages[0].url)
     const spot = useSelector(state => state.spots);
-    console.log("MANAGESPOTDATA", spot)
+    // console.log('SPOT', spot)
     // const spotsArr = Object.values(spot)
     // const spotsArr = Object.values(spot)
     // console.log('SPOTARR', spotsArr.Spots)
 
     useEffect(() => {
-        if (id)
+        if (spotId)
             // console.log('HEY')
-            dispatch(thunkCurrentSpot(id));
-    }, [dispatch, id]);
+            dispatch(thunkCurrentSpot(spotId));
+    }, [dispatch, spotId]);
 
     // const {
     //     name,
@@ -41,15 +42,15 @@ function ManageSpot() {
 
 // if (!spot.currentSpot) return <div>Loading...</div>
 
-    console.log('SPOT DATA PRINT', spot)
     // const previewImage = spot.SpotImages?.find(img => img.preview) || spot.currentSpot?.SpotImages?.[0] || {};
-
+// console.log('SPOT AFTER', spot)
     return (
         <div className="spot-details">
             <h1>Manage Your Spot</h1>
             {/* <p>{spot.currentSpot.city}, {spot.currentSpot.state}, {spot.currentSpot.country}</p> */}
 
           {/* Image Display */}
+<Link to='/spots/new' className='newSpotLink'>Create a New Spot</Link>
             <div >
     <div className="main-image-wrapper">
         <img
@@ -58,16 +59,15 @@ function ManageSpot() {
             src={spot.currentSpot.SpotImages[0].url}
             alt="Display Image of the Spot"
             style={{ width: "300px", height: "300px", objectFit: "cover", border: '5px solid black'}}
-            />
-        <p>{spot.currentSpot?.city}, {spot.currentSpot?.state} {''}<FaStar />  {" "}
+        />
+        <p>{spot.currentSpot?.city}, {spot.currentSpot?.state} {' '}<FaStar />
 
-                                {/* {spot.currentSpot ? Number(spot.currentSpot?.avgRating)?.toFixed(1) : 'New'} */}
-                                {spot.currentSpot?.avgRating === null ? 'New' : spot.currentSpot?.avgRating}
+                                {spot.currentSpot ? spot.currentSpot?.avgRating : 'New'}
 
                                 {spot.currentSpot?.numReviews > 0 && (
                                     <> · {spot.currentSpot.numReviews} Reviews</>
                                 )}</p>
-                                <p>{spot.currentSpot?.price}</p>
+                                <p> <FaDollarSign />{spot.currentSpot?.price?.toFixed(2)}</p>
     </div>
     <>
 

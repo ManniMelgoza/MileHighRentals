@@ -4,6 +4,8 @@ import { Link, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 // This is importing the ProfileButton from the same folder directory (./)
 import ProfileButton from './ProfileButton';
+// import { FaUserCircle } from 'react-icons/fa';
+// import { GiHamburgerMenu } from "react-icons/gi";
 // TODO: come back to explain what OpenModalButton does
 // import OpenModalButton from  '../OpenModalButton/OpenModalButton';
 //  TODO: GIVE BETTER EXPLANATION //Used when the user is not authenticated.
@@ -33,7 +35,7 @@ function Navigation({ isLoaded }) {
     sessionLinks = (
      <>
       <li>
-        <Link to='/spots' className='newSpotLink'>Create a New Spot</Link>
+        <Link to='/spots/new' className='newSpotLink'>Create a New Spot</Link>
       </li>
       <li>
         <ProfileButton user={sessionUser} />
@@ -47,23 +49,23 @@ function Navigation({ isLoaded }) {
     //  since the user is not logged in or there is a record the sessionLinks will be assinged to the LogIn and SingUp(buttons) JSX components
     // It will display both buttons to get the new user or current user to sign up or log in to the site
     sessionLinks = (
-    // <>
-    //   <li>
-    //     <OpenModalButton
-    //       buttonText="Log In"
-    //       modalComponent={<LoginFormModal />}
-    //     />
-    //   </li>
-    //   <li>
-    //     <OpenModalButton
-    //       buttonText="Sign Up"
-    //       modalComponent={<SignupFormModal />}
-    //     />
-    //   </li>
-    // </>
+    <>
+      {/* <li>
+        <OpenModalButton
+          buttonText="Log In"
+          modalComponent={<LoginFormModal />}
+        />
+      </li>
+      <li>
+        <OpenModalButton
+          buttonText="Sign Up"
+          modalComponent={<SignupFormModal />}
+        />
+      </li> */}
     <li>
         <MenuButton user={sessionUser} />
-      </li>
+    </li>
+    </>
     );
   }
   // Anything inside the return statement will render any JSX components

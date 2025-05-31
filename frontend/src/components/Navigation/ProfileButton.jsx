@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 // This is a visual icon component — a little user circle you can display on screen.
 import { FaUserCircle } from 'react-icons/fa';
+import { GiHamburgerMenu } from "react-icons/gi";
+
 import { useNavigate } from 'react-router-dom';
 /*
 Imports everything from the session store file as an object called sessionActions
@@ -92,7 +94,7 @@ function ProfileButton({ user }) {
       {/* When the button is clicked, it opens or closes the menu. */}
       <button onClick={toggleMenu}>
         {/* Shows the users icon */}
-        <FaUserCircle />
+        <GiHamburgerMenu /> <FaUserCircle />
       </button>
       {/*  */}
       <ul className={ulClassName} ref={ulRef}>

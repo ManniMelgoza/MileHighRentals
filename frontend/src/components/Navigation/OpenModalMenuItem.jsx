@@ -1,3 +1,7 @@
+
+// PURPOSER OF CODE
+  // Items in a list will trigger a modal with a custom component inside 
+
 // import React from 'react';
 import { useModal } from '../../context/Modal';
 

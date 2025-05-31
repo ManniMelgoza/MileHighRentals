@@ -15,6 +15,7 @@ import SpotPage from './components/SpotPage/SpotPage';
 import CreateSpot from './components/CreateSpot/CreateSpot';
 import ManageSpot from './components/ManageSpot/ManageSpot';
 import UpdateSpot from './components/UpdateSpot/UpdateSpot';
+import ReviewFormModal from './components/ReviewFormModal/ReviewFormModal';
 
 import "./index.css"
 
@@ -71,7 +72,7 @@ const router = createBrowserRouter([
         element: <SpotPage />
       },
       {
-      path: `/spots`,
+      path: `/spots/new`,
       element: <CreateSpot />
       },
       {
@@ -86,6 +87,10 @@ const router = createBrowserRouter([
       {
         path: '/:id',
         element: <HomePage />
+      },
+      {
+        path: `/:spotId/reviews`,
+        element: <ReviewFormModal />
       }
 
     ]

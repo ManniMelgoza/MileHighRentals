@@ -6,9 +6,17 @@ const GET_CURRENT_SPOT = "spots/getCurrentSpot";
 const CREATE_NEW_SPOT = "spots/createNewSpot";
 const EDIT_SPOT = "spots/editSpot";
 const DELETE_SPOT = "spots/deleteSpot"
+const CREATE_NEW_REVIEW = 'spots/createNewReview';
 
 
 // ACTION CREATORS
+
+const createNewReviewAction = (newReview) => {
+    return{
+        type: CREATE_NEW_REVIEW,
+        payload: newReview
+    };
+};
 
 const getAllSpotsAction = (spots) => {
     return {
@@ -24,10 +32,10 @@ const getCurrentSpotAction = (spot) => {
     };
 };
 
-const createNewSpotAction = (spot) => {
+const createNewSpotAction = (newSpot) => {
     return {
         type: CREATE_NEW_SPOT,
-        payload: spot
+        payload: newSpot
     };
 };
 
@@ -48,6 +56,36 @@ const deleteSpotAction = (spotId) => {
 
 // THUNK PER ACTION
 // const GET_ALL_SPOTS = "spots/getAllSpots"; ACTION
+
+export const thunkCreateNewReview = (createReview) => async (dispatch) => {
+
+    const {review, stars } = createReview;
+
+    try {
+        const response = await csrfFetch('/:spotId/reviews', {
+
+            method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    review, stars
+                }),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            // console.log('NEW POST', data);
+            dispatch(createNewReviewAction(data));
+            return data;
+        } else {
+            const error = await response.json();
+            return { error: error.errors || ['Not able to create a new spot'] };
+        }
+        }   catch (err) {
+            console.error('Error creating spot:', err);
+            return { error: ['Something went wrong. Please try again.'] };
+        }
+    };
+
 
 export const thunkRetriveAllSpots = () => async (dispatch) => {
     // Getting data from DB
@@ -71,10 +109,10 @@ export const thunkRetriveAllSpots = () => async (dispatch) => {
 export const thunkCurrentSpot = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}`);
     if (response.ok){
-        const data = await response.json();
-        // console.log('SPOT THUNK DATA', data)
-        dispatch(getCurrentSpotAction(data.Spots));
-        return data;
+        const newSpot = await response.json();
+        dispatch(getCurrentSpotAction(newSpot.Spots));
+        // console.log('SPOT THUNK DATA', newSpot)
+        return newSpot;
     } else {
         const error = await response.json();
         return { error: error.errors || ['No Data Retrieved of current spot']}
@@ -83,27 +121,41 @@ export const thunkCurrentSpot = (spotId) => async (dispatch) => {
 
 // const CREATE_NEW_SPOT = "spots/createNewSpot"; ACTION
 export const thunkCreateNewSpot = (spot) => async (dispatch) => {
-    const { address, city, state, country, name, description, price } = spot;
+    const { address, city, state, country, lat, lng, name, description, price, previewImage } = spot;
 
-    const response = await csrfFetch("/api/spots", {
-        method: "POST",
-         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            address, city, state, country, name, description, price
-        })
-    });
-    if(response.ok){
+    try {
+        const response = await csrfFetch("/api/spots", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                address,
+                city,
+                state,
+                country,
+                lat,
+                lng,
+                name,
+                description,
+                price,
+                previewImage
+            }),
+        });
 
-        const data = await response.json();
-        console.log('DATA FROM THUNK API', data)
-        dispatch(createNewSpotAction(data.Spots));
-        return data;
-    } else {
-        const error = await response.json();
-        return { error: error.errors || ['Not able to create a new spot']}
-        // throw errors;
+        if (response.ok) {
+            const data = await response.json();
+            // console.log('NEW POST', data);
+            dispatch(createNewSpotAction(data));
+            return data;
+        } else {
+            const error = await response.json();
+            return { error: error.errors || ['Not able to create a new spot'] };
+        }
+    } catch (err) {
+        console.error('Error creating spot:', err);
+        return { error: ['Something went wrong. Please try again.'] };
     }
 };
+
 
 // const EDIT_SPOT = "spots/editSpot"; ACTION
 export const thunkEditSpot = (spotId, updateSpot) => async (dispatch) => {
@@ -114,7 +166,7 @@ export const thunkEditSpot = (spotId, updateSpot) => async (dispatch) => {
 
     if (response.ok) {
         const data = await response.json();
-        dispatch(editSpotAction(data))
+        dispatch(editSpotAction(data.Spots))
         return data;
     } else {
         const error = await response.json();
@@ -145,6 +197,12 @@ const initialState = {
 // REUCER REUCER REUCER REUCER REUCER REUCER REUCER REUCER REUCER REUCER
 const spotsReducer = (state = initialState, action) => {
     switch (action.type) {
+
+        case CREATE_NEW_REVIEW: {
+            let newReview = { ...state }
+            newReview[action.payload.id] = { ...action.payload }
+            return newReview;
+        }
         case GET_ALL_SPOTS:{
             const newState = {};
             // console.log('PASSING DATA TO REDUCER', action.spots)
@@ -156,10 +214,11 @@ const spotsReducer = (state = initialState, action) => {
             // return { ...state, [action.payload.id]: action.payload};
             return { ...state, currentSpot: action.payload};
 
-        case CREATE_NEW_SPOT:
-            return { ...state, newSpot: [...action.payload]};
-            // return { ...state, [action.payload.id]: action.payload};
-
+        case CREATE_NEW_SPOT:{
+            let newState = { ...state }
+            newState[action.payload.id] = {...action.payload}
+            return newState;
+        }
         case EDIT_SPOT:
             return { ...state, [action.payload.id]: action.payload};
 
