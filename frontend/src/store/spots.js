@@ -89,7 +89,7 @@ export const thunkCreateNewReview = (createReview) => async (dispatch) => {
 
 export const thunkRetriveAllSpots = () => async (dispatch) => {
     // Getting data from DB
-    const response = await csrfFetch("/");
+    const response = await csrfFetch("/api/spots");
     // Making data readable
     if(response.ok){
 
