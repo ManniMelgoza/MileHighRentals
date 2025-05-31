@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { thunkCurrentSpot } from '../../store/spots';
 import { FaStar } from 'react-icons/fa';
@@ -34,9 +34,9 @@ function SpotDetails() {
     // The seesionUser will be the infotmation of that session user that is logged in
     sessionLinks = (
      <>
-      <li>
+      {/* <li>
         <Link to='/spots/new' className='newSpotLink'>Create a New Spot</Link>
-      </li>
+      </li> */}
       <li>
          {/* <GiHamburgerMenu /> <FaUserCircle /> */}
         <ReviewButton user={sessionUser} />

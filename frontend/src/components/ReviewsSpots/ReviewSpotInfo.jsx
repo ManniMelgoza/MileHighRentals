@@ -7,6 +7,8 @@ import { useDispatch } from 'react-redux';
 import { currentReview } from '../../store/reviews';
 // import { FaStar } from 'react-icons/fa';
 // import { Link } from 'react-router-dom';
+// import ReviewButt  on from '../ReviewButton/ReviewButton';
+
 
 
 export function ReviewSpotInfo(){
@@ -14,6 +16,11 @@ export function ReviewSpotInfo(){
     const { spotId } = useParams();
     const dispatch = useDispatch();
     const reviewList = useSelector((state) => state.reviews.reviews);
+
+    // NEED THIS TO HAVE THE TEXT OF THE FIRST POST TO NOT BE VISIBLE
+    // const sessionUser = useSelector(state => state.session.user);
+    // const spot = useSelector(state => state.spots.currentSpot);
+    // const isOwnerSpot = sessionUser?.id === spot?.ownerId;
 
     const reviewArr = Object.values(reviewList)
 
@@ -32,25 +39,21 @@ export function ReviewSpotInfo(){
     };
 
     return (
-        <>
-
-        {reviewArr.length === 0 ? (
-            <>
-                {/* <Link to={`/spots/${spotId}/review`} className='newSpotLink'>Post Your Review</Link> */}
+       <>
+            {reviewArr.length === 0 && (
                 <p>Be the first to post a review!</p>
-            </>
-        ) : (
+            )}
+            {/* {reviewArr.length === 0 && sessionUser && !isOwnerSpot && (
+                <p>Be the first to post a review!</p>
+            )} */}
 
-            reviewArr?.map((review) => (
-
+            {reviewArr?.map((review) => (
                 <div key={review.id}>
-                    {/* <p>{review.review.User}</p> */}
                     <p>{review.User?.firstName}</p>
                     <p>{formatDate(review.createdAt)}</p>
                     <p>{review.review}</p>
-                    </div>
-            ))
-        )}
+                </div>
+            ))}
         </>
     )
 }

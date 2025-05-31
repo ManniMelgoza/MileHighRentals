@@ -9,6 +9,7 @@ import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import ReviewFormModal from '../ReviewFormModal/ReviewFormModal';
 import './ReviewButton.css'
 
+
 function ReviewButton() {
 
     const [showMenu, setShowMenu] = useState(false);
@@ -44,19 +45,14 @@ function ReviewButton() {
 
     return (
         <>
-            <button onClick={toggleMenu}>
-                    <ul className={ulClassName} ref={ulRef}>
-
-                    <li>
-                        <OpenModalButton
-                        buttonText="Post Your Review"
-                        modalComponent={<ReviewFormModal />}
-                        />
-                    </li>
-                </ul>
-            </button>
+          <OpenModalButton
+          onClick={toggleMenu}
+          className={ulClassName} ref={ulRef}
+          buttonText="Post Your Review"
+          modalComponent={<ReviewFormModal />}
+          />
         </>
     );
 }
-// ERND OF FUCTION
+// END OF FUNCTION
 export default ReviewButton;
