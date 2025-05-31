@@ -121,7 +121,7 @@ export const thunkCurrentSpot = (spotId) => async (dispatch) => {
 
 // const CREATE_NEW_SPOT = "spots/createNewSpot"; ACTION
 export const thunkCreateNewSpot = (spot) => async (dispatch) => {
-    const { address, city, state, country, lat, lng, name, description, price, previewImage, image } = spot;
+    const { address, city, state, country, lat, lng, name, description, price, previewImage } = spot;
 
     try {
         const response = await csrfFetch("/api/spots", {
@@ -137,8 +137,7 @@ export const thunkCreateNewSpot = (spot) => async (dispatch) => {
                 name,
                 description,
                 price,
-                previewImage,
-                image
+                previewImage
             }),
         });
 
