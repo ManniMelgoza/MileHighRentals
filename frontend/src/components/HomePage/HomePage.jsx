@@ -48,8 +48,8 @@ const HomePage = () => {
                 </div>
                 </div>
                 {/* <FaDollarSign /> */}
-                <p><strong>$ {spot.price ? Number(spot?.price).toFixed(2): ''}</strong> night</p>
-                {/* <div>{typeof(spot?.price)}</div> */}
+                <p><strong>$ {spot?.price}</strong> night</p>
+                <div>{spot?.price}</div>
               </div>
             </Link>
           </>
