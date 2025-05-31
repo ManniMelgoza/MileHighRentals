@@ -111,7 +111,7 @@ export const thunkCurrentSpot = (spotId) => async (dispatch) => {
     if (response.ok){
         const newSpot = await response.json();
         dispatch(getCurrentSpotAction(newSpot.Spots));
-        console.log('SPOT THUNK DATA', newSpot)
+        // console.log('SPOT THUNK DATA', newSpot)
         return newSpot;
     } else {
         const error = await response.json();

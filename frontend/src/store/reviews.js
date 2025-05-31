@@ -79,7 +79,7 @@ export const currentReview = (spotId) => async (dispatch) => {
             JSON body of the response, and assigns it to the data variable.
     */
     const data = await response.json();
-    console.log('REVIEW DATA Before', data)
+    // console.log('REVIEW DATA Before', data)
     /*
     dispatch(getCurrentReviewAction(data.review));
         What it is:
@@ -88,7 +88,7 @@ export const currentReview = (spotId) => async (dispatch) => {
         Purpose: This line dispatches an action to Redux with the data received from the server. The action is returned by getCurrentReviewAction, and it includes the review from data as its payload.
     */
     dispatch(getCurrentReviewAction(data.Reviews));
-    console.log('REVIEW DATA', data)
+    // console.log('REVIEW DATA', data)
     /*
     return response;
         What it is: This returns the response object from the API call.

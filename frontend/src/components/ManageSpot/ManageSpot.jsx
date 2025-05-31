@@ -16,7 +16,7 @@ function ManageSpot() {
 
     // console.log('IMAGE DISPLAY', spot.currentSpot.SpotImages[0].url)
     const spot = useSelector(state => state.spots);
-    console.log('SPOT', spot)
+    // console.log('SPOT', spot)
     // const spotsArr = Object.values(spot)
     // const spotsArr = Object.values(spot)
     // console.log('SPOTARR', spotsArr.Spots)
@@ -43,7 +43,7 @@ function ManageSpot() {
 // if (!spot.currentSpot) return <div>Loading...</div>
 
     // const previewImage = spot.SpotImages?.find(img => img.preview) || spot.currentSpot?.SpotImages?.[0] || {};
-console.log('SPOT AFTER', spot)
+// console.log('SPOT AFTER', spot)
     return (
         <div className="spot-details">
             <h1>Manage Your Spot</h1>
