@@ -22,7 +22,7 @@ const deleteSpotImageAction = (spotImage) => {
 
 // Thunk
 
-export const thunkGetSpotImage = (spotsId) => async (dispatch) => {
+export const thunkAddSpotImage = (spotsId) => async (dispatch) => {
     const response = csrfFetch(`/api/spots/${spotsId}/images`);
 
     if (response.ok){

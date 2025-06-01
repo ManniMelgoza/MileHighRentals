@@ -76,12 +76,11 @@ const router = createBrowserRouter([
       element: <CreateSpot />
       },
       {
-        path: '/api/spots/:id',
+        path: '/spots/:id/edit',
         element: <UpdateSpot />
-
       },
       {
-        path: '/current',
+        path: '/spots',
         element: <ManageSpot />
       },
       {

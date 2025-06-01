@@ -1,88 +1,97 @@
-import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { thunkCurrentSpot } from '../../store/spots';
-// import { thunkEditSpot} from '../../store/spots';
-// import { thunkDeleteSpot } from '../../store/spots';
-import { FaStar } from 'react-icons/fa';
-import { FaDollarSign } from "react-icons/fa6";
-import './ManageSpot.css';
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { thunkRetriveAllSpots } from "../../store/spots";
+import  ManageDeleteSpotModal  from '../ManageSpot/ManageDeleteSpotModal';
+import  OpenModalButton  from '../OpenModalButton/OpenModalButton';
+import { FaStar } from "react-icons/fa";
+import "./ManageSpot.css";
 
 function ManageSpot() {
-     const { spotId } = useParams();
-    const dispatch = useDispatch();
-    // const [mainImage, setMainImage] = useState(null);
+  const dispatch = useDispatch();
 
-    // console.log('IMAGE DISPLAY', spot.currentSpot.SpotImages[0].url)
-    const spot = useSelector(state => state.spots);
-    // console.log('SPOT', spot)
-    // const spotsArr = Object.values(spot)
-    // const spotsArr = Object.values(spot)
-    // console.log('SPOTARR', spotsArr.Spots)
+  const spotsAll = useSelector((state) => state.spots);
+  const loggedUser = useSelector((state) => state.session?.user);
 
-    useEffect(() => {
-        if (spotId)
-            // console.log('HEY')
-            dispatch(thunkCurrentSpot(spotId));
-    }, [dispatch, spotId]);
+  const toggleDelete = (e) => {
+    e.stopPropagation();
+  }; // ← fixed: added closing brace and semicolon
 
-    // const {
-    //     name,
-    //     city,
-    //     state,
-    //     country,
-    //     price,
-    //     avgStarRating,
-    //     numReviews,
-    //     description,
-    //     SpotImages,
-    //     Owner
-    // } = spot;
+  useEffect(() => {
+    dispatch(thunkRetriveAllSpots());
+  }, [dispatch]);
 
-// if (!spot.currentSpot) return <div>Loading...</div>
+  console.log("loggedUser:", loggedUser);
+  console.log("spotsAll:", spotsAll);
 
-    // const previewImage = spot.SpotImages?.find(img => img.preview) || spot.currentSpot?.SpotImages?.[0] || {};
-// console.log('SPOT AFTER', spot)
-    return (
-        <div className="spot-details">
-            <h1>Manage Your Spot</h1>
-            {/* <p>{spot.currentSpot.city}, {spot.currentSpot.state}, {spot.currentSpot.country}</p> */}
+  if (!spotsAll || !loggedUser) return <div>Loading...</div>;
 
-          {/* Image Display */}
-<Link to='/spots/new' className='newSpotLink'>Create a New Spot</Link>
-            <div >
-    <div className="main-image-wrapper">
-        <img
-            // className="main-image"
-            // src={mainImage || previewImage?.url}
-            src={spot.currentSpot.SpotImages[0].url}
-            alt="Display Image of the Spot"
-            style={{ width: "300px", height: "300px", objectFit: "cover", border: '5px solid black'}}
-        />
-        <p>{spot.currentSpot?.city}, {spot.currentSpot?.state} {' '}<FaStar />
+  const spotsList = Object.values(spotsAll);
+  const userOwnedSpots = spotsList.filter(
+    (spot) => spot.ownerId === loggedUser.id
+  );
 
-                                {spot.currentSpot ? spot.currentSpot?.avgRating : 'New'}
+  return (
+    <div className="spot-details">
+      <h1 className="manageSpotTitle">Manage Spots</h1>
+      <Link to="/spots/new" className="newSpotLink">
+        Create a New Spot
+      </Link>
 
-                                {spot.currentSpot?.numReviews > 0 && (
-                                    <> · {spot.currentSpot.numReviews} Reviews</>
-                                )}</p>
-                                <p> <FaDollarSign />{spot.currentSpot?.price?.toFixed(2)}</p>
+      <div className="imageContainerBox">
+        {userOwnedSpots.map((spot) => {
+          return (
+            <div key={spot.id}>
+              <Link
+                to={`/spots/${spot.id}`}
+                style={{ textDecoration: "none", color: "black" }}
+              >
+                <div className="imageDisplayBox">
+                  <img
+                    src={spot.previewImage}
+                    alt={spot.name}
+                    style={{
+                      width: "300px",
+                      height: "300px",
+                      objectFit: "cover",
+                      border: "5px solid black",
+                    }}
+                  />
+                  <div className="locationRating">
+                    <p className="locationText">
+                      {spot.city}, {spot.state}
+                    </p>
+                    <div className="stars">
+                      <FaStar />
+                      {spot.avgRating ? spot?.avgRating.toFixed(1) : "New"}
+                    </div>
+                    <p>
+                      <strong>$ {spot.price?.toFixed(2)}</strong> night
+                    </p>
+                  </div>
+                </div>
+              </Link>
+              <ul>
+                <li>
+                  <Link to={`/spots/${spot.id}/edit`} className="newSpotLink">
+                    Update
+                  </Link>
+                </li>
+                <li>
+                  <div onClick={toggleDelete}>
+                    <OpenModalButton
+                      buttonText="Delete"
+                      modalComponent={<ManageDeleteSpotModal spotId={spot.id}/>}
+                    />
+                  </div>
+                </li>
+              </ul>
+            </div>
+          );
+        })}
+      </div>
     </div>
-    <>
-
-     <li>
-        <Link to='/api/spots/:id' className='newSpotLink'>Update</Link>
-    </li>
-    <li>
-        <Link to={`/:id`} className='newSpotLink'>Delete</Link>
-    </li>
-    </>
-    { ' ' }
-
-</div>
-        </div>
-    );
+  );
 }
 
 export default ManageSpot;

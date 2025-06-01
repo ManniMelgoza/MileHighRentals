@@ -1,144 +1,137 @@
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { thunkCurrentSpot } from '../../store/spots';
-import { FaStar } from 'react-icons/fa';
-import { ReviewSpotInfo } from '../ReviewsSpots/ReviewSpotInfo';
-import ReviewButton from '../ReviewButton/ReviewButton';
-import './SpotPage.css';
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { thunkCurrentSpot } from "../../store/spots";
+import { FaStar } from "react-icons/fa";
+import { ReviewSpotInfo } from "../ReviewsSpots/ReviewSpotInfo";
+import ReviewButton from "../ReviewButton/ReviewButton";
+import "./SpotPage.css";
 
 function SpotDetails() {
-    const { spotId } = useParams();
-    const dispatch = useDispatch();
+  const { spotId } = useParams();
+  const dispatch = useDispatch();
 
-    const spot = useSelector(state => state.spots.currentSpot);
-    // const reviews = useSelector(state => state.reviews.reviews);
-    const sessionUser = useSelector(state => state.session.user);
+  const spot = useSelector((state) => state.spots.currentSpot);
+  // const reviews = useSelector(state => state.reviews.reviews);
+  const sessionUser = useSelector((state) => state.session.user);
 
-    useEffect(() => {
-        if (spotId) dispatch(thunkCurrentSpot(spotId));
-    }, [dispatch, spotId]);
+  useEffect(() => {
+    if (spotId) dispatch(thunkCurrentSpot(spotId));
+  }, [dispatch, spotId]);
 
-    if (!spot) return <div>Loading...</div>;
+  if (!spot) return <div>Loading...</div>;
 
-    // const reviewsArr = Object.values(reviews);
-    // const hasUserReviewed = sessionUser && reviewsArr.some(review =>
-    //     review.userId === sessionUser.id && review.spotId === Number(spotId)
-    // );
+  // const reviewsArr = Object.values(reviews);
+  // const hasUserReviewed = sessionUser && reviewsArr.some(review =>
+  //     review.userId === sessionUser.id && review.spotId === Number(spotId)
+  // );
 
-
-    let sessionLinks;
+  let sessionLinks;
   //This if statemet is checking if there is a user loged in via the sessionUser varibale that was mention above, if sessionUser is true it will excecute the body of the if statement
   if (sessionUser) {
     //if the user is logged in or there is a user the sessionLinks variable will be assinged to the component ProfileButton with and passing a prop that will pass an obj of sessionsUsers delcared ealier
     // The seesionUser will be the infotmation of that session user that is logged in
     sessionLinks = (
-     <>
-      {/* <li>
+      <>
+        {/* <li>
         <Link to='/spots/new' className='newSpotLink'>Create a New Spot</Link>
       </li> */}
-      <li>
-         {/* <GiHamburgerMenu /> <FaUserCircle /> */}
-        <ReviewButton user={sessionUser} />
-      </li>
-     </>
+        <li>
+          {/* <GiHamburgerMenu /> <FaUserCircle /> */}
+          <ReviewButton user={sessionUser} />
+        </li>
+      </>
     );
   } else {
     //  since the user is not logged in or there is a record the sessionLinks will be assinged to the LogIn and SingUp(buttons) JSX components
     // It will display both buttons to get the new user or current user to sign up or log in to the site
     sessionLinks = (
-    //
-    <li>
-        {/* ADD SECONDEARY file */}
-      </li>
+      //
+      <li>{/* ADD SECONDEARY file */}</li>
     );
   }
 
+  return (
+    <div className="spotDetailsWrap">
+      <div className="spot-details">
+        <h1>{spot.name}</h1>
+        <p>
+          {spot.city}, {spot.state}, {spot.country}
+        </p>
 
-    return (
-        <div className='spotDetailsWrap'>
-            <div className="spot-details">
-                <h1>{spot.name}</h1>
-                <p>{spot.city}, {spot.state}, {spot.country}</p>
-
-                {/* Image Display */}
-                <div className="images-section">
-                    <div className="main-image-wrapper">
-                        <img
-                            src={spot?.SpotImages?.[0]?.url}
-                            alt="Main Spot"
-                            style={{
-                                width: "300px",
-                                height: "300px",
-                                objectFit: "cover",
-                                border: '5px solid black'
-                            }}
-                        />
-                    </div>
-                    <div className="thumbnails">
-                        {spot?.SpotImages?.slice(1)?.map((img, i) => (
-                            <img
-                                key={i}
-                                src={img.url}
-                                alt={`Thumbnail ${i}`}
-                                className="thumbnail"
-                                style={{
-                                    width: "120px",
-                                    height: "120px",
-                                    objectFit: "cover",
-                                    border: '5px solid black'
-                                }}
-                            />
-                        ))}
-                    </div>
-                </div>
-            </div>
-
-            {/* Price + Ratings */}
-            <div className="booking-box">
-                <p><strong>${Number(spot.price).toFixed(2)}</strong> night</p>
-                <p>
-                    <FaStar />
-                    {spot.avgRating ? spot.avgRating.toFixed(1) : 'New'}
-                    {spot.numReviews > 0 && (
-                        <> · {spot.numReviews} Reviews</>
-                    )}
-                </p>
-                <button onClick={() => alert("Feature coming soon")}>
-                    Reserve
-                </button>
-            </div>
-
-            {/* Owner & Description */}
-            <div className="spot-info">
-                <h2>Hosted by {spot.Owner?.firstName} {spot.Owner?.lastName}</h2>
-                <p>{spot.description}</p>
-            </div>
-
-            <div className="forLineDivider" />
-
-            {/* Ratings and Reviews */}
-            <div>
-                <h2>
-
-                    <FaStar /> {spot.avgRating ? spot.avgRating.toFixed(1) : 'New'}
-                    {spot.numReviews > 0 && (
-                        <> · {spot.numReviews} Reviews</>
-                    )}
-                </h2>
-            </div>
-
-            {/* Conditionally Render "Post Your Review" Button */}
-                    <div className="sessionlinks">
-                        {sessionLinks}
-                    </div>
-
-            {/* Render Reviews */}
-            <div>
-                <ReviewSpotInfo />
-            </div>
+        {/* Image Display */}
+        <div className="images-section">
+          <div className="main-image-wrapper">
+            <img
+              src={spot?.SpotImages?.[0]?.url}
+              alt="Main Spot"
+              style={{
+                width: "300px",
+                height: "300px",
+                objectFit: "cover",
+                border: "5px solid black",
+              }}
+            />
+          </div>
+          <div className="thumbnails">
+            {spot?.SpotImages?.slice(1)?.map((img, i) => (
+              <img
+                key={i}
+                src={img.url}
+                alt={`Thumbnail ${i}`}
+                className="thumbnail"
+                style={{
+                  width: "120px",
+                  height: "120px",
+                  objectFit: "cover",
+                  border: "5px solid black",
+                }}
+              />
+            ))}
+          </div>
         </div>
-    );
+      </div>
+
+      {/* Price + Ratings */}
+      <div className="booking-box">
+        <p>
+          <strong>${Number(spot.price).toFixed(2)}</strong> night
+        </p>
+        <p>
+          <FaStar />
+          {spot.avgRating ? spot.avgRating.toFixed(1) : "New"}
+          {spot.numReviews > 0 && <> · {spot.numReviews} Reviews</>}
+        </p>
+        <button onClick={() => alert("Feature coming soon")}>Reserve</button>
+      </div>
+
+      {/* Owner & Description */}
+      <div className="spot-info">
+        <h2>
+          Hosted by {spot.Owner?.firstName} {spot.Owner?.lastName}
+        </h2>
+        <p>{spot.description}</p>
+      </div>
+
+      <div className="forLineDivider" />
+
+      {/* Ratings and Reviews */}
+      <div>
+        <h2>
+          <FaStar /> {spot.avgRating ? spot.avgRating.toFixed(1) : "New"}
+          {spot.numReviews > 0 && <> · {spot.numReviews} Reviews</>}
+        </h2>
+      </div>
+
+      {/* Conditionally Render "Post Your Review" Button */}
+      <div className="sessionlinks">{sessionLinks}</div>
+
+      {/* Render Reviews */}
+      <div>
+        <ReviewSpotInfo />
+      </div>
+    </div>
+  );
 }
 
 export default SpotDetails;
