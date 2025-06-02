@@ -56,14 +56,12 @@ const HomePage = () => {
                   </div>
                 </div>
                 {/* <FaDollarSign /> */}
-<<<<<<< HEAD
                 <p><strong>$ {spot?.price}</strong> night</p>
                 <div>{spot?.price}</div>
-=======
+
                 <p>
                   <strong>$ {spot.price?.toFixed(2)}</strong> night
                 </p>
->>>>>>> FeatureBranch
               </div>
             </Link>
           </>
