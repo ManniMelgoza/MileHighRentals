@@ -118,7 +118,7 @@ function SpotDetails() {
       {/* Ratings and Reviews */}
       <div>
         <h2>
-          <FaStar /> {spot.Spots.avgRating ? spot.Spots.avgRating : "New"}
+          <FaStar /> {spot.Spots.avgRating ? spot.Spots.avgRating.toFixed(1) : "New"}
           {spot.numReviews > 0 && <> · {spot.numReviews} Reviews</>}
         </h2>
       </div>
