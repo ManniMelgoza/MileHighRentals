@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
+
 import { thunkCreateNewReview } from '../../store/spots';
+// import { thunkCreateNewReview } from '../../store/reviews';
 
 
 import './ReviewFormModal.css';
 
 
-function ReviewFormModal(){
+function ReviewFormModal({spotId}){
 
     const dispatch = useDispatch();
     const [reviewTextBox, setReviewTextBox] = useState('');
@@ -34,8 +36,8 @@ function ReviewFormModal(){
 
         setErrors({});
 
-            dispatch(
-                thunkCreateNewReview({
+           return dispatch(
+                thunkCreateNewReview(spotId,{
                     review: reviewTextBox,
                     stars: Number(stars)
                 })
@@ -66,6 +68,7 @@ function ReviewFormModal(){
             </label>
               {errors.reviewTextBox && <p>{errors.reviewTextBox}</p>}
 
+            {/* TODO:Need to change the way the rating system looks */}
             <label>
                 <input
                     type='number'

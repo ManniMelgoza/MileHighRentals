@@ -5,8 +5,16 @@ const GET_CURRENT_REVIEW = 'reviews/getCurrentReview';
 const EDIT_REVIEW = 'reviews/editReview';
 const ADD_REVIEW_IMAGE = 'reviews/addReviewImage'
 const DELETE_REVIEW = 'reviews/deleteReview';
+const CREATE_NEW_REVIEW = 'reviews/createNewReview';
 
 // ACTION CREATORS
+
+const createNewReviewAction = (newReview) => {
+    return{
+        type: CREATE_NEW_REVIEW,
+        payload: newReview
+    };
+};
 
 const getCurrentReviewAction = (review) => {
     return {
@@ -37,6 +45,7 @@ const deleteReviewAction = (reviewId) => {
 };
 
 
+
 // THUNKS
 // const GET_CURRENT_REVIEW = 'reviews/getCurrentReview';
 // The currentReview is being exported so it can be imported to other files
@@ -59,6 +68,40 @@ Dispatch
     What it is: This is the parameter for the inner function. It refers to the dispatch function from Redux, which is used to send actions to the Redux store.
     Purpose: The dispatch function allows this function to trigger Redux actions that will modify the application state.
 */
+
+export const thunkCreateNewReview = (spotId, createReview) => async (dispatch) => {
+
+    const {review, stars } = createReview;
+
+    try {
+        // TODO: THIS IS HOW IT WAS BEFORE CHANGING URL TEST
+        // const response = await csrfFetch('/:spotId/reviews', {
+        const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+
+            method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    review, stars
+                }),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            // console.log('NEW POST', data);
+            dispatch(createNewReviewAction(data));
+            return data;
+        }  else {
+            return Promise.reject(response);  // <--- let the component call res.json()
+             }
+            // const error = await response.json();
+            // return { error: error.errors || ['Not able to create a new review'] };
+        // }
+        }   catch (err) {
+            console.error('Error creating newReview:', err);
+            return { error: ['Something went wrong. Please try again.'] };
+        }
+    };
+
 export const currentReview = (spotId) => async (dispatch) => {
     /*
     const response = await csrfFetch("/api/reviews/current")
@@ -162,6 +205,12 @@ const initialState = {
 
 const reviewsReducer = (state = initialState, action) => {
     switch(action.type) {
+
+        case CREATE_NEW_REVIEW: {
+            let newReview = { ...state }
+            newReview[action.payload.id] = { ...action.payload }
+            return newReview;
+        }
         case GET_CURRENT_REVIEW:
             return { ...state, reviews: action.payload }
         case EDIT_REVIEW:

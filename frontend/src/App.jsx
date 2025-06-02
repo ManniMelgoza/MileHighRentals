@@ -68,12 +68,12 @@ const router = createBrowserRouter([
         element: <HomePage />
       },
       {
-        path: `/spots/:spotId`,
-        element: <SpotPage />
-      },
-      {
       path: `/spots/new`,
       element: <CreateSpot />
+      },
+      {
+        path: `/spots/:spotId`,
+        element: <SpotPage />
       },
       {
         path: '/spots/:id/edit',
@@ -83,12 +83,12 @@ const router = createBrowserRouter([
         path: '/spots',
         element: <ManageSpot />
       },
+      // {
+      //   path: '/:id',
+      //   element: <HomePage />
+      // },
       {
-        path: '/:id',
-        element: <HomePage />
-      },
-      {
-        path: `/:spotId/reviews`,
+        path: `/spots/:spotId/reviews`,
         element: <ReviewFormModal />
       }
 

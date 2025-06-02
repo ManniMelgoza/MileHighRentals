@@ -82,8 +82,8 @@ function CreateSpotFormModal() {
         .then((newSpot) => {
           navigate(`/spots/${newSpot.id}`);
         })
-        .catch(async (res) => {
-          const data = await res.json();
+        .catch(async (response) => {
+          const data = await response.json();
           // If the response contains validation errors, set them in state
           if (data?.errors) {
             setErrors(data.errors);
