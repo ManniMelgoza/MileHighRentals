@@ -189,9 +189,11 @@ const spotsReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case CREATE_NEW_REVIEW: {
-      return {
-        ...state,
-        reviews: [action.review, ...state.reviews] // prepend the new review
+        {
+        let newReview = { ...state}
+        newReview[action.payload.id] = { ...action.payload}
+        return newReview
+
       }
     }
         case GET_ALL_SPOTS:{
