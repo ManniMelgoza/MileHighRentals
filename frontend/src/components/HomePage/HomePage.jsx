@@ -52,7 +52,7 @@ const HomePage = () => {
 
                   <div className="stars">
                     <FaStar />
-                    {spot.avgRating ? spot?.avgRating.toFixed(1) : "New"}
+                    {spot.avgRating ? Number(spot?.avgRating).toFixed(1) : "New"}
                   </div>
                 </div>
                 {/* <FaDollarSign /> */}
@@ -60,7 +60,7 @@ const HomePage = () => {
                 <div>{spot?.price}</div>
 
                 <p>
-                  <strong>$ {spot.price?.toFixed(2)}</strong> night
+                  <strong>$ {Number(spot.price).toFixed(2)}</strong> night
                 </p>
               </div>
             </Link>
