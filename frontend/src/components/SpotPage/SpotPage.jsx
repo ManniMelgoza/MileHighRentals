@@ -95,7 +95,7 @@ function SpotDetails() {
       {/* Price + Ratings */}
       <div className="booking-box">
         <p>
-          <strong>${Number(spot.Spots.price).toFixed(2)}</strong> night
+          <strong>${spot.Spots.price}</strong> night
         </p>
         <p>
           <FaStar />
