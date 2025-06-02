@@ -66,7 +66,7 @@ function ManageSpot() {
                       {spot.avgRating ? Number(spot?.avgRating).toFixed(1) : "New"}
                     </div>
                     <p>
-                      <strong>$ {Number(spot.price).toFixed(2)}</strong> night
+                      <strong>$ {spot.price}</strong> night
                     </p>
                   </div>
                 </div>

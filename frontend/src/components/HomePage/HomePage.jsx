@@ -60,7 +60,7 @@ const HomePage = () => {
                 <div>{spot?.price}</div>
 
                 <p>
-                  <strong>$ {Number(spot.price).toFixed(2)}</strong> night
+                  <strong>$ {spot.price}</strong> night
                 </p>
               </div>
             </Link>
