@@ -8,14 +8,16 @@ import { useState, useEffect, useRef } from 'react';
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import ReviewFormModal from '../ReviewFormModal/ReviewFormModal';
 import './ReviewButton.css'
+import { useParams } from 'react-router-dom';
 
 
 function ReviewButton() {
-
+    const { spotId } = useParams();
+    // const spot = useSelector(state => state.spots.currentSpot);
     const [showMenu, setShowMenu] = useState(false);
     const ulRef = useRef();
 
-     const toggleMenu = (e) => {
+    const toggleMenu = (e) => {
     e.stopPropagation(); // Keep click from bubbling up to document and triggering closeMenu
     // if (!showMenu) setShowMenu(true);
     setShowMenu(!showMenu);
@@ -49,7 +51,7 @@ function ReviewButton() {
           onClick={toggleMenu}
           className={ulClassName} ref={ulRef}
           buttonText="Post Your Review"
-          modalComponent={<ReviewFormModal />}
+          modalComponent={<ReviewFormModal spotId={spotId}  />}
           />
         </>
     );

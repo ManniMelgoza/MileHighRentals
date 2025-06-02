@@ -68,28 +68,27 @@ const router = createBrowserRouter([
         element: <HomePage />
       },
       {
-        path: `/spots/:spotId`,
-        element: <SpotPage />
-      },
-      {
       path: `/spots/new`,
       element: <CreateSpot />
       },
       {
-        path: '/api/spots/:id',
-        element: <UpdateSpot />
-
+        path: `/spots/:spotId`,
+        element: <SpotPage />
       },
       {
-        path: '/current',
+        path: '/spots/:id/edit',
+        element: <UpdateSpot />
+      },
+      {
+        path: '/spots',
         element: <ManageSpot />
       },
+      // {
+      //   path: '/:id',
+      //   element: <HomePage />
+      // },
       {
-        path: '/:id',
-        element: <HomePage />
-      },
-      {
-        path: `/:spotId/reviews`,
+        path: `/spots/:spotId/reviews`,
         element: <ReviewFormModal />
       }
 

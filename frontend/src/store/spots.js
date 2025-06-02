@@ -57,35 +57,60 @@ const deleteSpotAction = (spotId) => {
 // THUNK PER ACTION
 // const GET_ALL_SPOTS = "spots/getAllSpots"; ACTION
 
-export const thunkCreateNewReview = (createReview) => async (dispatch) => {
+export const thunkCreateNewReview = (spotId, newReview) => async (dispatch) => {
+  const res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(newReview)
+  });
 
-    const {review, stars } = createReview;
+  if (res.ok) {
+    const data = await res.json();
+    dispatch(createNewReviewAction(data, spotId));  // <- UPDATE REDUX
+    return data;
+  } else {
+        const error = await res.json();
+        return { error: error.errors || ['Unable to edit review']}
+         // throw errors;
+    }
+};
+
+    // const CREATE_NEW_SPOT = "spots/createNewSpot"; ACTION
+export const thunkCreateNewSpot = (spot) => async (dispatch) => {
+    const { address, city, state, country, lat, lng, name, description, price, /*previewImage*/ } = spot;
 
     try {
-        const response = await csrfFetch('/:spotId/reviews', {
-
+        const response = await csrfFetch("/api/spots", {
             method: "POST",
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    review, stars
-                }),
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                address,
+                city,
+                state,
+                country,
+                lat,
+                lng,
+                name,
+                description,
+                price,
+                // previewImage
+            }),
         });
 
         if (response.ok) {
             const data = await response.json();
             // console.log('NEW POST', data);
-            dispatch(createNewReviewAction(data));
+            dispatch(createNewSpotAction(data));
             return data;
         } else {
             const error = await response.json();
             return { error: error.errors || ['Not able to create a new spot'] };
         }
-        }   catch (err) {
-            console.error('Error creating spot:', err);
-            return { error: ['Something went wrong. Please try again.'] };
-        }
-    };
-
+    } catch (err) {
+        console.error('Error creating spot:', err);
+        return { error: ['Something went wrong. Please try again.'] };
+    }
+};
 
 export const thunkRetriveAllSpots = () => async (dispatch) => {
     // Getting data from DB
@@ -110,7 +135,8 @@ export const thunkCurrentSpot = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}`);
     if (response.ok){
         const newSpot = await response.json();
-        dispatch(getCurrentSpotAction(newSpot.Spots));
+        dispatch(getCurrentSpotAction(newSpot));
+        // dispatch(getCurrentSpotAction(newSpot.Spots));
         // console.log('SPOT THUNK DATA', newSpot)
         return newSpot;
     } else {
@@ -119,47 +145,11 @@ export const thunkCurrentSpot = (spotId) => async (dispatch) => {
     }
 };
 
-// const CREATE_NEW_SPOT = "spots/createNewSpot"; ACTION
-export const thunkCreateNewSpot = (spot) => async (dispatch) => {
-    const { address, city, state, country, lat, lng, name, description, price, previewImage } = spot;
-
-    try {
-        const response = await csrfFetch("/api/spots", {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                address,
-                city,
-                state,
-                country,
-                lat,
-                lng,
-                name,
-                description,
-                price,
-                previewImage
-            }),
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            // console.log('NEW POST', data);
-            dispatch(createNewSpotAction(data));
-            return data;
-        } else {
-            const error = await response.json();
-            return { error: error.errors || ['Not able to create a new spot'] };
-        }
-    } catch (err) {
-        console.error('Error creating spot:', err);
-        return { error: ['Something went wrong. Please try again.'] };
-    }
-};
 
 
 // const EDIT_SPOT = "spots/editSpot"; ACTION
 export const thunkEditSpot = (spotId, updateSpot) => async (dispatch) => {
-    const response = await csrfFetch(`/api/spots/${spotId}`, {
+    const response = await csrfFetch(`/api/spots/${spotId.id}`, {
         method: "PUT",
         body: JSON.stringify(updateSpot)
     });
@@ -191,7 +181,7 @@ export const thunkDeleteSpot = (spotId) => async (dispatch) => {
 
 // ACTION CREATORS
 const initialState = {
-    spots: {}
+    // spots: {}
 }
 
 // REUCER REUCER REUCER REUCER REUCER REUCER REUCER REUCER REUCER REUCER
@@ -199,10 +189,13 @@ const spotsReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case CREATE_NEW_REVIEW: {
-            let newReview = { ...state }
-            newReview[action.payload.id] = { ...action.payload }
-            return newReview;
-        }
+        {
+        let newReview = { ...state}
+        newReview[action.payload.id] = { ...action.payload}
+        return newReview
+
+      }
+    }
         case GET_ALL_SPOTS:{
             const newState = {};
             // console.log('PASSING DATA TO REDUCER', action.spots)
@@ -222,12 +215,12 @@ const spotsReducer = (state = initialState, action) => {
         case EDIT_SPOT:
             return { ...state, [action.payload.id]: action.payload};
 
-        case DELETE_SPOT:
-            // This would be more if we were deleting all the spots
-            // return { ...state, spots: null };
-            return {
-                ...state, [action.payload.id]: action.payload
-            }
+        case DELETE_SPOT: {
+            let newState = { ...state };
+            // delete newState[action.spotId];
+            delete newState[action.payload];
+            return newState;
+        }
     default:
         return state;
     }
