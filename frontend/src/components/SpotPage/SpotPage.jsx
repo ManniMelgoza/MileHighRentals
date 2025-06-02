@@ -54,16 +54,16 @@ function SpotDetails() {
   return (
     <div className="spotDetailsWrap">
       <div className="spot-details">
-        <h1>{spot.name}</h1>
+        <h1>{spot.Spots.name}</h1>
         <p>
-          {spot.city}, {spot.state}, {spot.country}
+          {spot.Spots.city}, {spot.Spots.state}, {spot.Spots.country}
         </p>
 
         {/* Image Display */}
         <div className="images-section">
           <div className="main-image-wrapper">
             <img
-              src={spot?.SpotImages?.[0]?.url}
+              src={spot?.Spots.SpotImages?.[0]?.url}
               alt="Main Spot"
               style={{
                 width: "300px",
@@ -74,7 +74,7 @@ function SpotDetails() {
             />
           </div>
           <div className="thumbnails">
-            {spot?.SpotImages?.slice(1)?.map((img, i) => (
+            {spot?.Spots.SpotImages?.slice(1)?.map((img, i) => (
               <img
                 key={i}
                 src={img.url}
@@ -95,12 +95,12 @@ function SpotDetails() {
       {/* Price + Ratings */}
       <div className="booking-box">
         <p>
-          <strong>${Number(spot.price).toFixed(2)}</strong> night
+          <strong>${Number(spot.Spots.price).toFixed(2)}</strong> night
         </p>
         <p>
           <FaStar />
-          {spot.avgRating ? spot.avgRating.toFixed(1) : "New"}
-          {spot.numReviews > 0 && <> · {spot.numReviews} Reviews</>}
+          {spot.Spots.avgRating ? spot.Spots.avgRating.toFixed(1) : "New"}
+          {spot.Spots.numReviews > 0 && <> · {spot.Spots.numReviews} Reviews</>}
         </p>
         <button onClick={() => alert("Feature coming soon")}>Reserve</button>
       </div>
@@ -108,9 +108,9 @@ function SpotDetails() {
       {/* Owner & Description */}
       <div className="spot-info">
         <h2>
-          Hosted by {spot.Owner?.firstName} {spot.Owner?.lastName}
+          Hosted by {spot.Spots.Owner?.firstName} {spot.Spots.Owner?.lastName}
         </h2>
-        <p>{spot.description}</p>
+        <p>{spot.Spots.description}</p>
       </div>
 
       <div className="forLineDivider" />

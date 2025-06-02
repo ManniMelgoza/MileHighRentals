@@ -62,6 +62,8 @@ export const thunkCreateNewReview = (createReview) => async (dispatch) => {
     const {review, stars } = createReview;
 
     try {
+        // TODO: THIS IS HOW IT WAS BEFORE CHANGING URL TEST
+        // const response = await csrfFetch('/:spotId/reviews', {
         const response = await csrfFetch('/:spotId/reviews', {
 
             method: "POST",
@@ -78,10 +80,10 @@ export const thunkCreateNewReview = (createReview) => async (dispatch) => {
             return data;
         } else {
             const error = await response.json();
-            return { error: error.errors || ['Not able to create a new spot'] };
+            return { error: error.errors || ['Not able to create a new review'] };
         }
         }   catch (err) {
-            console.error('Error creating spot:', err);
+            console.error('Error creating newReview:', err);
             return { error: ['Something went wrong. Please try again.'] };
         }
     };
@@ -110,7 +112,8 @@ export const thunkCurrentSpot = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}`);
     if (response.ok){
         const newSpot = await response.json();
-        dispatch(getCurrentSpotAction(newSpot.Spots));
+        dispatch(getCurrentSpotAction(newSpot));
+        // dispatch(getCurrentSpotAction(newSpot.Spots));
         // console.log('SPOT THUNK DATA', newSpot)
         return newSpot;
     } else {
@@ -159,7 +162,7 @@ export const thunkCreateNewSpot = (spot) => async (dispatch) => {
 
 // const EDIT_SPOT = "spots/editSpot"; ACTION
 export const thunkEditSpot = (spotId, updateSpot) => async (dispatch) => {
-    const response = await csrfFetch(`/api/spots/${spotId}`, {
+    const response = await csrfFetch(`/api/spots/${spotId.id}`, {
         method: "PUT",
         body: JSON.stringify(updateSpot)
     });
@@ -191,7 +194,7 @@ export const thunkDeleteSpot = (spotId) => async (dispatch) => {
 
 // ACTION CREATORS
 const initialState = {
-    spots: {}
+    // spots: {}
 }
 
 // REUCER REUCER REUCER REUCER REUCER REUCER REUCER REUCER REUCER REUCER
