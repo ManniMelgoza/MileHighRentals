@@ -52,7 +52,7 @@ const HomePage = () => {
 
                   <div className="stars">
                     <FaStar />
-                    {spot.avgRating ? Number(spot?.avgRating).toFixed(1) : "New"}
+                    {spot.avgRating ? spot?.avgRating : "New"}
                   </div>
                 </div>
                 {/* <FaDollarSign /> */}

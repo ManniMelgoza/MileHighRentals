@@ -63,7 +63,7 @@ function ManageSpot() {
                     </p>
                     <div className="stars">
                       <FaStar />
-                      {spot.avgRating ? Number(spot?.avgRating).toFixed(1) : "New"}
+                      {spot.avgRating ? spot?.avgRating : "New"}
                     </div>
                     <p>
                       <strong>$ {spot.price}</strong> night
