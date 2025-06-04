@@ -43,7 +43,7 @@ export function ReviewSpotInfo() {
       {/* {reviewArr.length === 0 && sessionUser && !isOwnerSpot && (
                 <p>Be the first to post a review!</p>
             )} */}
-            
+
 
       {reviewArr?.map((review) => (
         <div key={review.id}>

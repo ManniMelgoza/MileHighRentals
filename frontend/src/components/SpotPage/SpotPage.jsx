@@ -21,6 +21,9 @@ function SpotDetails() {
 
   if (!spot) return <div>Loading...</div>;
 
+  const ownerId = spot.Spots.Owner?.id;
+
+  const currentUserLogedIn = sessionUser && sessionUser.id === ownerId;
   // const reviewsArr = Object.values(reviews);
   // const hasUserReviewed = sessionUser && reviewsArr.some(review =>
   //     review.userId === sessionUser.id && review.spotId === Number(spotId)
@@ -28,7 +31,7 @@ function SpotDetails() {
 
   let sessionLinks;
   //This if statemet is checking if there is a user loged in via the sessionUser varibale that was mention above, if sessionUser is true it will excecute the body of the if statement
-  if (sessionUser) {
+  if (sessionUser && !currentUserLogedIn) {
     //if the user is logged in or there is a user the sessionLinks variable will be assinged to the component ProfileButton with and passing a prop that will pass an obj of sessionsUsers delcared ealier
     // The seesionUser will be the infotmation of that session user that is logged in
     sessionLinks = (

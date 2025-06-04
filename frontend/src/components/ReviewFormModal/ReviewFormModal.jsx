@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
-
-import { thunkCreateNewReview } from '../../store/spots';
+// import { useNavigate } from 'react-router-dom';
+import { thunkCreateNewReview, thunkCurrentSpot } from '../../store/spots';
 // import { thunkCreateNewReview } from '../../store/reviews';
 
 
@@ -10,7 +10,7 @@ import './ReviewFormModal.css';
 
 
 function ReviewFormModal({spotId}){
-
+    // const navigate = useNavigate();
     const dispatch = useDispatch();
     const [reviewTextBox, setReviewTextBox] = useState('');
     const [stars, setStars] = useState('');
@@ -42,7 +42,13 @@ function ReviewFormModal({spotId}){
                     stars: Number(stars)
                 })
             )
-            .then(closeModal)
+            .then(() => {
+                return dispatch(thunkCurrentSpot(spotId))
+            })
+            // .then(closeModal)
+            .then(() => {
+                closeModal();
+            })
             .catch(async (res) => {
                 const data = await res.json();
 
@@ -73,11 +79,12 @@ function ReviewFormModal({spotId}){
                 <input
                     type='number'
                     value={stars}
-                    placeholder="Stars"
+                    placeholder="0"
                     min='1'
                     max='5'
                     onChange={(e) => setStars(e.target.value)}
-                />
+                    />
+                    <p>star</p>
             </label>
             {errors.stars && <p>{errors.stars}</p>}
                 <button type='submit' id='createReviewButton' disabled={!formButtonDisableValidation}>Submit Your Review</button>

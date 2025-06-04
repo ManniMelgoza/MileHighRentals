@@ -58,18 +58,18 @@ const deleteSpotAction = (spotId) => {
 // const GET_ALL_SPOTS = "spots/getAllSpots"; ACTION
 
 export const thunkCreateNewReview = (spotId, newReview) => async (dispatch) => {
-  const res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+  const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(newReview)
   });
 
-  if (res.ok) {
-    const data = await res.json();
-    dispatch(createNewReviewAction(data, spotId));  // <- UPDATE REDUX
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(createNewReviewAction(data, spotId)); 
     return data;
   } else {
-        const error = await res.json();
+        const error = await response.json();
         return { error: error.errors || ['Unable to edit review']}
          // throw errors;
     }
@@ -189,12 +189,18 @@ const spotsReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case CREATE_NEW_REVIEW: {
-        {
-        let newReview = { ...state}
-        newReview[action.payload.id] = { ...action.payload}
-        return newReview
+    //     {
+    //     let newReview = { ...state}
+    //     newReview[action.payload.id] = { ...action.payload}
+    //     return newReview
 
-      }
+    //   }
+
+                const newReview = {};
+            // console.log('PASSING DATA TO REDUCER', action.spots)
+            // console.log(action.payload)
+            action.payload.forEach((review) => (newReview[review.id] = review));
+            return newReview;
     }
         case GET_ALL_SPOTS:{
             const newState = {};
