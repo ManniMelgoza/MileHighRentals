@@ -100,7 +100,11 @@ function SpotDetails() {
         <p>
           <FaStar />
           {spot.Spots.avgRating ? spot.Spots.avgRating.toFixed(1) : "New"}
-          {spot.Spots.numReviews > 0 && <> · {spot.Spots.numReviews} Reviews</>}
+          {/* {spot.Spots.numReviews > 0 && <> · {spot.Spots.numReviews} Reviews</>}
+           */}
+          {spot.Spots.numReviews > 0 && (
+            <> · {spot.Spots.numReviews} {spot.Spots.numReviews === 1 ? "Review" : "Reviews"}</>
+          )}
         </p>
         <button onClick={() => alert("Feature coming soon")}>Reserve</button>
       </div>
@@ -120,7 +124,11 @@ function SpotDetails() {
         <h2>
           <FaStar />{" "}
           {spot.Spots.avgRating ? spot.Spots.avgRating.toFixed(1) : "New"}
-          {spot.numReviews > 0 && <> · {spot.numReviews} Reviews</>}
+          {spot.Spots.numReviews > 0 && (
+            <> · {spot.Spots.numReviews} {spot.Spots.numReviews === 1 ? "Review" : "Reviews"}</>
+          )}
+
+
         </h2>
       </div>
 
