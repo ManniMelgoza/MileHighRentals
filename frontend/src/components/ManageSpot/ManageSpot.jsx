@@ -21,8 +21,8 @@ function ManageSpot() {
     dispatch(thunkRetriveAllSpots());
   }, [dispatch]);
 
-  console.log("loggedUser:", loggedUser);
-  console.log("spotsAll:", spotsAll);
+  // console.log("loggedUser:", loggedUser);
+  // console.log("spotsAll:", spotsAll);
 
   if (!spotsAll || !loggedUser) return <div>Loading...</div>;
 

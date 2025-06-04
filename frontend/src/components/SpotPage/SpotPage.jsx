@@ -12,7 +12,7 @@ function SpotDetails() {
   const dispatch = useDispatch();
 
   const spot = useSelector((state) => state.spots.currentSpot);
-  // const reviews = useSelector(state => state.reviews.reviews);
+  const reviews = useSelector(state => state.reviews.reviews);
   const sessionUser = useSelector((state) => state.session.user);
 
   useEffect(() => {
@@ -23,15 +23,23 @@ function SpotDetails() {
 
   const ownerId = spot.Spots.Owner?.id;
 
+
+  // If the current user is logged-in and they are viewing a
+  // spot's detail page for a spot that they HAVE posted a review for,
+  // the "Post Your Review" button should be hidden.
+
+
+
   const currentUserLogedIn = sessionUser && sessionUser.id === ownerId;
-  // const reviewsArr = Object.values(reviews);
-  // const hasUserReviewed = sessionUser && reviewsArr.some(review =>
-  //     review.userId === sessionUser.id && review.spotId === Number(spotId)
-  // );
+
+  const reviewsArr = Object.values(reviews);
+  const hasUserReviewed = sessionUser && reviewsArr.some(review =>
+      review.userId === sessionUser.id && review.spotId === Number(spotId)
+  );
 
   let sessionLinks;
   //This if statemet is checking if there is a user loged in via the sessionUser varibale that was mention above, if sessionUser is true it will excecute the body of the if statement
-  if (sessionUser && !currentUserLogedIn) {
+  if (sessionUser && !currentUserLogedIn && !hasUserReviewed) {
     //if the user is logged in or there is a user the sessionLinks variable will be assinged to the component ProfileButton with and passing a prop that will pass an obj of sessionsUsers delcared ealier
     // The seesionUser will be the infotmation of that session user that is logged in
     sessionLinks = (

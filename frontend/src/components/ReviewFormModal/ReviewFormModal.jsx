@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
 // import { useNavigate } from 'react-router-dom';
-import { thunkCreateNewReview, thunkCurrentSpot } from '../../store/spots';
+import { thunkCreateNewReview } from '../../store/spots';
 // import { thunkCreateNewReview } from '../../store/reviews';
 
 
@@ -42,13 +42,10 @@ function ReviewFormModal({spotId}){
                     stars: Number(stars)
                 })
             )
-            .then(() => {
-                return dispatch(thunkCurrentSpot(spotId))
-            })
-            // .then(closeModal)
-            .then(() => {
-                closeModal();
-            })
+            // .then((spotId) => {
+            // navigate(`/spots/${spotId}`);
+            // })
+            .then(closeModal)
             .catch(async (res) => {
                 const data = await res.json();
 

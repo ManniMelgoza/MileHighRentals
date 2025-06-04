@@ -66,7 +66,7 @@ export const thunkCreateNewReview = (spotId, newReview) => async (dispatch) => {
 
   if (response.ok) {
     const data = await response.json();
-    dispatch(createNewReviewAction(data, spotId)); 
+    dispatch(createNewReviewAction(data, spotId));
     return data;
   } else {
         const error = await response.json();
@@ -189,18 +189,18 @@ const spotsReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case CREATE_NEW_REVIEW: {
-    //     {
-    //     let newReview = { ...state}
-    //     newReview[action.payload.id] = { ...action.payload}
-    //     return newReview
+        {
+        let newReview = { ...state}
+        newReview[action.payload.id] = { ...action.payload}
+        return newReview
 
-    //   }
+      }
 
-                const newReview = {};
-            // console.log('PASSING DATA TO REDUCER', action.spots)
-            // console.log(action.payload)
-            action.payload.forEach((review) => (newReview[review.id] = review));
-            return newReview;
+            //     const newReview = {};
+            // // console.log('PASSING DATA TO REDUCER', action.spots)
+            // // console.log(action.payload)
+            // action.payload.forEach((review) => (newReview[review.id] = review));
+            // return newReview;
     }
         case GET_ALL_SPOTS:{
             const newState = {};
