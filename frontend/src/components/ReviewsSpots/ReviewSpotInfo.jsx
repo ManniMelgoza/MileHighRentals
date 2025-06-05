@@ -55,7 +55,7 @@ export function ReviewSpotInfo() {
             <OpenModalButton
               buttonText="Delete"
               modalComponent={
-                <ReviewDeleteModal reviewId={review.id} spotId={spotId} />
+              <ReviewDeleteModal reviewId={review.id} spotId={spotId} />
               }
             />
           )}
