@@ -19,6 +19,7 @@ function ManageSpot() {
 
   useEffect(() => {
     dispatch(thunkRetriveAllSpots());
+
   }, [dispatch]);
 
   // console.log("loggedUser:", loggedUser);
@@ -81,7 +82,8 @@ function ManageSpot() {
                   <div onClick={toggleDelete}>
                     <OpenModalButton
                       buttonText="Delete"
-                      modalComponent={<ManageDeleteSpotModal spotId={spot.id}/>}
+                      className="newSpotLink"
+                      modalComponent={<ManageDeleteSpotModal className="newSpotLink" spotId={spot.id}/>}
                     />
                   </div>
                 </li>

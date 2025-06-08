@@ -148,16 +148,17 @@ export const thunkCurrentSpot = (spotId) => async (dispatch) => {
 
 
 // const EDIT_SPOT = "spots/editSpot"; ACTION
-export const thunkEditSpot = (spotId, updateSpot) => async (dispatch) => {
-    const response = await csrfFetch(`/api/spots/${spotId.id}`, {
+export const thunkEditSpot = (id, updateSpot) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${id}`, {
         method: "PUT",
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updateSpot)
     });
 
     if (response.ok) {
-        const data = await response.json();
-        dispatch(editSpotAction(data.Spots))
-        return data;
+        const updateSpot = await response.json();
+        dispatch(editSpotAction(updateSpot))
+        return updateSpot;
     } else {
         const error = await response.json();
         return { error: error.errors || ['Unable to Edit Spot']}

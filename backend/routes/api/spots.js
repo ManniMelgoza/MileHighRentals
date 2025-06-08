@@ -444,27 +444,29 @@ router.get('/:id', async (req, res,) => {
                 avgRating = totalStars / numReviews;
             }
 
+            // TODO: We can just pass the obj in the res.status(200).json({})
+            //
              const Spots = {
-                 id: spotStarReviews.id,
-                 ownerId: spotStarReviews.ownerId,
-                 address: spotStarReviews.address,
-                 city: spotStarReviews.city,
-                 state: spotStarReviews.state,
-                 country: spotStarReviews.country,
-                 lat: spotStarReviews.lat,
-                 lng: spotStarReviews.lng,
-                 name:spotStarReviews.name,
-                 description: spotStarReviews.description,
-                 price: spotStarReviews.price,
-                 createdAt: spotStarReviews.createdAt,
-                 updatedAt: spotStarReviews.updatedAt,
-                 numReviews: numReviews,
-                 avgRating: avgRating,
-                 SpotImages: spotStarReviews.SpotImages,
-                 Owner: spotStarReviews.User
+                id: spotStarReviews.id,
+                ownerId: spotStarReviews.ownerId,
+                address: spotStarReviews.address,
+                city: spotStarReviews.city,
+                state: spotStarReviews.state,
+                country: spotStarReviews.country,
+                lat: spotStarReviews.lat,
+                lng: spotStarReviews.lng,
+                name:spotStarReviews.name,
+                description: spotStarReviews.description,
+                price: spotStarReviews.price,
+                createdAt: spotStarReviews.createdAt,
+                updatedAt: spotStarReviews.updatedAt,
+                numReviews: numReviews,
+                avgRating: avgRating,
+                SpotImages: spotStarReviews.SpotImages,
+                Owner: spotStarReviews.User
             }
 
-                res.status(200).json({ Spots })
+                res.status(200).json({Spots})
 
 
                 // res.status(200).json({ extractSpotData })
