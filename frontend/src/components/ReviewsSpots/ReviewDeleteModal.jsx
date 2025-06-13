@@ -18,9 +18,9 @@ function ReviewDeleteModal({ reviewId, spotId }) {
  return dispatch(thunkDeleteReview(reviewId))
       .then(() => dispatch(currentReview(spotId)))
       .then(() => {
-                        window.location.reload();
-                        closeModal();
-                    })
+        window.location.reload();
+        closeModal();
+      })
    };
   return (
     <>
