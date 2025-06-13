@@ -34,7 +34,7 @@ const HomePage = () => {
               to={`/spots/${spot.id}`}
               style={{ textDecoration: "none", color: "black" }}
             >
-              <div className="imageDisplayBox">
+              <div className="imageDisplayBox tooltip">
                 <img
                   src={spot.previewImage}
                   alt={spot.name}
@@ -57,9 +57,10 @@ const HomePage = () => {
                 </div>
                 {/* <FaDollarSign /> */}
                 <p><strong>$ {spot?.price}</strong> night</p>
+                <span className='tooltiptext'>{spot.name}</span>
               </div>
             </Link>
-          </>
+        </>
         );
       })}
     </div>
