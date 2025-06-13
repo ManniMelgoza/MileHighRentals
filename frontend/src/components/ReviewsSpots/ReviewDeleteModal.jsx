@@ -11,10 +11,6 @@ function ReviewDeleteModal({ reviewId, spotId }) {
   const handleDelete = (e) => {
     e.preventDefault();
 
-    // return dispatch(thunkDeleteReview(spotId))
-// -    .then(closeModal);
-   // dispatch the delete against the reviewId, then re-fetch this spot’s reviews
-// +    return dispatch(thunkDeleteReview(reviewId))
  return dispatch(thunkDeleteReview(reviewId))
       .then(() => dispatch(currentReview(spotId)))
       .then(() => {
