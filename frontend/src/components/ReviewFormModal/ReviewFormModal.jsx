@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { thunkCreateNewReview } from '../../store/spots';
 // import { thunkCreateNewReview } from '../../store/reviews';
 
@@ -10,7 +10,7 @@ import './ReviewFormModal.css';
 
 
 function ReviewFormModal({spotId}){
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [reviewTextBox, setReviewTextBox] = useState('');
     const [stars, setStars] = useState('');
@@ -29,23 +29,31 @@ function ReviewFormModal({spotId}){
             setErrors({
                 stars: 'You need at least one star',
                 reviewTextBox: 'You need at least 10 characters'
+
             });
             return;
 
         }
 
         setErrors({});
-
-           return dispatch(
+// return dispatch (
+           dispatch(
                 thunkCreateNewReview(spotId,{
                     review: reviewTextBox,
                     stars: Number(stars)
                 })
             )
-            // .then((spotId) => {
-            // navigate(`/spots/${spotId}`);
+
+            .then(() => {
+                closeModal();
+                // window.location.reload();
+                navigate(`/spots/${spotId}`);
+            })
+            // .then(()=> {
+            //     // closeModal();
+            //     // window.location.reload();
+            //     navigate(`/spots/${spotId}`)
             // })
-            .then(closeModal)
             .catch(async (res) => {
                 const data = await res.json();
 
