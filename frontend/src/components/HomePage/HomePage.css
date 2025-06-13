@@ -49,26 +49,34 @@
 .tooltip {
   position: relative;
   display: inline-block;
-  /* border-bottom: 10px dotted rgb(197, 64, 64);  If you want dots under the hoverable text */
 }
 
 /* Tooltip text */
 .tooltip .tooltiptext {
   visibility: hidden;
   width: 120px;
-  background-color: rgb(98, 75, 75);
+  bottom: 100%;
+  left: 50%;
+  margin-left: -60px;
   color: #ffffff;
   size: 12px;
   text-align: center;
   padding: 10px 10px;
   border-radius: 8px;
-
-  /* Position the tooltip text - see examples below! */
-  /* position: absolute;
-  z-index: 1; */
+  position: absolute;
+  z-index: 1;
 }
 
-/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip .tooltiptext::after {
+  content: " ";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgb(98, 75, 75) transparent transparent transparent;
+}
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
