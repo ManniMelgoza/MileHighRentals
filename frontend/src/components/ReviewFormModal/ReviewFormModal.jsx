@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { thunkCreateNewReview } from '../../store/spots';
 // import { thunkCreateNewReview } from '../../store/reviews';
 
@@ -9,8 +9,8 @@ import { thunkCreateNewReview } from '../../store/spots';
 import './ReviewFormModal.css';
 
 
-function ReviewFormModal({spotId}){
-    const navigate = useNavigate();
+function ReviewFormModal({ spotId }){
+    // const navigate = useNavigate();
     const dispatch = useDispatch();
     const [reviewTextBox, setReviewTextBox] = useState('');
     const [stars, setStars] = useState('');
@@ -18,7 +18,6 @@ function ReviewFormModal({spotId}){
     const [errors, setErrors] = useState('')
     const { closeModal } = useModal();
 
-    // form submission handler
 
     const formButtonDisableValidation = reviewTextBox.length >= 10 && Number(stars) >= 1;
 
@@ -38,32 +37,30 @@ function ReviewFormModal({spotId}){
         setErrors({});
 // return dispatch (
            dispatch(
-                thunkCreateNewReview(spotId,{
-                    review: reviewTextBox,
-                    stars: Number(stars)
+               thunkCreateNewReview(spotId,{
+                   review: reviewTextBox,
+                   stars: Number(stars)
                 })
             )
 
             .then(() => {
-                closeModal();
-                // window.location.reload();
-                navigate(`/spots/${spotId}`);
-            })
-            // .then(()=> {
-            //     // closeModal();
-            //     // window.location.reload();
-            //     navigate(`/spots/${spotId}`)
-            // })
-            .catch(async (res) => {
-                const data = await res.json();
+                        window.location.reload();
+                        closeModal();
+                    })
+                // .then(() => {
+                //     closeModal();
+                //     navigate(`/spots/${spotId}`, {replace: true});
+                //     })
+                .catch(async (res) => {
+                    const data = await res.json();
 
-                if (data?.errors) {
-                    setErrors(data.errors);
-                }
-            });
-        }
+                    if (data?.errors) {
+                        setErrors(data.errors);
+                    }
+                });
+            }
 
-    return (
+            return (
 
         <div>
             <form onSubmit={handleSubmit} className='formContainer'>

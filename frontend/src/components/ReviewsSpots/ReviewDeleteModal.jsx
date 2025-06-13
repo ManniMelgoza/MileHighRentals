@@ -1,18 +1,27 @@
 import { useDispatch } from "react-redux";
 import { thunkDeleteReview } from "../../store/reviews";
 import { useModal } from "../../context/Modal";
+import { currentReview } from '../../store/reviews';
 
 
-function ReviewDeleteModal({ spotId }) {
+function ReviewDeleteModal({ reviewId, spotId }) {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
 
   const handleDelete = (e) => {
     e.preventDefault();
 
-    return dispatch(thunkDeleteReview(spotId))
-    .then(closeModal);
-  };
+    // return dispatch(thunkDeleteReview(spotId))
+// -    .then(closeModal);
+   // dispatch the delete against the reviewId, then re-fetch this spot’s reviews
+// +    return dispatch(thunkDeleteReview(reviewId))
+ return dispatch(thunkDeleteReview(reviewId))
+      .then(() => dispatch(currentReview(spotId)))
+      .then(() => {
+                        window.location.reload();
+                        closeModal();
+                    })
+   };
   return (
     <>
       <h1>Confirm Delete</h1>
